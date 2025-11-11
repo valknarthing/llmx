@@ -1,4 +1,4 @@
-# codex-git
+# llmx-git
 
 Helpers for interacting with git, including patch application and worktree
 snapshot utilities.

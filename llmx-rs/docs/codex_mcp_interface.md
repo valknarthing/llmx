@@ -1,19 +1,19 @@
-# Codex MCP Server Interface [experimental]
+# LLMX MCP Server Interface [experimental]
 
-This document describes Codex’s experimental MCP server interface: a JSON‑RPC API that runs over the Model Context Protocol (MCP) transport to control a local Codex engine.
+This document describes LLMX’s experimental MCP server interface: a JSON‑RPC API that runs over the Model Context Protocol (MCP) transport to control a local LLMX engine.
 
 - Status: experimental and subject to change without notice
-- Server binary: `codex mcp-server` (or `codex-mcp-server`)
+- Server binary: `llmx mcp-server` (or `llmx-mcp-server`)
 - Transport: standard MCP over stdio (JSON‑RPC 2.0, line‑delimited)
 
 ## Overview
 
-Codex exposes a small set of MCP‑compatible methods to create and manage conversations, send user input, receive live events, and handle approval prompts. The types are defined in `protocol/src/mcp_protocol.rs` and re‑used by the MCP server implementation in `mcp-server/`.
+LLMX exposes a small set of MCP‑compatible methods to create and manage conversations, send user input, receive live events, and handle approval prompts. The types are defined in `protocol/src/mcp_protocol.rs` and re‑used by the MCP server implementation in `mcp-server/`.
 
 At a glance:
 
 - Conversations
-  - `newConversation` → start a Codex session
+  - `newConversation` → start a LLMX session
   - `sendUserMessage` / `sendUserTurn` → send user input into a conversation
   - `interruptConversation` → stop the current turn
   - `listConversations`, `resumeConversation`, `archiveConversation`
@@ -29,25 +29,25 @@ At a glance:
   - `applyPatchApproval`, `execCommandApproval`
 - Notifications (server → client)
   - `loginChatGptComplete`, `authStatusChange`
-  - `codex/event` stream with agent events
+  - `llmx/event` stream with agent events
 
 See code for full type definitions and exact shapes: `protocol/src/mcp_protocol.rs`.
 
 ## Starting the server
 
-Run Codex as an MCP server and connect an MCP client:
+Run LLMX as an MCP server and connect an MCP client:
 
 ```bash
-codex mcp-server | your_mcp_client
+llmx mcp-server | your_mcp_client
 ```
 
 For a simple inspection UI, you can also try:
 
 ```bash
-npx @modelcontextprotocol/inspector codex mcp-server
+npx @modelcontextprotocol/inspector llmx mcp-server
 ```
 
-Use the separate `codex mcp` subcommand to manage configured MCP server launchers in `config.toml`.
+Use the separate `llmx mcp` subcommand to manage configured MCP server launchers in `config.toml`.
 
 ## Conversations
 
@@ -55,7 +55,7 @@ Start a new session with optional overrides:
 
 Request `newConversation` params (subset):
 
-- `model`: string model id (e.g. "o3", "gpt-5", "gpt-5-codex")
+- `model`: string model id (e.g. "o3", "gpt-5", "gpt-5-llmx")
 - `profile`: optional named profile
 - `cwd`: optional working directory
 - `approvalPolicy`: `untrusted` | `on-request` | `on-failure` | `never`
@@ -78,7 +78,7 @@ List/resume/archive: `listConversations`, `resumeConversation`, `archiveConversa
 
 ## Models
 
-Fetch the catalog of models available in the current Codex build with `model/list`. The request accepts optional pagination inputs:
+Fetch the catalog of models available in the current LLMX build with `model/list`. The request accepts optional pagination inputs:
 
 - `pageSize` – number of models to return (defaults to a server-selected value)
 - `cursor` – opaque string from the previous response’s `nextCursor`
@@ -98,14 +98,14 @@ Each response yields:
 
 While a conversation runs, the server sends notifications:
 
-- `codex/event` with the serialized Codex event payload. The shape matches `core/src/protocol.rs`’s `Event` and `EventMsg` types. Some notifications include a `_meta.requestId` to correlate with the originating request.
+- `llmx/event` with the serialized LLMX event payload. The shape matches `core/src/protocol.rs`’s `Event` and `EventMsg` types. Some notifications include a `_meta.requestId` to correlate with the originating request.
 - Auth notifications via method names `loginChatGptComplete` and `authStatusChange`.
 
 Clients should render events and, when present, surface approval requests (see next section).
 
 ## Approvals (server → client)
 
-When Codex needs approval to apply changes or run commands, the server issues JSON‑RPC requests to the client:
+When LLMX needs approval to apply changes or run commands, the server issues JSON‑RPC requests to the client:
 
 - `applyPatchApproval { conversationId, callId, fileChanges, reason?, grantRoot? }`
 - `execCommandApproval { conversationId, callId, command, cwd, reason? }`
@@ -131,10 +131,10 @@ Server responds:
 Then send input:
 
 ```json
-{ "jsonrpc": "2.0", "id": 2, "method": "sendUserMessage", "params": { "conversationId": "c7b0…", "items": [{ "type": "text", "text": "Hello Codex" }] } }
+{ "jsonrpc": "2.0", "id": 2, "method": "sendUserMessage", "params": { "conversationId": "c7b0…", "items": [{ "type": "text", "text": "Hello LLMX" }] } }
 ```
 
-While processing, the server emits `codex/event` notifications containing agent output, approvals, and status updates.
+While processing, the server emits `llmx/event` notifications containing agent output, approvals, and status updates.
 
 ## Compatibility and stability
 
