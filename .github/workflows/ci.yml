@@ -36,13 +36,13 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          CODEX_VERSION=0.1.0
+          LLMX_VERSION=0.1.0
           OUTPUT_DIR="${RUNNER_TEMP}"
           python3 ./scripts/stage_npm_packages.py \
-            --release-version "$CODEX_VERSION" \
+            --release-version "$LLMX_VERSION" \
             --package llmx \
             --output-dir "$OUTPUT_DIR"
-          PACK_OUTPUT="${OUTPUT_DIR}/llmx-npm-${CODEX_VERSION}.tgz"
+          PACK_OUTPUT="${OUTPUT_DIR}/llmx-npm-${LLMX_VERSION}.tgz"
           echo "pack_output=$PACK_OUTPUT" >> "$GITHUB_OUTPUT"
 
       - name: Upload staged npm package artifact
