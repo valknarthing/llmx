@@ -1,4 +1,4 @@
-<p align="center"><code>npm i -g @llmx/llmx</code><br />or <code>brew install --cask llmx</code></p>
+<p align="center"><code>npm i -g @valknar/llmx</code><br />or <code>brew install --cask llmx</code></p>
 
 <p align="center"><strong>LLMX CLI</strong> is a coding agent powered by LiteLLM that runs locally on your computer.
 </br>
@@ -18,7 +18,7 @@
 Install globally with your preferred package manager. If you use npm:
 
 ```shell
-npm install -g @llmx/llmx
+npm install -g @valknar/llmx
 ```
 
 Alternatively, if you use Homebrew:
@@ -51,15 +51,24 @@ Each archive contains a single entry with the platform baked into the name (e.g.
 
 </details>
 
-### Using LLMX with your ChatGPT plan
+### Using LLMX with LiteLLM
 
-<p align="center">
-  <img src="./.github/llmx-cli-login.png" alt="LLMX CLI login" width="80%" />
-  </p>
+LLMX is powered by [LiteLLM](https://docs.litellm.ai/), which provides access to 100+ LLM providers including OpenAI, Anthropic, Google, Azure, AWS Bedrock, and more.
 
-Run `llmx` and select **Sign in with ChatGPT**. We recommend signing into your ChatGPT account to use LLMX as part of your Plus, Pro, Team, Edu, or Enterprise plan. [Learn more about what's included in your ChatGPT plan](https://help.openai.com/en/articles/11369540-llmx-in-chatgpt).
+**Quick Start with LiteLLM:**
 
-You can also use LLMX with an API key, but this requires [additional setup](./docs/authentication.md#usage-based-billing-alternative-use-an-openai-api-key). If you previously used an API key for usage-based billing, see the [migration steps](./docs/authentication.md#migrating-from-usage-based-billing-api-key). If you're having trouble with login, please comment on [this issue](https://github.com/valknar/llmx/issues/1243).
+```bash
+# Set your LiteLLM server URL (default: http://localhost:4000/v1)
+export LITELLM_BASE_URL="http://localhost:4000/v1"
+export LITELLM_API_KEY="your-api-key"
+
+# Run LLMX
+llmx "hello world"
+```
+
+**Configuration:** See [LITELLM-SETUP.md](./LITELLM-SETUP.md) for detailed setup instructions.
+
+You can also use LLMX with ChatGPT or OpenAI API keys. For authentication options, see the [authentication docs](./docs/authentication.md).
 
 ### Model Context Protocol (MCP)
 
