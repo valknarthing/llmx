@@ -1,8 +1,8 @@
 #![deny(clippy::print_stdout, clippy::print_stderr)]
 
-use codex_common::CliConfigOverrides;
-use codex_core::config::Config;
-use codex_core::config::ConfigOverrides;
+use llmx_common::CliConfigOverrides;
+use llmx_core::config::Config;
+use llmx_core::config::ConfigOverrides;
 use opentelemetry_appender_tracing::layer::OpenTelemetryTracingBridge;
 use std::io::ErrorKind;
 use std::io::Result as IoResult;
@@ -11,8 +11,8 @@ use std::path::PathBuf;
 use crate::message_processor::MessageProcessor;
 use crate::outgoing_message::OutgoingMessage;
 use crate::outgoing_message::OutgoingMessageSender;
-use codex_app_server_protocol::JSONRPCMessage;
-use codex_feedback::CodexFeedback;
+use llmx_app_server_protocol::JSONRPCMessage;
+use llmx_feedback::CodexFeedback;
 use tokio::io::AsyncBufReadExt;
 use tokio::io::AsyncWriteExt;
 use tokio::io::BufReader;
@@ -28,7 +28,7 @@ use tracing_subscriber::filter::Targets;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 
-mod codex_message_processor;
+mod llmx_message_processor;
 mod error_code;
 mod fuzzy_file_search;
 mod message_processor;
@@ -88,7 +88,7 @@ pub async fn run_main(
     let feedback = CodexFeedback::new();
 
     let otel =
-        codex_core::otel_init::build_provider(&config, env!("CARGO_PKG_VERSION")).map_err(|e| {
+        llmx_core::otel_init::build_provider(&config, env!("CARGO_PKG_VERSION")).map_err(|e| {
             std::io::Error::new(
                 ErrorKind::InvalidData,
                 format!("error loading otel config: {e}"),
@@ -112,7 +112,7 @@ pub async fn run_main(
         .with(feedback_layer)
         .with(otel.as_ref().map(|provider| {
             OpenTelemetryTracingBridge::new(&provider.logger).with_filter(
-                tracing_subscriber::filter::filter_fn(codex_core::otel_init::codex_export_filter),
+                tracing_subscriber::filter::filter_fn(llmx_core::otel_init::codex_export_filter),
             )
         }))
         .try_init();

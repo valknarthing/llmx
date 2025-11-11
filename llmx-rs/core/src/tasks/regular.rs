@@ -6,7 +6,7 @@ use tokio_util::sync::CancellationToken;
 use crate::codex::TurnContext;
 use crate::codex::run_task;
 use crate::state::TaskKind;
-use codex_protocol::user_input::UserInput;
+use llmx_protocol::user_input::UserInput;
 
 use super::SessionTask;
 use super::SessionTaskContext;

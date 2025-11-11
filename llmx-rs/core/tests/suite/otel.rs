@@ -1,10 +1,10 @@
-use codex_core::features::Feature;
-use codex_protocol::protocol::AskForApproval;
-use codex_protocol::protocol::EventMsg;
-use codex_protocol::protocol::Op;
-use codex_protocol::protocol::ReviewDecision;
-use codex_protocol::protocol::SandboxPolicy;
-use codex_protocol::user_input::UserInput;
+use llmx_core::features::Feature;
+use llmx_protocol::protocol::AskForApproval;
+use llmx_protocol::protocol::EventMsg;
+use llmx_protocol::protocol::Op;
+use llmx_protocol::protocol::ReviewDecision;
+use llmx_protocol::protocol::SandboxPolicy;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
 use core_test_support::responses::ev_custom_tool_call;

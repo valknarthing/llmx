@@ -2,10 +2,10 @@
 
 use tempfile::TempDir;
 
-use codex_core::CodexConversation;
-use codex_core::config::Config;
-use codex_core::config::ConfigOverrides;
-use codex_core::config::ConfigToml;
+use llmx_core::CodexConversation;
+use llmx_core::config::Config;
+use llmx_core::config::ConfigOverrides;
+use llmx_core::config::ConfigToml;
 use regex_lite::Regex;
 
 #[cfg(target_os = "linux")]
@@ -126,9 +126,9 @@ pub fn load_sse_fixture_with_id(path: impl AsRef<std::path::Path>, id: &str) -> 
 pub async fn wait_for_event<F>(
     codex: &CodexConversation,
     predicate: F,
-) -> codex_core::protocol::EventMsg
+) -> llmx_core::protocol::EventMsg
 where
-    F: FnMut(&codex_core::protocol::EventMsg) -> bool,
+    F: FnMut(&llmx_core::protocol::EventMsg) -> bool,
 {
     use tokio::time::Duration;
     wait_for_event_with_timeout(codex, predicate, Duration::from_secs(1)).await
@@ -136,7 +136,7 @@ where
 
 pub async fn wait_for_event_match<T, F>(codex: &CodexConversation, matcher: F) -> T
 where
-    F: Fn(&codex_core::protocol::EventMsg) -> Option<T>,
+    F: Fn(&llmx_core::protocol::EventMsg) -> Option<T>,
 {
     let ev = wait_for_event(codex, |ev| matcher(ev).is_some()).await;
     matcher(&ev).unwrap()
@@ -146,9 +146,9 @@ pub async fn wait_for_event_with_timeout<F>(
     codex: &CodexConversation,
     mut predicate: F,
     wait_time: tokio::time::Duration,
-) -> codex_core::protocol::EventMsg
+) -> llmx_core::protocol::EventMsg
 where
-    F: FnMut(&codex_core::protocol::EventMsg) -> bool,
+    F: FnMut(&llmx_core::protocol::EventMsg) -> bool,
 {
     use tokio::time::Duration;
     use tokio::time::timeout;
@@ -165,11 +165,11 @@ where
 }
 
 pub fn sandbox_env_var() -> &'static str {
-    codex_core::spawn::CODEX_SANDBOX_ENV_VAR
+    llmx_core::spawn::CODEX_SANDBOX_ENV_VAR
 }
 
 pub fn sandbox_network_env_var() -> &'static str {
-    codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR
+    llmx_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR
 }
 
 pub mod fs_wait {

@@ -1,12 +1,12 @@
 use std::collections::VecDeque;
 
-use codex_core::protocol::ApplyPatchApprovalRequestEvent;
-use codex_core::protocol::ExecApprovalRequestEvent;
-use codex_core::protocol::ExecCommandBeginEvent;
-use codex_core::protocol::ExecCommandEndEvent;
-use codex_core::protocol::McpToolCallBeginEvent;
-use codex_core::protocol::McpToolCallEndEvent;
-use codex_core::protocol::PatchApplyEndEvent;
+use llmx_core::protocol::ApplyPatchApprovalRequestEvent;
+use llmx_core::protocol::ExecApprovalRequestEvent;
+use llmx_core::protocol::ExecCommandBeginEvent;
+use llmx_core::protocol::ExecCommandEndEvent;
+use llmx_core::protocol::McpToolCallBeginEvent;
+use llmx_core::protocol::McpToolCallEndEvent;
+use llmx_core::protocol::PatchApplyEndEvent;
 
 use super::ChatWidget;
 

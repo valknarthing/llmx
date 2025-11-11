@@ -14,9 +14,9 @@ use crate::tools::context::SharedTurnDiffTracker;
 use crate::tools::context::ToolPayload;
 use crate::tools::router::ToolCall;
 use crate::tools::router::ToolRouter;
-use codex_protocol::models::FunctionCallOutputPayload;
-use codex_protocol::models::ResponseInputItem;
-use codex_utils_readiness::Readiness;
+use llmx_protocol::models::FunctionCallOutputPayload;
+use llmx_protocol::models::ResponseInputItem;
+use llmx_utils_readiness::Readiness;
 
 pub(crate) struct ToolCallRuntime {
     router: Arc<ToolRouter>,

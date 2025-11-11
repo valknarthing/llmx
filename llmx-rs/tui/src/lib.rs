@@ -6,20 +6,20 @@
 use additional_dirs::add_dir_warning_message;
 use app::App;
 pub use app::AppExitInfo;
-use codex_app_server_protocol::AuthMode;
-use codex_core::AuthManager;
-use codex_core::BUILT_IN_OSS_MODEL_PROVIDER_ID;
-use codex_core::CodexAuth;
-use codex_core::INTERACTIVE_SESSION_SOURCES;
-use codex_core::RolloutRecorder;
-use codex_core::auth::enforce_login_restrictions;
-use codex_core::config::Config;
-use codex_core::config::ConfigOverrides;
-use codex_core::find_conversation_path_by_id_str;
-use codex_core::get_platform_sandbox;
-use codex_core::protocol::AskForApproval;
-use codex_ollama::DEFAULT_OSS_MODEL;
-use codex_protocol::config_types::SandboxMode;
+use llmx_app_server_protocol::AuthMode;
+use llmx_core::AuthManager;
+use llmx_core::BUILT_IN_OSS_MODEL_PROVIDER_ID;
+use llmx_core::CodexAuth;
+use llmx_core::INTERACTIVE_SESSION_SOURCES;
+use llmx_core::RolloutRecorder;
+use llmx_core::auth::enforce_login_restrictions;
+use llmx_core::config::Config;
+use llmx_core::config::ConfigOverrides;
+use llmx_core::find_conversation_path_by_id_str;
+use llmx_core::get_platform_sandbox;
+use llmx_core::protocol::AskForApproval;
+use llmx_ollama::DEFAULT_OSS_MODEL;
+use llmx_protocol::config_types::SandboxMode;
 use opentelemetry_appender_tracing::layer::OpenTelemetryTracingBridge;
 use std::fs::OpenOptions;
 use std::path::PathBuf;
@@ -162,7 +162,7 @@ pub async fn run_main(
         additional_writable_roots: additional_dirs,
     };
     let raw_overrides = cli.config_overrides.raw_overrides.clone();
-    let overrides_cli = codex_common::CliConfigOverrides { raw_overrides };
+    let overrides_cli = llmx_common::CliConfigOverrides { raw_overrides };
     let cli_kv_overrides = match overrides_cli.parse_overrides() {
         Ok(v) => v,
         #[allow(clippy::print_stderr)]
@@ -189,7 +189,7 @@ pub async fn run_main(
     }
 
     let active_profile = config.active_profile.clone();
-    let log_dir = codex_core::config::log_dir(&config)?;
+    let log_dir = llmx_core::config::log_dir(&config)?;
     std::fs::create_dir_all(&log_dir)?;
     // Open (or create) your log file, appending to it.
     let mut log_file_opts = OpenOptions::new();
@@ -223,7 +223,7 @@ pub async fn run_main(
         .with_span_events(tracing_subscriber::fmt::format::FmtSpan::CLOSE)
         .with_filter(env_filter());
 
-    let feedback = codex_feedback::CodexFeedback::new();
+    let feedback = llmx_feedback::CodexFeedback::new();
     let targets = Targets::new().with_default(tracing::Level::TRACE);
 
     let feedback_layer = tracing_subscriber::fmt::layer()
@@ -233,12 +233,12 @@ pub async fn run_main(
         .with_filter(targets);
 
     if cli.oss {
-        codex_ollama::ensure_oss_ready(&config)
+        llmx_ollama::ensure_oss_ready(&config)
             .await
             .map_err(|e| std::io::Error::other(format!("OSS setup failed: {e}")))?;
     }
 
-    let otel = codex_core::otel_init::build_provider(&config, env!("CARGO_PKG_VERSION"));
+    let otel = llmx_core::otel_init::build_provider(&config, env!("CARGO_PKG_VERSION"));
 
     #[allow(clippy::print_stderr)]
     let otel = match otel {
@@ -251,7 +251,7 @@ pub async fn run_main(
 
     if let Some(provider) = otel.as_ref() {
         let otel_layer = OpenTelemetryTracingBridge::new(&provider.logger).with_filter(
-            tracing_subscriber::filter::filter_fn(codex_core::otel_init::codex_export_filter),
+            tracing_subscriber::filter::filter_fn(llmx_core::otel_init::codex_export_filter),
         );
 
         let _ = tracing_subscriber::registry()
@@ -284,7 +284,7 @@ async fn run_ratatui_app(
     overrides: ConfigOverrides,
     cli_kv_overrides: Vec<(String, toml::Value)>,
     active_profile: Option<String>,
-    feedback: codex_feedback::CodexFeedback,
+    feedback: llmx_feedback::CodexFeedback,
 ) -> color_eyre::Result<AppExitInfo> {
     color_eyre::install()?;
 
@@ -313,7 +313,7 @@ async fn run_ratatui_app(
                 UpdatePromptOutcome::RunUpdate(action) => {
                     crate::tui::restore()?;
                     return Ok(AppExitInfo {
-                        token_usage: codex_core::protocol::TokenUsage::default(),
+                        token_usage: llmx_core::protocol::TokenUsage::default(),
                         conversation_id: None,
                         update_action: Some(action),
                     });
@@ -359,7 +359,7 @@ async fn run_ratatui_app(
             session_log::log_session_end();
             let _ = tui.terminal.clear();
             return Ok(AppExitInfo {
-                token_usage: codex_core::protocol::TokenUsage::default(),
+                token_usage: llmx_core::protocol::TokenUsage::default(),
                 conversation_id: None,
                 update_action: None,
             });
@@ -372,7 +372,7 @@ async fn run_ratatui_app(
                 tracing::error!("Failed to write WSL instructions: {err}");
             }
             return Ok(AppExitInfo {
-                token_usage: codex_core::protocol::TokenUsage::default(),
+                token_usage: llmx_core::protocol::TokenUsage::default(),
                 conversation_id: None,
                 update_action: None,
             });
@@ -408,7 +408,7 @@ async fn run_ratatui_app(
                     error!("Failed to write resume error message: {err}");
                 }
                 return Ok(AppExitInfo {
-                    token_usage: codex_core::protocol::TokenUsage::default(),
+                    token_usage: llmx_core::protocol::TokenUsage::default(),
                     conversation_id: None,
                     update_action: None,
                 });
@@ -445,7 +445,7 @@ async fn run_ratatui_app(
                 restore();
                 session_log::log_session_end();
                 return Ok(AppExitInfo {
-                    token_usage: codex_core::protocol::TokenUsage::default(),
+                    token_usage: llmx_core::protocol::TokenUsage::default(),
                     conversation_id: None,
                     update_action: None,
                 });
@@ -573,10 +573,10 @@ fn should_show_login_screen(login_status: LoginStatus, config: &Config) -> bool 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use codex_core::config::ConfigOverrides;
-    use codex_core::config::ConfigToml;
-    use codex_core::config::ProjectConfig;
-    use codex_core::set_windows_sandbox_enabled;
+    use llmx_core::config::ConfigOverrides;
+    use llmx_core::config::ConfigToml;
+    use llmx_core::config::ProjectConfig;
+    use llmx_core::set_windows_sandbox_enabled;
     use serial_test::serial;
     use tempfile::TempDir;
 

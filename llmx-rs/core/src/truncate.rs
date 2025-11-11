@@ -1,7 +1,7 @@
 //! Utilities for truncating large chunks of output while preserving a prefix
 //! and suffix on UTF-8 boundaries.
 
-use codex_utils_tokenizer::Tokenizer;
+use llmx_utils_tokenizer::Tokenizer;
 
 /// Truncate the middle of a UTF-8 string to at most `max_bytes` bytes,
 /// preserving the beginning and the end. Returns the possibly truncated
@@ -137,7 +137,7 @@ pub(crate) fn truncate_middle(s: &str, max_bytes: usize) -> (String, Option<u64>
 #[cfg(test)]
 mod tests {
     use super::truncate_middle;
-    use codex_utils_tokenizer::Tokenizer;
+    use llmx_utils_tokenizer::Tokenizer;
 
     #[test]
     fn truncate_middle_no_newlines_fallback() {

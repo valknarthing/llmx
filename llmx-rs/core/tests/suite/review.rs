@@ -1,24 +1,24 @@
-use codex_core::CodexAuth;
-use codex_core::CodexConversation;
-use codex_core::ContentItem;
-use codex_core::ConversationManager;
-use codex_core::ModelProviderInfo;
-use codex_core::REVIEW_PROMPT;
-use codex_core::ResponseItem;
-use codex_core::built_in_model_providers;
-use codex_core::config::Config;
-use codex_core::protocol::ENVIRONMENT_CONTEXT_OPEN_TAG;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExitedReviewModeEvent;
-use codex_core::protocol::Op;
-use codex_core::protocol::ReviewCodeLocation;
-use codex_core::protocol::ReviewFinding;
-use codex_core::protocol::ReviewLineRange;
-use codex_core::protocol::ReviewOutputEvent;
-use codex_core::protocol::ReviewRequest;
-use codex_core::protocol::RolloutItem;
-use codex_core::protocol::RolloutLine;
-use codex_protocol::user_input::UserInput;
+use llmx_core::CodexAuth;
+use llmx_core::CodexConversation;
+use llmx_core::ContentItem;
+use llmx_core::ConversationManager;
+use llmx_core::ModelProviderInfo;
+use llmx_core::REVIEW_PROMPT;
+use llmx_core::ResponseItem;
+use llmx_core::built_in_model_providers;
+use llmx_core::config::Config;
+use llmx_core::protocol::ENVIRONMENT_CONTEXT_OPEN_TAG;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExitedReviewModeEvent;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::ReviewCodeLocation;
+use llmx_core::protocol::ReviewFinding;
+use llmx_core::protocol::ReviewLineRange;
+use llmx_core::protocol::ReviewOutputEvent;
+use llmx_core::protocol::ReviewRequest;
+use llmx_core::protocol::RolloutItem;
+use llmx_core::protocol::RolloutLine;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::load_default_config_for_test;
 use core_test_support::load_sse_fixture_with_id_from_str;
 use core_test_support::skip_if_no_network;
@@ -263,7 +263,7 @@ async fn review_filters_agent_message_related_events() {
             panic!("unexpected AgentMessageDelta surfaced during review")
         }
         EventMsg::ItemCompleted(ev) => match &ev.item {
-            codex_protocol::items::TurnItem::AgentMessage(_) => {
+            llmx_protocol::items::TurnItem::AgentMessage(_) => {
                 panic!("unexpected ItemCompleted for TurnItem::AgentMessage surfaced during review")
             }
             _ => false,
@@ -445,10 +445,10 @@ async fn review_input_isolated_from_parent_history() {
             .unwrap();
 
         // Prior user message (enveloped response_item)
-        let user = codex_protocol::models::ResponseItem::Message {
+        let user = llmx_protocol::models::ResponseItem::Message {
             id: None,
             role: "user".to_string(),
-            content: vec![codex_protocol::models::ContentItem::InputText {
+            content: vec![llmx_protocol::models::ContentItem::InputText {
                 text: "parent: earlier user message".to_string(),
             }],
         };
@@ -463,10 +463,10 @@ async fn review_input_isolated_from_parent_history() {
             .unwrap();
 
         // Prior assistant message (enveloped response_item)
-        let assistant = codex_protocol::models::ResponseItem::Message {
+        let assistant = llmx_protocol::models::ResponseItem::Message {
             id: None,
             role: "assistant".to_string(),
-            content: vec![codex_protocol::models::ContentItem::OutputText {
+            content: vec![llmx_protocol::models::ContentItem::OutputText {
                 text: "parent: assistant reply".to_string(),
             }],
         };
@@ -727,7 +727,7 @@ where
     let conversation_manager =
         ConversationManager::with_auth(CodexAuth::from_api_key("Test API Key"));
     let auth_manager =
-        codex_core::AuthManager::from_auth_for_testing(CodexAuth::from_api_key("Test API Key"));
+        llmx_core::AuthManager::from_auth_for_testing(CodexAuth::from_api_key("Test API Key"));
     conversation_manager
         .resume_conversation_from_rollout(config, resume_path, auth_manager)
         .await

@@ -8,7 +8,7 @@ use tokio::sync::Notify;
 use tokio_util::sync::CancellationToken;
 use tokio_util::task::AbortOnDropHandle;
 
-use codex_protocol::models::ResponseInputItem;
+use llmx_protocol::models::ResponseInputItem;
 use tokio::sync::oneshot;
 
 use crate::codex::TurnContext;

@@ -1,6 +1,6 @@
-use codex_core::AuthManager;
-use codex_core::config::Config;
-use codex_core::git_info::get_git_repo_root;
+use llmx_core::AuthManager;
+use llmx_core::config::Config;
+use llmx_core::git_info::get_git_repo_root;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyEventKind;
@@ -11,8 +11,8 @@ use ratatui::style::Color;
 use ratatui::widgets::Clear;
 use ratatui::widgets::WidgetRef;
 
-use codex_app_server_protocol::AuthMode;
-use codex_protocol::config_types::ForcedLoginMethod;
+use llmx_app_server_protocol::AuthMode;
+use llmx_protocol::config_types::ForcedLoginMethod;
 
 use crate::LoginStatus;
 use crate::onboarding::auth::AuthModeWidget;

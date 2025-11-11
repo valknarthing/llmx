@@ -11,19 +11,19 @@ use super::compact::COMPACT_WARNING_MESSAGE;
 use super::compact::FIRST_REPLY;
 use super::compact::SUMMARY_TEXT;
 use super::compact::TEST_COMPACT_PROMPT;
-use codex_core::CodexAuth;
-use codex_core::CodexConversation;
-use codex_core::ConversationManager;
-use codex_core::ModelProviderInfo;
-use codex_core::NewConversation;
-use codex_core::built_in_model_providers;
-use codex_core::config::Config;
-use codex_core::config::OPENAI_DEFAULT_MODEL;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol::WarningEvent;
-use codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
-use codex_protocol::user_input::UserInput;
+use llmx_core::CodexAuth;
+use llmx_core::CodexConversation;
+use llmx_core::ConversationManager;
+use llmx_core::ModelProviderInfo;
+use llmx_core::NewConversation;
+use llmx_core::built_in_model_providers;
+use llmx_core::config::Config;
+use llmx_core::config::OPENAI_DEFAULT_MODEL;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::WarningEvent;
+use llmx_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::load_default_config_for_test;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
@@ -850,7 +850,7 @@ async fn resume_conversation(
     path: std::path::PathBuf,
 ) -> Arc<CodexConversation> {
     let auth_manager =
-        codex_core::AuthManager::from_auth_for_testing(CodexAuth::from_api_key("dummy"));
+        llmx_core::AuthManager::from_auth_for_testing(CodexAuth::from_api_key("dummy"));
     let NewConversation { conversation, .. } = manager
         .resume_conversation_from_rollout(config.clone(), path, auth_manager)
         .await

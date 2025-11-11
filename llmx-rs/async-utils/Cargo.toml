@@ -1,6 +1,6 @@
 [package]
 edition.workspace = true
-name = "codex-async-utils"
+name = "llmx-async-utils"
 version.workspace = true
 
 [lints]

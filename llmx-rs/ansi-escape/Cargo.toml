@@ -1,10 +1,10 @@
 [package]
 edition = "2024"
-name = "codex-ansi-escape"
+name = "llmx-ansi-escape"
 version = { workspace = true }
 
 [lib]
-name = "codex_ansi_escape"
+name = "llmx_ansi_escape"
 path = "src/lib.rs"
 
 [dependencies]

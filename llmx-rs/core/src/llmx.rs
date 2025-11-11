@@ -19,19 +19,19 @@ use crate::user_notification::UserNotifier;
 use crate::util::error_or_panic;
 use async_channel::Receiver;
 use async_channel::Sender;
-use codex_protocol::ConversationId;
-use codex_protocol::items::TurnItem;
-use codex_protocol::protocol::FileChange;
-use codex_protocol::protocol::HasLegacyEvent;
-use codex_protocol::protocol::ItemCompletedEvent;
-use codex_protocol::protocol::ItemStartedEvent;
-use codex_protocol::protocol::RawResponseItemEvent;
-use codex_protocol::protocol::ReviewRequest;
-use codex_protocol::protocol::RolloutItem;
-use codex_protocol::protocol::SessionSource;
-use codex_protocol::protocol::TaskStartedEvent;
-use codex_protocol::protocol::TurnAbortReason;
-use codex_protocol::protocol::TurnContextItem;
+use llmx_protocol::ConversationId;
+use llmx_protocol::items::TurnItem;
+use llmx_protocol::protocol::FileChange;
+use llmx_protocol::protocol::HasLegacyEvent;
+use llmx_protocol::protocol::ItemCompletedEvent;
+use llmx_protocol::protocol::ItemStartedEvent;
+use llmx_protocol::protocol::RawResponseItemEvent;
+use llmx_protocol::protocol::ReviewRequest;
+use llmx_protocol::protocol::RolloutItem;
+use llmx_protocol::protocol::SessionSource;
+use llmx_protocol::protocol::TaskStartedEvent;
+use llmx_protocol::protocol::TurnAbortReason;
+use llmx_protocol::protocol::TurnContextItem;
 use futures::future::BoxFuture;
 use futures::prelude::*;
 use futures::stream::FuturesOrdered;
@@ -119,18 +119,18 @@ use crate::user_instructions::DeveloperInstructions;
 use crate::user_instructions::UserInstructions;
 use crate::user_notification::UserNotification;
 use crate::util::backoff;
-use codex_async_utils::OrCancelExt;
-use codex_otel::otel_event_manager::OtelEventManager;
-use codex_protocol::config_types::ReasoningEffort as ReasoningEffortConfig;
-use codex_protocol::config_types::ReasoningSummary as ReasoningSummaryConfig;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::FunctionCallOutputPayload;
-use codex_protocol::models::ResponseInputItem;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::protocol::InitialHistory;
-use codex_protocol::user_input::UserInput;
-use codex_utils_readiness::Readiness;
-use codex_utils_readiness::ReadinessFlag;
+use llmx_async_utils::OrCancelExt;
+use llmx_otel::otel_event_manager::OtelEventManager;
+use llmx_protocol::config_types::ReasoningEffort as ReasoningEffortConfig;
+use llmx_protocol::config_types::ReasoningSummary as ReasoningSummaryConfig;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::FunctionCallOutputPayload;
+use llmx_protocol::models::ResponseInputItem;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::protocol::InitialHistory;
+use llmx_protocol::user_input::UserInput;
+use llmx_utils_readiness::Readiness;
+use llmx_utils_readiness::ReadinessFlag;
 
 /// The high-level interface to the Codex system.
 /// It operates as a queue pair where you send submissions and receive events.
@@ -1352,16 +1352,16 @@ mod handlers {
     use crate::tasks::RegularTask;
     use crate::tasks::UndoTask;
     use crate::tasks::UserShellCommandTask;
-    use codex_protocol::custom_prompts::CustomPrompt;
-    use codex_protocol::protocol::ErrorEvent;
-    use codex_protocol::protocol::Event;
-    use codex_protocol::protocol::EventMsg;
-    use codex_protocol::protocol::ListCustomPromptsResponseEvent;
-    use codex_protocol::protocol::Op;
-    use codex_protocol::protocol::ReviewDecision;
-    use codex_protocol::protocol::ReviewRequest;
-    use codex_protocol::protocol::TurnAbortReason;
-    use codex_protocol::user_input::UserInput;
+    use llmx_protocol::custom_prompts::CustomPrompt;
+    use llmx_protocol::protocol::ErrorEvent;
+    use llmx_protocol::protocol::Event;
+    use llmx_protocol::protocol::EventMsg;
+    use llmx_protocol::protocol::ListCustomPromptsResponseEvent;
+    use llmx_protocol::protocol::Op;
+    use llmx_protocol::protocol::ReviewDecision;
+    use llmx_protocol::protocol::ReviewRequest;
+    use llmx_protocol::protocol::TurnAbortReason;
+    use llmx_protocol::user_input::UserInput;
     use std::sync::Arc;
     use tracing::info;
     use tracing::warn;
@@ -1497,7 +1497,7 @@ mod handlers {
                     crate::protocol::GetHistoryEntryResponseEvent {
                         offset,
                         log_id,
-                        entry: entry_opt.map(|e| codex_protocol::message_history::HistoryEntry {
+                        entry: entry_opt.map(|e| llmx_protocol::message_history::HistoryEntry {
                             conversation_id: e.session_id,
                             ts: e.ts,
                             text: e.text,
@@ -2022,7 +2022,7 @@ async fn try_run_turn(
         // `response.completed`) bubble up and trigger the caller's retry logic.
         let event = match stream.next().or_cancel(&cancellation_token).await {
             Ok(event) => event,
-            Err(codex_async_utils::CancelErr::Cancelled) => {
+            Err(llmx_async_utils::CancelErr::Cancelled) => {
                 let processed_items = output.try_collect().await?;
                 return Err(CodexErr::TurnAborted {
                     dangling_artifacts: processed_items,
@@ -2325,10 +2325,10 @@ mod tests {
     use crate::tools::handlers::ShellHandler;
     use crate::tools::registry::ToolHandler;
     use crate::turn_diff_tracker::TurnDiffTracker;
-    use codex_app_server_protocol::AuthMode;
-    use codex_protocol::models::ContentItem;
-    use codex_protocol::models::ResponseItem;
-    use codex_protocol::protocol::McpAuthStatus;
+    use llmx_app_server_protocol::AuthMode;
+    use llmx_protocol::models::ContentItem;
+    use llmx_protocol::models::ResponseItem;
+    use llmx_protocol::protocol::McpAuthStatus;
     use std::time::Duration;
     use tokio::time::sleep;
 

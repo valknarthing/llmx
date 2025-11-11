@@ -1,8 +1,8 @@
 use std::path::Path;
 
-use codex_core::config::Config;
-use codex_core::protocol::Event;
-use codex_core::protocol::SessionConfiguredEvent;
+use llmx_core::config::Config;
+use llmx_core::protocol::Event;
+use llmx_core::protocol::SessionConfiguredEvent;
 
 pub(crate) enum CodexStatus {
     Running,

@@ -22,18 +22,18 @@ use crate::wrapping::RtOptions;
 use crate::wrapping::word_wrap_line;
 use crate::wrapping::word_wrap_lines;
 use base64::Engine;
-use codex_common::format_env_display::format_env_display;
-use codex_core::config::Config;
-use codex_core::config::types::McpServerTransportConfig;
-use codex_core::config::types::ReasoningSummaryFormat;
-use codex_core::protocol::FileChange;
-use codex_core::protocol::McpAuthStatus;
-use codex_core::protocol::McpInvocation;
-use codex_core::protocol::SessionConfiguredEvent;
-use codex_core::protocol_config_types::ReasoningEffort as ReasoningEffortConfig;
-use codex_protocol::plan_tool::PlanItemArg;
-use codex_protocol::plan_tool::StepStatus;
-use codex_protocol::plan_tool::UpdatePlanArgs;
+use llmx_common::format_env_display::format_env_display;
+use llmx_core::config::Config;
+use llmx_core::config::types::McpServerTransportConfig;
+use llmx_core::config::types::ReasoningSummaryFormat;
+use llmx_core::protocol::FileChange;
+use llmx_core::protocol::McpAuthStatus;
+use llmx_core::protocol::McpInvocation;
+use llmx_core::protocol::SessionConfiguredEvent;
+use llmx_core::protocol_config_types::ReasoningEffort as ReasoningEffortConfig;
+use llmx_protocol::plan_tool::PlanItemArg;
+use llmx_protocol::plan_tool::StepStatus;
+use llmx_protocol::plan_tool::UpdatePlanArgs;
 use image::DynamicImage;
 use image::ImageReader;
 use mcp_types::EmbeddedResourceResource;
@@ -390,9 +390,9 @@ fn exec_snippet(command: &[String]) -> String {
 
 pub fn new_approval_decision_cell(
     command: Vec<String>,
-    decision: codex_core::protocol::ReviewDecision,
+    decision: llmx_core::protocol::ReviewDecision,
 ) -> Box<dyn HistoryCell> {
-    use codex_core::protocol::ReviewDecision::*;
+    use llmx_core::protocol::ReviewDecision::*;
 
     let (symbol, summary): (Span<'static>, Vec<Span<'static>>) = match decision {
         Approved => {
@@ -1465,13 +1465,13 @@ mod tests {
     use crate::exec_cell::CommandOutput;
     use crate::exec_cell::ExecCall;
     use crate::exec_cell::ExecCell;
-    use codex_core::config::Config;
-    use codex_core::config::ConfigOverrides;
-    use codex_core::config::ConfigToml;
-    use codex_core::config::types::McpServerConfig;
-    use codex_core::config::types::McpServerTransportConfig;
-    use codex_core::protocol::McpAuthStatus;
-    use codex_protocol::parse_command::ParsedCommand;
+    use llmx_core::config::Config;
+    use llmx_core::config::ConfigOverrides;
+    use llmx_core::config::ConfigToml;
+    use llmx_core::config::types::McpServerConfig;
+    use llmx_core::config::types::McpServerTransportConfig;
+    use llmx_core::protocol::McpAuthStatus;
+    use llmx_protocol::parse_command::ParsedCommand;
     use dirs::home_dir;
     use pretty_assertions::assert_eq;
     use serde_json::json;

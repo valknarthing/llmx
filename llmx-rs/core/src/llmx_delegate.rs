@@ -3,16 +3,16 @@ use std::sync::atomic::AtomicU64;
 
 use async_channel::Receiver;
 use async_channel::Sender;
-use codex_async_utils::OrCancelExt;
-use codex_protocol::protocol::ApplyPatchApprovalRequestEvent;
-use codex_protocol::protocol::Event;
-use codex_protocol::protocol::EventMsg;
-use codex_protocol::protocol::ExecApprovalRequestEvent;
-use codex_protocol::protocol::Op;
-use codex_protocol::protocol::SessionSource;
-use codex_protocol::protocol::SubAgentSource;
-use codex_protocol::protocol::Submission;
-use codex_protocol::user_input::UserInput;
+use llmx_async_utils::OrCancelExt;
+use llmx_protocol::protocol::ApplyPatchApprovalRequestEvent;
+use llmx_protocol::protocol::Event;
+use llmx_protocol::protocol::EventMsg;
+use llmx_protocol::protocol::ExecApprovalRequestEvent;
+use llmx_protocol::protocol::Op;
+use llmx_protocol::protocol::SessionSource;
+use llmx_protocol::protocol::SubAgentSource;
+use llmx_protocol::protocol::Submission;
+use llmx_protocol::user_input::UserInput;
 use tokio_util::sync::CancellationToken;
 
 use crate::AuthManager;
@@ -23,14 +23,14 @@ use crate::codex::Session;
 use crate::codex::TurnContext;
 use crate::config::Config;
 use crate::error::CodexErr;
-use codex_protocol::protocol::InitialHistory;
+use llmx_protocol::protocol::InitialHistory;
 
 /// Start an interactive sub-Codex conversation and return IO channels.
 ///
 /// The returned `events_rx` yields non-approval events emitted by the sub-agent.
 /// Approval requests are handled via `parent_session` and are not surfaced.
 /// The returned `ops_tx` allows the caller to submit additional `Op`s to the sub-agent.
-pub(crate) async fn run_codex_conversation_interactive(
+pub(crate) async fn run_llmx_conversation_interactive(
     config: Config,
     auth_manager: Arc<AuthManager>,
     parent_session: Arc<Session>,
@@ -87,7 +87,7 @@ pub(crate) async fn run_codex_conversation_interactive(
 /// Convenience wrapper for one-time use with an initial prompt.
 ///
 /// Internally calls the interactive variant, then immediately submits the provided input.
-pub(crate) async fn run_codex_conversation_one_shot(
+pub(crate) async fn run_llmx_conversation_one_shot(
     config: Config,
     auth_manager: Arc<AuthManager>,
     input: Vec<UserInput>,
@@ -99,7 +99,7 @@ pub(crate) async fn run_codex_conversation_one_shot(
     // Use a child token so we can stop the delegate after completion without
     // requiring the caller to cancel the parent token.
     let child_cancel = cancel_token.child_token();
-    let io = run_codex_conversation_interactive(
+    let io = run_llmx_conversation_interactive(
         config,
         auth_manager,
         parent_session,
@@ -281,17 +281,17 @@ async fn await_approval_with_cancel<F>(
     parent_session: &Session,
     sub_id: &str,
     cancel_token: &CancellationToken,
-) -> codex_protocol::protocol::ReviewDecision
+) -> llmx_protocol::protocol::ReviewDecision
 where
-    F: core::future::Future<Output = codex_protocol::protocol::ReviewDecision>,
+    F: core::future::Future<Output = llmx_protocol::protocol::ReviewDecision>,
 {
     tokio::select! {
         biased;
         _ = cancel_token.cancelled() => {
             parent_session
-                .notify_approval(sub_id, codex_protocol::protocol::ReviewDecision::Abort)
+                .notify_approval(sub_id, llmx_protocol::protocol::ReviewDecision::Abort)
                 .await;
-            codex_protocol::protocol::ReviewDecision::Abort
+            llmx_protocol::protocol::ReviewDecision::Abort
         }
         decision = fut => {
             decision

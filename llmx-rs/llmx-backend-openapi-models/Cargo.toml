@@ -1,10 +1,10 @@
 [package]
-name = "codex-backend-openapi-models"
+name = "llmx-backend-openapi-models"
 version = { workspace = true }
 edition = "2024"
 
 [lib]
-name = "codex_backend_openapi_models"
+name = "llmx_backend_openapi_models"
 path = "src/lib.rs"
 
 # Important: generated code often violates our workspace lints.

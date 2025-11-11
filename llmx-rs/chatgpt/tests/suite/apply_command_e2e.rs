@@ -1,5 +1,5 @@
-use codex_chatgpt::apply_command::apply_diff_from_task;
-use codex_chatgpt::get_task::GetTaskResponse;
+use llmx_chatgpt::apply_command::apply_diff_from_task;
+use llmx_chatgpt::get_task::GetTaskResponse;
 use std::path::Path;
 use tempfile::TempDir;
 use tokio::process::Command;

@@ -3,7 +3,7 @@
 
 use clap::ValueEnum;
 
-use codex_core::protocol::AskForApproval;
+use llmx_core::protocol::AskForApproval;
 
 #[derive(Clone, Copy, Debug, ValueEnum)]
 #[value(rename_all = "kebab-case")]

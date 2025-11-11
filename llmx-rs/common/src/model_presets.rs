@@ -1,5 +1,5 @@
-use codex_app_server_protocol::AuthMode;
-use codex_core::protocol_config_types::ReasoningEffort;
+use llmx_app_server_protocol::AuthMode;
+use llmx_core::protocol_config_types::ReasoningEffort;
 
 /// A reasoning effort option that can be surfaced for a model.
 #[derive(Debug, Clone, Copy)]

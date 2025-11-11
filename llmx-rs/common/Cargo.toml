@@ -1,6 +1,6 @@
 [package]
 edition = "2024"
-name = "codex-common"
+name = "llmx-common"
 version = { workspace = true }
 
 [lints]
@@ -8,9 +8,9 @@ workspace = true
 
 [dependencies]
 clap = { workspace = true, features = ["derive", "wrap_help"], optional = true }
-codex-core = { workspace = true }
-codex-protocol = { workspace = true }
-codex-app-server-protocol = { workspace = true }
+llmx-core = { workspace = true }
+llmx-protocol = { workspace = true }
+llmx-app-server-protocol = { workspace = true }
 serde = { workspace = true, optional = true }
 toml = { workspace = true, optional = true }
 

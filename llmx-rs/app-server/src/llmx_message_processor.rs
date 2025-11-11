@@ -6,143 +6,143 @@ use crate::outgoing_message::OutgoingMessageSender;
 use crate::outgoing_message::OutgoingNotification;
 use chrono::DateTime;
 use chrono::Utc;
-use codex_app_server_protocol::Account;
-use codex_app_server_protocol::AccountLoginCompletedNotification;
-use codex_app_server_protocol::AccountRateLimitsUpdatedNotification;
-use codex_app_server_protocol::AccountUpdatedNotification;
-use codex_app_server_protocol::AddConversationListenerParams;
-use codex_app_server_protocol::AddConversationSubscriptionResponse;
-use codex_app_server_protocol::ApplyPatchApprovalParams;
-use codex_app_server_protocol::ApplyPatchApprovalResponse;
-use codex_app_server_protocol::ArchiveConversationParams;
-use codex_app_server_protocol::ArchiveConversationResponse;
-use codex_app_server_protocol::AskForApproval;
-use codex_app_server_protocol::AuthMode;
-use codex_app_server_protocol::AuthStatusChangeNotification;
-use codex_app_server_protocol::CancelLoginAccountParams;
-use codex_app_server_protocol::CancelLoginAccountResponse;
-use codex_app_server_protocol::CancelLoginChatGptResponse;
-use codex_app_server_protocol::ClientRequest;
-use codex_app_server_protocol::ConversationGitInfo;
-use codex_app_server_protocol::ConversationSummary;
-use codex_app_server_protocol::ExecCommandApprovalParams;
-use codex_app_server_protocol::ExecCommandApprovalResponse;
-use codex_app_server_protocol::ExecOneOffCommandParams;
-use codex_app_server_protocol::ExecOneOffCommandResponse;
-use codex_app_server_protocol::FeedbackUploadParams;
-use codex_app_server_protocol::FeedbackUploadResponse;
-use codex_app_server_protocol::FuzzyFileSearchParams;
-use codex_app_server_protocol::FuzzyFileSearchResponse;
-use codex_app_server_protocol::GetAccountParams;
-use codex_app_server_protocol::GetAccountRateLimitsResponse;
-use codex_app_server_protocol::GetAccountResponse;
-use codex_app_server_protocol::GetAuthStatusParams;
-use codex_app_server_protocol::GetAuthStatusResponse;
-use codex_app_server_protocol::GetConversationSummaryParams;
-use codex_app_server_protocol::GetConversationSummaryResponse;
-use codex_app_server_protocol::GetUserAgentResponse;
-use codex_app_server_protocol::GetUserSavedConfigResponse;
-use codex_app_server_protocol::GitDiffToRemoteResponse;
-use codex_app_server_protocol::InputItem as WireInputItem;
-use codex_app_server_protocol::InterruptConversationParams;
-use codex_app_server_protocol::InterruptConversationResponse;
-use codex_app_server_protocol::JSONRPCErrorError;
-use codex_app_server_protocol::ListConversationsParams;
-use codex_app_server_protocol::ListConversationsResponse;
-use codex_app_server_protocol::LoginAccountParams;
-use codex_app_server_protocol::LoginApiKeyParams;
-use codex_app_server_protocol::LoginApiKeyResponse;
-use codex_app_server_protocol::LoginChatGptCompleteNotification;
-use codex_app_server_protocol::LoginChatGptResponse;
-use codex_app_server_protocol::LogoutAccountResponse;
-use codex_app_server_protocol::LogoutChatGptResponse;
-use codex_app_server_protocol::ModelListParams;
-use codex_app_server_protocol::ModelListResponse;
-use codex_app_server_protocol::NewConversationParams;
-use codex_app_server_protocol::NewConversationResponse;
-use codex_app_server_protocol::RemoveConversationListenerParams;
-use codex_app_server_protocol::RemoveConversationSubscriptionResponse;
-use codex_app_server_protocol::RequestId;
-use codex_app_server_protocol::Result as JsonRpcResult;
-use codex_app_server_protocol::ResumeConversationParams;
-use codex_app_server_protocol::ResumeConversationResponse;
-use codex_app_server_protocol::SandboxMode;
-use codex_app_server_protocol::SendUserMessageParams;
-use codex_app_server_protocol::SendUserMessageResponse;
-use codex_app_server_protocol::SendUserTurnParams;
-use codex_app_server_protocol::SendUserTurnResponse;
-use codex_app_server_protocol::ServerNotification;
-use codex_app_server_protocol::ServerRequestPayload;
-use codex_app_server_protocol::SessionConfiguredNotification;
-use codex_app_server_protocol::SetDefaultModelParams;
-use codex_app_server_protocol::SetDefaultModelResponse;
-use codex_app_server_protocol::Thread;
-use codex_app_server_protocol::ThreadArchiveParams;
-use codex_app_server_protocol::ThreadArchiveResponse;
-use codex_app_server_protocol::ThreadItem;
-use codex_app_server_protocol::ThreadListParams;
-use codex_app_server_protocol::ThreadListResponse;
-use codex_app_server_protocol::ThreadResumeParams;
-use codex_app_server_protocol::ThreadResumeResponse;
-use codex_app_server_protocol::ThreadStartParams;
-use codex_app_server_protocol::ThreadStartResponse;
-use codex_app_server_protocol::ThreadStartedNotification;
-use codex_app_server_protocol::Turn;
-use codex_app_server_protocol::TurnInterruptParams;
-use codex_app_server_protocol::TurnInterruptResponse;
-use codex_app_server_protocol::TurnStartParams;
-use codex_app_server_protocol::TurnStartResponse;
-use codex_app_server_protocol::TurnStartedNotification;
-use codex_app_server_protocol::TurnStatus;
-use codex_app_server_protocol::UserInfoResponse;
-use codex_app_server_protocol::UserInput as V2UserInput;
-use codex_app_server_protocol::UserSavedConfig;
-use codex_backend_client::Client as BackendClient;
-use codex_core::AuthManager;
-use codex_core::CodexConversation;
-use codex_core::ConversationManager;
-use codex_core::Cursor as RolloutCursor;
-use codex_core::INTERACTIVE_SESSION_SOURCES;
-use codex_core::InitialHistory;
-use codex_core::NewConversation;
-use codex_core::RolloutRecorder;
-use codex_core::SessionMeta;
-use codex_core::auth::CLIENT_ID;
-use codex_core::auth::login_with_api_key;
-use codex_core::config::Config;
-use codex_core::config::ConfigOverrides;
-use codex_core::config::ConfigToml;
-use codex_core::config::edit::ConfigEditsBuilder;
-use codex_core::config_loader::load_config_as_toml;
-use codex_core::default_client::get_codex_user_agent;
-use codex_core::exec::ExecParams;
-use codex_core::exec_env::create_env;
-use codex_core::find_conversation_path_by_id_str;
-use codex_core::get_platform_sandbox;
-use codex_core::git_info::git_diff_to_remote;
-use codex_core::parse_cursor;
-use codex_core::protocol::ApplyPatchApprovalRequestEvent;
-use codex_core::protocol::Event;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExecApprovalRequestEvent;
-use codex_core::protocol::Op;
-use codex_core::protocol::ReviewDecision;
-use codex_core::read_head_for_summary;
-use codex_feedback::CodexFeedback;
-use codex_login::ServerOptions as LoginServerOptions;
-use codex_login::ShutdownHandle;
-use codex_login::run_login_server;
-use codex_protocol::ConversationId;
-use codex_protocol::config_types::ForcedLoginMethod;
-use codex_protocol::items::TurnItem;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::protocol::GitInfo;
-use codex_protocol::protocol::RateLimitSnapshot as CoreRateLimitSnapshot;
-use codex_protocol::protocol::RolloutItem;
-use codex_protocol::protocol::SessionMetaLine;
-use codex_protocol::protocol::USER_MESSAGE_BEGIN;
-use codex_protocol::user_input::UserInput as CoreInputItem;
-use codex_utils_json_to_toml::json_to_toml;
+use llmx_app_server_protocol::Account;
+use llmx_app_server_protocol::AccountLoginCompletedNotification;
+use llmx_app_server_protocol::AccountRateLimitsUpdatedNotification;
+use llmx_app_server_protocol::AccountUpdatedNotification;
+use llmx_app_server_protocol::AddConversationListenerParams;
+use llmx_app_server_protocol::AddConversationSubscriptionResponse;
+use llmx_app_server_protocol::ApplyPatchApprovalParams;
+use llmx_app_server_protocol::ApplyPatchApprovalResponse;
+use llmx_app_server_protocol::ArchiveConversationParams;
+use llmx_app_server_protocol::ArchiveConversationResponse;
+use llmx_app_server_protocol::AskForApproval;
+use llmx_app_server_protocol::AuthMode;
+use llmx_app_server_protocol::AuthStatusChangeNotification;
+use llmx_app_server_protocol::CancelLoginAccountParams;
+use llmx_app_server_protocol::CancelLoginAccountResponse;
+use llmx_app_server_protocol::CancelLoginChatGptResponse;
+use llmx_app_server_protocol::ClientRequest;
+use llmx_app_server_protocol::ConversationGitInfo;
+use llmx_app_server_protocol::ConversationSummary;
+use llmx_app_server_protocol::ExecCommandApprovalParams;
+use llmx_app_server_protocol::ExecCommandApprovalResponse;
+use llmx_app_server_protocol::ExecOneOffCommandParams;
+use llmx_app_server_protocol::ExecOneOffCommandResponse;
+use llmx_app_server_protocol::FeedbackUploadParams;
+use llmx_app_server_protocol::FeedbackUploadResponse;
+use llmx_app_server_protocol::FuzzyFileSearchParams;
+use llmx_app_server_protocol::FuzzyFileSearchResponse;
+use llmx_app_server_protocol::GetAccountParams;
+use llmx_app_server_protocol::GetAccountRateLimitsResponse;
+use llmx_app_server_protocol::GetAccountResponse;
+use llmx_app_server_protocol::GetAuthStatusParams;
+use llmx_app_server_protocol::GetAuthStatusResponse;
+use llmx_app_server_protocol::GetConversationSummaryParams;
+use llmx_app_server_protocol::GetConversationSummaryResponse;
+use llmx_app_server_protocol::GetUserAgentResponse;
+use llmx_app_server_protocol::GetUserSavedConfigResponse;
+use llmx_app_server_protocol::GitDiffToRemoteResponse;
+use llmx_app_server_protocol::InputItem as WireInputItem;
+use llmx_app_server_protocol::InterruptConversationParams;
+use llmx_app_server_protocol::InterruptConversationResponse;
+use llmx_app_server_protocol::JSONRPCErrorError;
+use llmx_app_server_protocol::ListConversationsParams;
+use llmx_app_server_protocol::ListConversationsResponse;
+use llmx_app_server_protocol::LoginAccountParams;
+use llmx_app_server_protocol::LoginApiKeyParams;
+use llmx_app_server_protocol::LoginApiKeyResponse;
+use llmx_app_server_protocol::LoginChatGptCompleteNotification;
+use llmx_app_server_protocol::LoginChatGptResponse;
+use llmx_app_server_protocol::LogoutAccountResponse;
+use llmx_app_server_protocol::LogoutChatGptResponse;
+use llmx_app_server_protocol::ModelListParams;
+use llmx_app_server_protocol::ModelListResponse;
+use llmx_app_server_protocol::NewConversationParams;
+use llmx_app_server_protocol::NewConversationResponse;
+use llmx_app_server_protocol::RemoveConversationListenerParams;
+use llmx_app_server_protocol::RemoveConversationSubscriptionResponse;
+use llmx_app_server_protocol::RequestId;
+use llmx_app_server_protocol::Result as JsonRpcResult;
+use llmx_app_server_protocol::ResumeConversationParams;
+use llmx_app_server_protocol::ResumeConversationResponse;
+use llmx_app_server_protocol::SandboxMode;
+use llmx_app_server_protocol::SendUserMessageParams;
+use llmx_app_server_protocol::SendUserMessageResponse;
+use llmx_app_server_protocol::SendUserTurnParams;
+use llmx_app_server_protocol::SendUserTurnResponse;
+use llmx_app_server_protocol::ServerNotification;
+use llmx_app_server_protocol::ServerRequestPayload;
+use llmx_app_server_protocol::SessionConfiguredNotification;
+use llmx_app_server_protocol::SetDefaultModelParams;
+use llmx_app_server_protocol::SetDefaultModelResponse;
+use llmx_app_server_protocol::Thread;
+use llmx_app_server_protocol::ThreadArchiveParams;
+use llmx_app_server_protocol::ThreadArchiveResponse;
+use llmx_app_server_protocol::ThreadItem;
+use llmx_app_server_protocol::ThreadListParams;
+use llmx_app_server_protocol::ThreadListResponse;
+use llmx_app_server_protocol::ThreadResumeParams;
+use llmx_app_server_protocol::ThreadResumeResponse;
+use llmx_app_server_protocol::ThreadStartParams;
+use llmx_app_server_protocol::ThreadStartResponse;
+use llmx_app_server_protocol::ThreadStartedNotification;
+use llmx_app_server_protocol::Turn;
+use llmx_app_server_protocol::TurnInterruptParams;
+use llmx_app_server_protocol::TurnInterruptResponse;
+use llmx_app_server_protocol::TurnStartParams;
+use llmx_app_server_protocol::TurnStartResponse;
+use llmx_app_server_protocol::TurnStartedNotification;
+use llmx_app_server_protocol::TurnStatus;
+use llmx_app_server_protocol::UserInfoResponse;
+use llmx_app_server_protocol::UserInput as V2UserInput;
+use llmx_app_server_protocol::UserSavedConfig;
+use llmx_backend_client::Client as BackendClient;
+use llmx_core::AuthManager;
+use llmx_core::CodexConversation;
+use llmx_core::ConversationManager;
+use llmx_core::Cursor as RolloutCursor;
+use llmx_core::INTERACTIVE_SESSION_SOURCES;
+use llmx_core::InitialHistory;
+use llmx_core::NewConversation;
+use llmx_core::RolloutRecorder;
+use llmx_core::SessionMeta;
+use llmx_core::auth::CLIENT_ID;
+use llmx_core::auth::login_with_api_key;
+use llmx_core::config::Config;
+use llmx_core::config::ConfigOverrides;
+use llmx_core::config::ConfigToml;
+use llmx_core::config::edit::ConfigEditsBuilder;
+use llmx_core::config_loader::load_config_as_toml;
+use llmx_core::default_client::get_codex_user_agent;
+use llmx_core::exec::ExecParams;
+use llmx_core::exec_env::create_env;
+use llmx_core::find_conversation_path_by_id_str;
+use llmx_core::get_platform_sandbox;
+use llmx_core::git_info::git_diff_to_remote;
+use llmx_core::parse_cursor;
+use llmx_core::protocol::ApplyPatchApprovalRequestEvent;
+use llmx_core::protocol::Event;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExecApprovalRequestEvent;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::ReviewDecision;
+use llmx_core::read_head_for_summary;
+use llmx_feedback::CodexFeedback;
+use llmx_login::ServerOptions as LoginServerOptions;
+use llmx_login::ShutdownHandle;
+use llmx_login::run_login_server;
+use llmx_protocol::ConversationId;
+use llmx_protocol::config_types::ForcedLoginMethod;
+use llmx_protocol::items::TurnItem;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::protocol::GitInfo;
+use llmx_protocol::protocol::RateLimitSnapshot as CoreRateLimitSnapshot;
+use llmx_protocol::protocol::RolloutItem;
+use llmx_protocol::protocol::SessionMetaLine;
+use llmx_protocol::protocol::USER_MESSAGE_BEGIN;
+use llmx_protocol::user_input::UserInput as CoreInputItem;
+use llmx_utils_json_to_toml::json_to_toml;
 use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::io::Error as IoError;
@@ -473,7 +473,7 @@ impl CodexMessageProcessor {
     async fn login_api_key_v2(&mut self, request_id: RequestId, params: LoginApiKeyParams) {
         match self.login_api_key_common(&params).await {
             Ok(()) => {
-                let response = codex_app_server_protocol::LoginAccountResponse::ApiKey {};
+                let response = llmx_app_server_protocol::LoginAccountResponse::ApiKey {};
                 self.outgoing.send_response(request_id, response).await;
 
                 let payload_login_completed = AccountLoginCompletedNotification {
@@ -688,7 +688,7 @@ impl CodexMessageProcessor {
                         }
                     });
 
-                    let response = codex_app_server_protocol::LoginAccountResponse::Chatgpt {
+                    let response = llmx_app_server_protocol::LoginAccountResponse::Chatgpt {
                         login_id: login_id.to_string(),
                         auth_url,
                     };
@@ -1087,10 +1087,10 @@ impl CodexMessageProcessor {
             .unwrap_or_else(|| self.config.sandbox_policy.clone());
 
         let sandbox_type = match &effective_policy {
-            codex_core::protocol::SandboxPolicy::DangerFullAccess => {
-                codex_core::exec::SandboxType::None
+            llmx_core::protocol::SandboxPolicy::DangerFullAccess => {
+                llmx_core::exec::SandboxType::None
             }
-            _ => get_platform_sandbox().unwrap_or(codex_core::exec::SandboxType::None),
+            _ => get_platform_sandbox().unwrap_or(llmx_core::exec::SandboxType::None),
         };
         tracing::debug!("Sandbox type: {sandbox_type:?}");
         let codex_linux_sandbox_exe = self.config.codex_linux_sandbox_exe.clone();
@@ -1099,7 +1099,7 @@ impl CodexMessageProcessor {
         let sandbox_cwd = self.config.cwd.clone();
 
         tokio::spawn(async move {
-            match codex_core::exec::process_exec_tool_call(
+            match llmx_core::exec::process_exec_tool_call(
                 exec_params,
                 sandbox_type,
                 &effective_policy,
@@ -1494,7 +1494,7 @@ impl CodexMessageProcessor {
                 }
             }
             GetConversationSummaryParams::ConversationId { conversation_id } => {
-                match codex_core::find_conversation_path_by_id_str(
+                match llmx_core::find_conversation_path_by_id_str(
                     &self.config.codex_home,
                     &conversation_id.to_string(),
                 )
@@ -1911,7 +1911,7 @@ impl CodexMessageProcessor {
         rollout_path: &Path,
     ) -> Result<(), JSONRPCErrorError> {
         // Verify rollout_path is under sessions dir.
-        let rollout_folder = self.config.codex_home.join(codex_core::SESSIONS_SUBDIR);
+        let rollout_folder = self.config.codex_home.join(llmx_core::SESSIONS_SUBDIR);
 
         let canonical_sessions_dir = match tokio::fs::canonicalize(&rollout_folder).await {
             Ok(path) => path,
@@ -2028,7 +2028,7 @@ impl CodexMessageProcessor {
             let archive_folder = self
                 .config
                 .codex_home
-                .join(codex_core::ARCHIVED_SESSIONS_SUBDIR);
+                .join(llmx_core::ARCHIVED_SESSIONS_SUBDIR);
             tokio::fs::create_dir_all(&archive_folder).await?;
             tokio::fs::rename(&canonical_rollout_path, &archive_folder.join(&file_name)).await?;
             Ok(())
@@ -2797,7 +2797,7 @@ fn extract_conversation_summary(
     let preview = head
         .iter()
         .filter_map(|value| serde_json::from_value::<ResponseItem>(value.clone()).ok())
-        .find_map(|item| match codex_core::parse_turn_item(&item) {
+        .find_map(|item| match llmx_core::parse_turn_item(&item) {
             Some(TurnItem::UserMessage(user)) => Some(user.message()),
             _ => None,
         })?;
@@ -2871,7 +2871,7 @@ fn summary_to_thread(summary: ConversationSummary) -> Thread {
 mod tests {
     use super::*;
     use anyhow::Result;
-    use codex_protocol::protocol::SessionSource;
+    use llmx_protocol::protocol::SessionSource;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use tempfile::TempDir;
@@ -2934,9 +2934,9 @@ mod tests {
 
     #[tokio::test]
     async fn read_summary_from_rollout_returns_empty_preview_when_no_user_message() -> Result<()> {
-        use codex_protocol::protocol::RolloutItem;
-        use codex_protocol::protocol::RolloutLine;
-        use codex_protocol::protocol::SessionMetaLine;
+        use llmx_protocol::protocol::RolloutItem;
+        use llmx_protocol::protocol::RolloutLine;
+        use llmx_protocol::protocol::SessionMetaLine;
         use std::fs;
 
         let temp_dir = TempDir::new()?;

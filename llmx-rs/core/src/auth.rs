@@ -15,8 +15,8 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use std::time::Duration;
 
-use codex_app_server_protocol::AuthMode;
-use codex_protocol::config_types::ForcedLoginMethod;
+use llmx_app_server_protocol::AuthMode;
+use llmx_protocol::config_types::ForcedLoginMethod;
 
 pub use crate::auth::storage::AuthCredentialsStoreMode;
 pub use crate::auth::storage::AuthDotJson;
@@ -31,7 +31,7 @@ use crate::token_data::PlanType as InternalPlanType;
 use crate::token_data::TokenData;
 use crate::token_data::parse_id_token;
 use crate::util::try_parse_error_message;
-use codex_protocol::account::PlanType as AccountPlanType;
+use llmx_protocol::account::PlanType as AccountPlanType;
 use serde_json::Value;
 use thiserror::Error;
 
@@ -640,10 +640,10 @@ mod tests {
     use crate::token_data::IdTokenInfo;
     use crate::token_data::KnownPlan as InternalKnownPlan;
     use crate::token_data::PlanType as InternalPlanType;
-    use codex_protocol::account::PlanType as AccountPlanType;
+    use llmx_protocol::account::PlanType as AccountPlanType;
 
     use base64::Engine;
-    use codex_protocol::config_types::ForcedLoginMethod;
+    use llmx_protocol::config_types::ForcedLoginMethod;
     use pretty_assertions::assert_eq;
     use serde::Serialize;
     use serde_json::json;

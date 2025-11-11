@@ -42,12 +42,12 @@ use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
 use tracing::warn;
 
-use codex_keyring_store::DefaultKeyringStore;
-use codex_keyring_store::KeyringStore;
+use llmx_keyring_store::DefaultKeyringStore;
+use llmx_keyring_store::KeyringStore;
 use rmcp::transport::auth::AuthorizationManager;
 use tokio::sync::Mutex;
 
-use crate::find_codex_home::find_codex_home;
+use crate::find_llmx_home::find_llmx_home;
 
 const KEYRING_SERVICE: &str = "Codex MCP Credentials";
 
@@ -468,7 +468,7 @@ fn compute_store_key(server_name: &str, server_url: &str) -> Result<String> {
 }
 
 fn fallback_file_path() -> Result<PathBuf> {
-    let mut path = find_codex_home()?;
+    let mut path = find_llmx_home()?;
     path.push(FALLBACK_FILENAME);
     Ok(path)
 }
@@ -545,7 +545,7 @@ mod tests {
     use std::sync::PoisonError;
     use tempfile::tempdir;
 
-    use codex_keyring_store::tests::MockKeyringStore;
+    use llmx_keyring_store::tests::MockKeyringStore;
 
     struct TempCodexHome {
         _guard: MutexGuard<'static, ()>,

@@ -1,16 +1,16 @@
 use std::sync::Arc;
 
-use codex_app_server_protocol::AuthMode;
-use codex_core::ContentItem;
-use codex_core::ModelClient;
-use codex_core::ModelProviderInfo;
-use codex_core::Prompt;
-use codex_core::ResponseEvent;
-use codex_core::ResponseItem;
-use codex_core::WireApi;
-use codex_otel::otel_event_manager::OtelEventManager;
-use codex_protocol::ConversationId;
-use codex_protocol::protocol::SessionSource;
+use llmx_app_server_protocol::AuthMode;
+use llmx_core::ContentItem;
+use llmx_core::ModelClient;
+use llmx_core::ModelProviderInfo;
+use llmx_core::Prompt;
+use llmx_core::ResponseEvent;
+use llmx_core::ResponseItem;
+use llmx_core::WireApi;
+use llmx_otel::otel_event_manager::OtelEventManager;
+use llmx_protocol::ConversationId;
+use llmx_protocol::protocol::SessionSource;
 use core_test_support::load_default_config_for_test;
 use core_test_support::responses;
 use futures::StreamExt;
@@ -79,7 +79,7 @@ async fn responses_stream_includes_subagent_header_on_review() {
         effort,
         summary,
         conversation_id,
-        SessionSource::SubAgent(codex_protocol::protocol::SubAgentSource::Review),
+        SessionSource::SubAgent(llmx_protocol::protocol::SubAgentSource::Review),
     );
 
     let mut prompt = Prompt::default();
@@ -167,7 +167,7 @@ async fn responses_stream_includes_subagent_header_on_other() {
         effort,
         summary,
         conversation_id,
-        SessionSource::SubAgent(codex_protocol::protocol::SubAgentSource::Other(
+        SessionSource::SubAgent(llmx_protocol::protocol::SubAgentSource::Other(
             "my-task".to_string(),
         )),
     );

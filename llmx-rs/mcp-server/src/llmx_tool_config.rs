@@ -1,8 +1,8 @@
 //! Configuration object accepted by the `codex` MCP tool-call.
 
-use codex_core::protocol::AskForApproval;
-use codex_protocol::config_types::SandboxMode;
-use codex_utils_json_to_toml::json_to_toml;
+use llmx_core::protocol::AskForApproval;
+use llmx_protocol::config_types::SandboxMode;
+use llmx_utils_json_to_toml::json_to_toml;
 use mcp_types::Tool;
 use mcp_types::ToolInputSchema;
 use schemars::JsonSchema;
@@ -139,7 +139,7 @@ impl CodexToolCallParam {
     pub async fn into_config(
         self,
         codex_linux_sandbox_exe: Option<PathBuf>,
-    ) -> std::io::Result<(String, codex_core::config::Config)> {
+    ) -> std::io::Result<(String, llmx_core::config::Config)> {
         let Self {
             prompt,
             model,
@@ -154,7 +154,7 @@ impl CodexToolCallParam {
         } = self;
 
         // Build the `ConfigOverrides` recognized by codex-core.
-        let overrides = codex_core::config::ConfigOverrides {
+        let overrides = llmx_core::config::ConfigOverrides {
             model,
             review_model: None,
             config_profile: profile,
@@ -180,7 +180,7 @@ impl CodexToolCallParam {
             .collect();
 
         let cfg =
-            codex_core::config::Config::load_with_cli_overrides(cli_overrides, overrides).await?;
+            llmx_core::config::Config::load_with_cli_overrides(cli_overrides, overrides).await?;
 
         Ok((prompt, cfg))
     }

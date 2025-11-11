@@ -2,12 +2,12 @@ use anyhow::Result;
 use app_test_support::McpProcess;
 use app_test_support::create_mock_chat_completions_server;
 use app_test_support::to_response;
-use codex_app_server_protocol::JSONRPCResponse;
-use codex_app_server_protocol::RequestId;
-use codex_app_server_protocol::ThreadResumeParams;
-use codex_app_server_protocol::ThreadResumeResponse;
-use codex_app_server_protocol::ThreadStartParams;
-use codex_app_server_protocol::ThreadStartResponse;
+use llmx_app_server_protocol::JSONRPCResponse;
+use llmx_app_server_protocol::RequestId;
+use llmx_app_server_protocol::ThreadResumeParams;
+use llmx_app_server_protocol::ThreadResumeResponse;
+use llmx_app_server_protocol::ThreadStartParams;
+use llmx_app_server_protocol::ThreadStartResponse;
 use tempfile::TempDir;
 use tokio::time::timeout;
 

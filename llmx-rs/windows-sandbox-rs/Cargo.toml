@@ -1,10 +1,10 @@
 [package]
-name = "codex-windows-sandbox"
+name = "llmx-windows-sandbox"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "codex_windows_sandbox"
+name = "llmx_windows_sandbox"
 path = "src/lib.rs"
 
 [dependencies]

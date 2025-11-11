@@ -5,21 +5,21 @@ use app_test_support::create_mock_chat_completions_server;
 use app_test_support::create_mock_chat_completions_server_unchecked;
 use app_test_support::create_shell_sse_response;
 use app_test_support::to_response;
-use codex_app_server_protocol::JSONRPCNotification;
-use codex_app_server_protocol::JSONRPCResponse;
-use codex_app_server_protocol::RequestId;
-use codex_app_server_protocol::ServerRequest;
-use codex_app_server_protocol::ThreadStartParams;
-use codex_app_server_protocol::ThreadStartResponse;
-use codex_app_server_protocol::TurnStartParams;
-use codex_app_server_protocol::TurnStartResponse;
-use codex_app_server_protocol::TurnStartedNotification;
-use codex_app_server_protocol::UserInput as V2UserInput;
-use codex_core::protocol_config_types::ReasoningEffort;
-use codex_core::protocol_config_types::ReasoningSummary;
-use codex_protocol::parse_command::ParsedCommand;
-use codex_protocol::protocol::Event;
-use codex_protocol::protocol::EventMsg;
+use llmx_app_server_protocol::JSONRPCNotification;
+use llmx_app_server_protocol::JSONRPCResponse;
+use llmx_app_server_protocol::RequestId;
+use llmx_app_server_protocol::ServerRequest;
+use llmx_app_server_protocol::ThreadStartParams;
+use llmx_app_server_protocol::ThreadStartResponse;
+use llmx_app_server_protocol::TurnStartParams;
+use llmx_app_server_protocol::TurnStartResponse;
+use llmx_app_server_protocol::TurnStartedNotification;
+use llmx_app_server_protocol::UserInput as V2UserInput;
+use llmx_core::protocol_config_types::ReasoningEffort;
+use llmx_core::protocol_config_types::ReasoningSummary;
+use llmx_protocol::parse_command::ParsedCommand;
+use llmx_protocol::protocol::Event;
+use llmx_protocol::protocol::EventMsg;
 use core_test_support::skip_if_no_network;
 use pretty_assertions::assert_eq;
 use std::path::Path;
@@ -87,7 +87,7 @@ async fn turn_start_emits_notifications_and_accepts_model_override() -> Result<(
         serde_json::from_value(notif.params.expect("params must be present"))?;
     assert_eq!(
         started.turn.status,
-        codex_app_server_protocol::TurnStatus::InProgress
+        llmx_app_server_protocol::TurnStatus::InProgress
     );
 
     // Send a second turn that exercises the overrides path: change the model.
@@ -272,7 +272,7 @@ async fn turn_start_exec_approval_toggle_v2() -> Result<()> {
     // Approve and wait for task completion
     mcp.send_response(
         request_id,
-        serde_json::json!({ "decision": codex_core::protocol::ReviewDecision::Approved }),
+        serde_json::json!({ "decision": llmx_core::protocol::ReviewDecision::Approved }),
     )
     .await?;
     timeout(
@@ -288,8 +288,8 @@ async fn turn_start_exec_approval_toggle_v2() -> Result<()> {
             input: vec![V2UserInput::Text {
                 text: "run python again".to_string(),
             }],
-            approval_policy: Some(codex_app_server_protocol::AskForApproval::Never),
-            sandbox_policy: Some(codex_app_server_protocol::SandboxPolicy::DangerFullAccess),
+            approval_policy: Some(llmx_app_server_protocol::AskForApproval::Never),
+            sandbox_policy: Some(llmx_app_server_protocol::SandboxPolicy::DangerFullAccess),
             model: Some("mock-model".to_string()),
             effort: Some(ReasoningEffort::Medium),
             summary: Some(ReasoningSummary::Auto),
@@ -380,8 +380,8 @@ async fn turn_start_updates_sandbox_and_cwd_between_turns_v2() -> Result<()> {
                 text: "first turn".to_string(),
             }],
             cwd: Some(first_cwd.clone()),
-            approval_policy: Some(codex_app_server_protocol::AskForApproval::Never),
-            sandbox_policy: Some(codex_app_server_protocol::SandboxPolicy::WorkspaceWrite {
+            approval_policy: Some(llmx_app_server_protocol::AskForApproval::Never),
+            sandbox_policy: Some(llmx_app_server_protocol::SandboxPolicy::WorkspaceWrite {
                 writable_roots: vec![first_cwd.clone()],
                 network_access: false,
                 exclude_tmpdir_env_var: false,
@@ -411,8 +411,8 @@ async fn turn_start_updates_sandbox_and_cwd_between_turns_v2() -> Result<()> {
                 text: "second turn".to_string(),
             }],
             cwd: Some(second_cwd.clone()),
-            approval_policy: Some(codex_app_server_protocol::AskForApproval::Never),
-            sandbox_policy: Some(codex_app_server_protocol::SandboxPolicy::DangerFullAccess),
+            approval_policy: Some(llmx_app_server_protocol::AskForApproval::Never),
+            sandbox_policy: Some(llmx_app_server_protocol::SandboxPolicy::DangerFullAccess),
             model: Some("mock-model".to_string()),
             effort: Some(ReasoningEffort::Medium),
             summary: Some(ReasoningSummary::Auto),

@@ -1,10 +1,10 @@
-use codex_core::ConversationManager;
-use codex_core::NewConversation;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExecCommandEndEvent;
-use codex_core::protocol::ExecOutputStream;
-use codex_core::protocol::Op;
-use codex_core::protocol::TurnAbortReason;
+use llmx_core::ConversationManager;
+use llmx_core::NewConversation;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExecCommandEndEvent;
+use llmx_core::protocol::ExecOutputStream;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::TurnAbortReason;
 use core_test_support::assert_regex_match;
 use core_test_support::load_default_config_for_test;
 use core_test_support::responses;
@@ -31,7 +31,7 @@ async fn user_shell_cmd_ls_and_cat_in_temp_dir() {
     config.cwd = cwd.path().to_path_buf();
 
     let conversation_manager =
-        ConversationManager::with_auth(codex_core::CodexAuth::from_api_key("dummy"));
+        ConversationManager::with_auth(llmx_core::CodexAuth::from_api_key("dummy"));
     let NewConversation {
         conversation: codex,
         ..
@@ -88,7 +88,7 @@ async fn user_shell_cmd_can_be_interrupted() {
     let codex_home = TempDir::new().unwrap();
     let config = load_default_config_for_test(&codex_home);
     let conversation_manager =
-        ConversationManager::with_auth(codex_core::CodexAuth::from_api_key("dummy"));
+        ConversationManager::with_auth(llmx_core::CodexAuth::from_api_key("dummy"));
     let NewConversation {
         conversation: codex,
         ..

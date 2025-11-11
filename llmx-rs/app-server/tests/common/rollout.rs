@@ -1,7 +1,7 @@
 use anyhow::Result;
-use codex_protocol::ConversationId;
-use codex_protocol::protocol::SessionMeta;
-use codex_protocol::protocol::SessionSource;
+use llmx_protocol::ConversationId;
+use llmx_protocol::protocol::SessionMeta;
+use llmx_protocol::protocol::SessionSource;
 use serde_json::json;
 use std::fs;
 use std::path::Path;

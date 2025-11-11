@@ -16,8 +16,8 @@ use crate::tools::sandboxing::SandboxAttempt;
 use crate::tools::sandboxing::ToolCtx;
 use crate::tools::sandboxing::ToolError;
 use crate::tools::sandboxing::ToolRuntime;
-use codex_protocol::protocol::AskForApproval;
-use codex_protocol::protocol::ReviewDecision;
+use llmx_protocol::protocol::AskForApproval;
+use llmx_protocol::protocol::ReviewDecision;
 
 pub(crate) struct ToolOrchestrator {
     sandbox: SandboxManager,
@@ -45,8 +45,8 @@ impl ToolOrchestrator {
         let otel = turn_ctx.client.get_otel_event_manager();
         let otel_tn = &tool_ctx.tool_name;
         let otel_ci = &tool_ctx.call_id;
-        let otel_user = codex_otel::otel_event_manager::ToolDecisionSource::User;
-        let otel_cfg = codex_otel::otel_event_manager::ToolDecisionSource::Config;
+        let otel_user = llmx_otel::otel_event_manager::ToolDecisionSource::User;
+        let otel_cfg = llmx_otel::otel_event_manager::ToolDecisionSource::Config;
 
         // 1) Approval
         let needs_initial_approval =

@@ -3,51 +3,51 @@ use std::collections::VecDeque;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use codex_core::config::Config;
-use codex_core::config::types::Notifications;
-use codex_core::git_info::current_branch_name;
-use codex_core::git_info::local_git_branches;
-use codex_core::project_doc::DEFAULT_PROJECT_DOC_FILENAME;
-use codex_core::protocol::AgentMessageDeltaEvent;
-use codex_core::protocol::AgentMessageEvent;
-use codex_core::protocol::AgentReasoningDeltaEvent;
-use codex_core::protocol::AgentReasoningEvent;
-use codex_core::protocol::AgentReasoningRawContentDeltaEvent;
-use codex_core::protocol::AgentReasoningRawContentEvent;
-use codex_core::protocol::ApplyPatchApprovalRequestEvent;
-use codex_core::protocol::BackgroundEventEvent;
-use codex_core::protocol::DeprecationNoticeEvent;
-use codex_core::protocol::ErrorEvent;
-use codex_core::protocol::Event;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExecApprovalRequestEvent;
-use codex_core::protocol::ExecCommandBeginEvent;
-use codex_core::protocol::ExecCommandEndEvent;
-use codex_core::protocol::ExitedReviewModeEvent;
-use codex_core::protocol::ListCustomPromptsResponseEvent;
-use codex_core::protocol::McpListToolsResponseEvent;
-use codex_core::protocol::McpToolCallBeginEvent;
-use codex_core::protocol::McpToolCallEndEvent;
-use codex_core::protocol::Op;
-use codex_core::protocol::PatchApplyBeginEvent;
-use codex_core::protocol::RateLimitSnapshot;
-use codex_core::protocol::ReviewRequest;
-use codex_core::protocol::StreamErrorEvent;
-use codex_core::protocol::TaskCompleteEvent;
-use codex_core::protocol::TokenUsage;
-use codex_core::protocol::TokenUsageInfo;
-use codex_core::protocol::TurnAbortReason;
-use codex_core::protocol::TurnDiffEvent;
-use codex_core::protocol::UndoCompletedEvent;
-use codex_core::protocol::UndoStartedEvent;
-use codex_core::protocol::UserMessageEvent;
-use codex_core::protocol::ViewImageToolCallEvent;
-use codex_core::protocol::WarningEvent;
-use codex_core::protocol::WebSearchBeginEvent;
-use codex_core::protocol::WebSearchEndEvent;
-use codex_protocol::ConversationId;
-use codex_protocol::parse_command::ParsedCommand;
-use codex_protocol::user_input::UserInput;
+use llmx_core::config::Config;
+use llmx_core::config::types::Notifications;
+use llmx_core::git_info::current_branch_name;
+use llmx_core::git_info::local_git_branches;
+use llmx_core::project_doc::DEFAULT_PROJECT_DOC_FILENAME;
+use llmx_core::protocol::AgentMessageDeltaEvent;
+use llmx_core::protocol::AgentMessageEvent;
+use llmx_core::protocol::AgentReasoningDeltaEvent;
+use llmx_core::protocol::AgentReasoningEvent;
+use llmx_core::protocol::AgentReasoningRawContentDeltaEvent;
+use llmx_core::protocol::AgentReasoningRawContentEvent;
+use llmx_core::protocol::ApplyPatchApprovalRequestEvent;
+use llmx_core::protocol::BackgroundEventEvent;
+use llmx_core::protocol::DeprecationNoticeEvent;
+use llmx_core::protocol::ErrorEvent;
+use llmx_core::protocol::Event;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExecApprovalRequestEvent;
+use llmx_core::protocol::ExecCommandBeginEvent;
+use llmx_core::protocol::ExecCommandEndEvent;
+use llmx_core::protocol::ExitedReviewModeEvent;
+use llmx_core::protocol::ListCustomPromptsResponseEvent;
+use llmx_core::protocol::McpListToolsResponseEvent;
+use llmx_core::protocol::McpToolCallBeginEvent;
+use llmx_core::protocol::McpToolCallEndEvent;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::PatchApplyBeginEvent;
+use llmx_core::protocol::RateLimitSnapshot;
+use llmx_core::protocol::ReviewRequest;
+use llmx_core::protocol::StreamErrorEvent;
+use llmx_core::protocol::TaskCompleteEvent;
+use llmx_core::protocol::TokenUsage;
+use llmx_core::protocol::TokenUsageInfo;
+use llmx_core::protocol::TurnAbortReason;
+use llmx_core::protocol::TurnDiffEvent;
+use llmx_core::protocol::UndoCompletedEvent;
+use llmx_core::protocol::UndoStartedEvent;
+use llmx_core::protocol::UserMessageEvent;
+use llmx_core::protocol::ViewImageToolCallEvent;
+use llmx_core::protocol::WarningEvent;
+use llmx_core::protocol::WebSearchBeginEvent;
+use llmx_core::protocol::WebSearchEndEvent;
+use llmx_protocol::ConversationId;
+use llmx_protocol::parse_command::ParsedCommand;
+use llmx_protocol::user_input::UserInput;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyEventKind;
@@ -109,17 +109,17 @@ use crate::streaming::controller::StreamController;
 use std::path::Path;
 
 use chrono::Local;
-use codex_common::approval_presets::ApprovalPreset;
-use codex_common::approval_presets::builtin_approval_presets;
-use codex_common::model_presets::ModelPreset;
-use codex_common::model_presets::builtin_model_presets;
-use codex_core::AuthManager;
-use codex_core::ConversationManager;
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::SandboxPolicy;
-use codex_core::protocol_config_types::ReasoningEffort as ReasoningEffortConfig;
-use codex_file_search::FileMatch;
-use codex_protocol::plan_tool::UpdatePlanArgs;
+use llmx_common::approval_presets::ApprovalPreset;
+use llmx_common::approval_presets::builtin_approval_presets;
+use llmx_common::model_presets::ModelPreset;
+use llmx_common::model_presets::builtin_model_presets;
+use llmx_core::AuthManager;
+use llmx_core::ConversationManager;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_core::protocol_config_types::ReasoningEffort as ReasoningEffortConfig;
+use llmx_file_search::FileMatch;
+use llmx_protocol::plan_tool::UpdatePlanArgs;
 use strum::IntoEnumIterator;
 
 const USER_SHELL_COMMAND_HELP_TITLE: &str = "Prefix a command with ! to run it locally";
@@ -229,7 +229,7 @@ pub(crate) struct ChatWidgetInit {
     pub(crate) initial_images: Vec<PathBuf>,
     pub(crate) enhanced_keys_supported: bool,
     pub(crate) auth_manager: Arc<AuthManager>,
-    pub(crate) feedback: codex_feedback::CodexFeedback,
+    pub(crate) feedback: llmx_feedback::CodexFeedback,
 }
 
 #[derive(Default)]
@@ -285,7 +285,7 @@ pub(crate) struct ChatWidget {
 
     last_rendered_width: std::cell::Cell<Option<usize>>,
     // Feedback sink for /feedback
-    feedback: codex_feedback::CodexFeedback,
+    feedback: llmx_feedback::CodexFeedback,
     // Current session rollout path (if known)
     current_rollout_path: Option<PathBuf>,
 }
@@ -336,7 +336,7 @@ impl ChatWidget {
     }
 
     // --- Small event handlers ---
-    fn on_session_configured(&mut self, event: codex_core::protocol::SessionConfiguredEvent) {
+    fn on_session_configured(&mut self, event: llmx_core::protocol::SessionConfiguredEvent) {
         self.bottom_pane
             .set_history_metadata(event.history_log_id, event.history_entry_count);
         self.conversation_id = Some(event.session_id);
@@ -638,7 +638,7 @@ impl ChatWidget {
 
     fn on_exec_command_output_delta(
         &mut self,
-        _ev: codex_core::protocol::ExecCommandOutputDeltaEvent,
+        _ev: llmx_core::protocol::ExecCommandOutputDeltaEvent,
     ) {
         // TODO: Handle streaming exec output if/when implemented
     }
@@ -659,7 +659,7 @@ impl ChatWidget {
         self.request_redraw();
     }
 
-    fn on_patch_apply_end(&mut self, event: codex_core::protocol::PatchApplyEndEvent) {
+    fn on_patch_apply_end(&mut self, event: llmx_core::protocol::PatchApplyEndEvent) {
         let ev2 = event.clone();
         self.defer_or_handle(
             |q| q.push_patch_end(event),
@@ -696,9 +696,9 @@ impl ChatWidget {
 
     fn on_get_history_entry_response(
         &mut self,
-        event: codex_core::protocol::GetHistoryEntryResponseEvent,
+        event: llmx_core::protocol::GetHistoryEntryResponseEvent,
     ) {
-        let codex_core::protocol::GetHistoryEntryResponseEvent {
+        let llmx_core::protocol::GetHistoryEntryResponseEvent {
             offset,
             log_id,
             entry,
@@ -874,7 +874,7 @@ impl ChatWidget {
 
     pub(crate) fn handle_patch_apply_end_now(
         &mut self,
-        event: codex_core::protocol::PatchApplyEndEvent,
+        event: llmx_core::protocol::PatchApplyEndEvent,
     ) {
         // If the patch was successful, just let the "Edited" block stand.
         // Otherwise, add a failure block.
@@ -1062,8 +1062,8 @@ impl ChatWidget {
     /// Create a ChatWidget attached to an existing conversation (e.g., a fork).
     pub(crate) fn new_from_existing(
         common: ChatWidgetInit,
-        conversation: std::sync::Arc<codex_core::CodexConversation>,
-        session_configured: codex_core::protocol::SessionConfiguredEvent,
+        conversation: std::sync::Arc<llmx_core::CodexConversation>,
+        session_configured: llmx_core::protocol::SessionConfiguredEvent,
     ) -> Self {
         let ChatWidgetInit {
             config,
@@ -1265,7 +1265,7 @@ impl ChatWidget {
                 self.request_exit();
             }
             SlashCommand::Logout => {
-                if let Err(e) = codex_core::auth::logout(
+                if let Err(e) = llmx_core::auth::logout(
                     &self.config.codex_home,
                     self.config.cli_auth_credentials_store_mode,
                 ) {
@@ -1313,11 +1313,11 @@ impl ChatWidget {
                 }
             }
             SlashCommand::TestApproval => {
-                use codex_core::protocol::EventMsg;
+                use llmx_core::protocol::EventMsg;
                 use std::collections::HashMap;
 
-                use codex_core::protocol::ApplyPatchApprovalRequestEvent;
-                use codex_core::protocol::FileChange;
+                use llmx_core::protocol::ApplyPatchApprovalRequestEvent;
+                use llmx_core::protocol::FileChange;
 
                 self.app_event_tx.send(AppEvent::CodexEvent(Event {
                     id: "1".to_string(),
@@ -1611,7 +1611,7 @@ impl ChatWidget {
                 }
             } else {
                 let message_text =
-                    codex_core::review_format::format_review_findings_block(&output.findings, None);
+                    llmx_core::review_format::format_review_findings_block(&output.findings, None);
                 let mut message_lines: Vec<ratatui::text::Line<'static>> = Vec::new();
                 append_markdown(&message_text, None, &mut message_lines);
                 let body_cell = AgentMessageCell::new(message_lines, true);
@@ -2049,7 +2049,7 @@ impl ChatWidget {
             let description_text = preset.description;
             let description = if cfg!(target_os = "windows")
                 && preset.id == "auto"
-                && codex_core::get_platform_sandbox().is_none()
+                && llmx_core::get_platform_sandbox().is_none()
             {
                 Some(format!(
                     "{description_text}\nRequires Windows Subsystem for Linux (WSL). Show installation instructions..."
@@ -2073,7 +2073,7 @@ impl ChatWidget {
             } else if preset.id == "auto" {
                 #[cfg(target_os = "windows")]
                 {
-                    if codex_core::get_platform_sandbox().is_none() {
+                    if llmx_core::get_platform_sandbox().is_none() {
                         vec![Box::new(|tx| {
                             tx.send(AppEvent::ShowWindowsAutoModeInstructions);
                         })]
@@ -2092,7 +2092,7 @@ impl ChatWidget {
                             env_map.insert(k, v);
                         }
                         let (sample_paths, extra_count, failed_scan) =
-                            match codex_windows_sandbox::preflight_audit_everyone_writable(
+                            match llmx_windows_sandbox::preflight_audit_everyone_writable(
                                 &self.config.cwd,
                                 &env_map,
                                 Some(self.config.codex_home.as_path()),
@@ -2185,7 +2185,7 @@ impl ChatWidget {
         for (k, v) in std::env::vars() {
             env_map.insert(k, v);
         }
-        match codex_windows_sandbox::preflight_audit_everyone_writable(
+        match llmx_windows_sandbox::preflight_audit_everyone_writable(
             &self.config.cwd,
             &env_map,
             Some(self.config.codex_home.as_path()),
@@ -2643,7 +2643,7 @@ impl ChatWidget {
     }
 
     pub(crate) async fn show_review_commit_picker(&mut self, cwd: &Path) {
-        let commits = codex_core::git_info::recent_commits(cwd, 100).await;
+        let commits = llmx_core::git_info::recent_commits(cwd, 100).await;
 
         let mut items: Vec<SelectionItem> = Vec::with_capacity(commits.len());
         for entry in commits {
@@ -2865,7 +2865,7 @@ fn extract_first_bold(s: &str) -> Option<String> {
 #[cfg(test)]
 pub(crate) fn show_review_commit_picker_with_entries(
     chat: &mut ChatWidget,
-    entries: Vec<codex_core::git_info::CommitLogEntry>,
+    entries: Vec<llmx_core::git_info::CommitLogEntry>,
 ) {
     let mut items: Vec<SelectionItem> = Vec::with_capacity(entries.len());
     for entry in entries {

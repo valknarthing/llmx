@@ -4,7 +4,7 @@ mod pull;
 mod url;
 
 pub use client::OllamaClient;
-use codex_core::config::Config;
+use llmx_core::config::Config;
 pub use pull::CliProgressReporter;
 pub use pull::PullEvent;
 pub use pull::PullProgressReporter;

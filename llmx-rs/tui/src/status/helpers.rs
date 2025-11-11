@@ -2,9 +2,9 @@ use crate::exec_command::relativize_to_home;
 use crate::text_formatting;
 use chrono::DateTime;
 use chrono::Local;
-use codex_core::auth::load_auth_dot_json;
-use codex_core::config::Config;
-use codex_core::project_doc::discover_project_doc_paths;
+use llmx_core::auth::load_auth_dot_json;
+use llmx_core::config::Config;
+use llmx_core::project_doc::discover_project_doc_paths;
 use std::path::Path;
 use unicode_width::UnicodeWidthStr;
 

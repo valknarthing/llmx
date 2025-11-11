@@ -2,10 +2,10 @@ use std::collections::BTreeMap;
 use std::path::Path;
 use std::path::PathBuf;
 
-use codex_core::error::CodexErr;
-use codex_core::error::Result;
-use codex_core::error::SandboxErr;
-use codex_core::protocol::SandboxPolicy;
+use llmx_core::error::CodexErr;
+use llmx_core::error::Result;
+use llmx_core::error::SandboxErr;
+use llmx_core::protocol::SandboxPolicy;
 
 use landlock::ABI;
 use landlock::Access;

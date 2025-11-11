@@ -11,10 +11,10 @@ pub mod bash;
 mod chat_completions;
 mod client;
 mod client_common;
-pub mod codex;
-mod codex_conversation;
-pub use codex_conversation::CodexConversation;
-mod codex_delegate;
+pub mod llmx;
+mod llmx_conversation;
+pub use llmx_conversation::CodexConversation;
+mod llmx_delegate;
 mod command_safety;
 pub mod config;
 pub mod config_loader;
@@ -48,7 +48,7 @@ pub use model_provider_info::create_oss_provider_with_base_url;
 mod conversation_manager;
 mod event_mapping;
 pub mod review_format;
-pub use codex_protocol::protocol::InitialHistory;
+pub use llmx_protocol::protocol::InitialHistory;
 pub use conversation_manager::ConversationManager;
 pub use conversation_manager::NewConversation;
 // Re-export common auth types for workspace consumers
@@ -89,22 +89,22 @@ pub use command_safety::is_safe_command;
 pub use safety::get_platform_sandbox;
 pub use safety::set_windows_sandbox_enabled;
 // Re-export the protocol types from the standalone `codex-protocol` crate so existing
-// `codex_core::protocol::...` references continue to work across the workspace.
-pub use codex_protocol::protocol;
+// `llmx_core::protocol::...` references continue to work across the workspace.
+pub use llmx_protocol::protocol;
 // Re-export protocol config enums to ensure call sites can use the same types
 // as those in the protocol crate when constructing protocol messages.
-pub use codex_protocol::config_types as protocol_config_types;
+pub use llmx_protocol::config_types as protocol_config_types;
 
 pub use client::ModelClient;
 pub use client_common::Prompt;
 pub use client_common::REVIEW_PROMPT;
 pub use client_common::ResponseEvent;
 pub use client_common::ResponseStream;
-pub use codex_protocol::models::ContentItem;
-pub use codex_protocol::models::LocalShellAction;
-pub use codex_protocol::models::LocalShellExecAction;
-pub use codex_protocol::models::LocalShellStatus;
-pub use codex_protocol::models::ResponseItem;
+pub use llmx_protocol::models::ContentItem;
+pub use llmx_protocol::models::LocalShellAction;
+pub use llmx_protocol::models::LocalShellExecAction;
+pub use llmx_protocol::models::LocalShellStatus;
+pub use llmx_protocol::models::ResponseItem;
 pub use compact::content_items_to_text;
 pub use event_mapping::parse_turn_item;
 pub mod compact;

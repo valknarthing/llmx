@@ -1,7 +1,7 @@
 use anyhow::Result;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_protocol::user_input::UserInput;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::responses::ev_response_created;
 use core_test_support::responses::mount_sse_once;
 use core_test_support::responses::sse;

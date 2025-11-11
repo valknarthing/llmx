@@ -5,15 +5,15 @@ mod seatbelt;
 
 use std::path::PathBuf;
 
-use codex_common::CliConfigOverrides;
-use codex_core::config::Config;
-use codex_core::config::ConfigOverrides;
-use codex_core::exec_env::create_env;
-use codex_core::landlock::spawn_command_under_linux_sandbox;
+use llmx_common::CliConfigOverrides;
+use llmx_core::config::Config;
+use llmx_core::config::ConfigOverrides;
+use llmx_core::exec_env::create_env;
+use llmx_core::landlock::spawn_command_under_linux_sandbox;
 #[cfg(target_os = "macos")]
-use codex_core::seatbelt::spawn_command_under_seatbelt;
-use codex_core::spawn::StdioPolicy;
-use codex_protocol::config_types::SandboxMode;
+use llmx_core::seatbelt::spawn_command_under_seatbelt;
+use llmx_core::spawn::StdioPolicy;
+use llmx_protocol::config_types::SandboxMode;
 
 use crate::LandlockCommand;
 use crate::SeatbeltCommand;
@@ -136,12 +136,12 @@ async fn run_command_under_sandbox(
     if let SandboxType::Windows = sandbox_type {
         #[cfg(target_os = "windows")]
         {
-            use codex_windows_sandbox::run_windows_sandbox_capture;
+            use llmx_windows_sandbox::run_windows_sandbox_capture;
 
             let policy_str = match &config.sandbox_policy {
-                codex_core::protocol::SandboxPolicy::DangerFullAccess => "workspace-write",
-                codex_core::protocol::SandboxPolicy::ReadOnly => "read-only",
-                codex_core::protocol::SandboxPolicy::WorkspaceWrite { .. } => "workspace-write",
+                llmx_core::protocol::SandboxPolicy::DangerFullAccess => "workspace-write",
+                llmx_core::protocol::SandboxPolicy::ReadOnly => "read-only",
+                llmx_core::protocol::SandboxPolicy::WorkspaceWrite { .. } => "workspace-write",
             };
 
             let sandbox_cwd = sandbox_policy_cwd.clone();

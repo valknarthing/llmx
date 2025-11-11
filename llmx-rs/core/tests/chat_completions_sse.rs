@@ -2,18 +2,18 @@ use assert_matches::assert_matches;
 use std::sync::Arc;
 use tracing_test::traced_test;
 
-use codex_app_server_protocol::AuthMode;
-use codex_core::ContentItem;
-use codex_core::ModelClient;
-use codex_core::ModelProviderInfo;
-use codex_core::Prompt;
-use codex_core::ResponseEvent;
-use codex_core::ResponseItem;
-use codex_core::WireApi;
-use codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
-use codex_otel::otel_event_manager::OtelEventManager;
-use codex_protocol::ConversationId;
-use codex_protocol::models::ReasoningItemContent;
+use llmx_app_server_protocol::AuthMode;
+use llmx_core::ContentItem;
+use llmx_core::ModelClient;
+use llmx_core::ModelProviderInfo;
+use llmx_core::Prompt;
+use llmx_core::ResponseEvent;
+use llmx_core::ResponseItem;
+use llmx_core::WireApi;
+use llmx_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
+use llmx_otel::otel_event_manager::OtelEventManager;
+use llmx_protocol::ConversationId;
+use llmx_protocol::models::ReasoningItemContent;
 use core_test_support::load_default_config_for_test;
 use futures::StreamExt;
 use tempfile::TempDir;
@@ -94,7 +94,7 @@ async fn run_stream_with_bytes(sse_body: &[u8]) -> Vec<ResponseEvent> {
         effort,
         summary,
         conversation_id,
-        codex_protocol::protocol::SessionSource::Exec,
+        llmx_protocol::protocol::SessionSource::Exec,
     );
 
     let mut prompt = Prompt::default();

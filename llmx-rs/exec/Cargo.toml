@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-exec"
+name = "llmx-exec"
 version = { workspace = true }
 
 [[bin]]
-name = "codex-exec"
+name = "llmx-exec"
 path = "src/main.rs"
 
 [lib]
-name = "codex_exec"
+name = "llmx_exec"
 path = "src/lib.rs"
 
 [lints]
@@ -17,15 +17,15 @@ workspace = true
 [dependencies]
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["derive"] }
-codex-arg0 = { workspace = true }
-codex-common = { workspace = true, features = [
+llmx-arg0 = { workspace = true }
+llmx-common = { workspace = true, features = [
     "cli",
     "elapsed",
     "sandbox_summary",
 ] }
-codex-core = { workspace = true }
-codex-ollama = { workspace = true }
-codex-protocol = { workspace = true }
+llmx-core = { workspace = true }
+llmx-ollama = { workspace = true }
+llmx-protocol = { workspace = true }
 mcp-types = { workspace = true }
 opentelemetry-appender-tracing = { workspace = true }
 owo-colors = { workspace = true }

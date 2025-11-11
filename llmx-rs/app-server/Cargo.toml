@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-app-server"
+name = "llmx-app-server"
 version = { workspace = true }
 
 [[bin]]
-name = "codex-app-server"
+name = "llmx-app-server"
 path = "src/main.rs"
 
 [lib]
-name = "codex_app_server"
+name = "llmx_app_server"
 path = "src/lib.rs"
 
 [lints]
@@ -16,16 +16,16 @@ workspace = true
 
 [dependencies]
 anyhow = { workspace = true }
-codex-arg0 = { workspace = true }
-codex-common = { workspace = true, features = ["cli"] }
-codex-core = { workspace = true }
-codex-backend-client = { workspace = true }
-codex-file-search = { workspace = true }
-codex-login = { workspace = true }
-codex-protocol = { workspace = true }
-codex-app-server-protocol = { workspace = true }
-codex-feedback = { workspace = true }
-codex-utils-json-to-toml = { workspace = true }
+llmx-arg0 = { workspace = true }
+llmx-common = { workspace = true, features = ["cli"] }
+llmx-core = { workspace = true }
+llmx-backend-client = { workspace = true }
+llmx-file-search = { workspace = true }
+llmx-login = { workspace = true }
+llmx-protocol = { workspace = true }
+llmx-app-server-protocol = { workspace = true }
+llmx-feedback = { workspace = true }
+llmx-utils-json-to-toml = { workspace = true }
 chrono = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }

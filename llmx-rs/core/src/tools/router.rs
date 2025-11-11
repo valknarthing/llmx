@@ -12,10 +12,10 @@ use crate::tools::registry::ConfiguredToolSpec;
 use crate::tools::registry::ToolRegistry;
 use crate::tools::spec::ToolsConfig;
 use crate::tools::spec::build_specs;
-use codex_protocol::models::LocalShellAction;
-use codex_protocol::models::ResponseInputItem;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::models::ShellToolCallParams;
+use llmx_protocol::models::LocalShellAction;
+use llmx_protocol::models::ResponseInputItem;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::models::ShellToolCallParams;
 
 #[derive(Clone)]
 pub struct ToolCall {
@@ -178,7 +178,7 @@ impl ToolRouter {
         } else {
             ResponseInputItem::FunctionCallOutput {
                 call_id,
-                output: codex_protocol::models::FunctionCallOutputPayload {
+                output: llmx_protocol::models::FunctionCallOutputPayload {
                     content: message,
                     success: Some(false),
                     ..Default::default()

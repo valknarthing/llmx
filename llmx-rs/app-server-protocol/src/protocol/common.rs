@@ -9,11 +9,11 @@ use crate::export::GeneratedSchema;
 use crate::export::write_json_schema;
 use crate::protocol::v1;
 use crate::protocol::v2;
-use codex_protocol::ConversationId;
-use codex_protocol::parse_command::ParsedCommand;
-use codex_protocol::protocol::FileChange;
-use codex_protocol::protocol::ReviewDecision;
-use codex_protocol::protocol::SandboxCommandAssessment;
+use llmx_protocol::ConversationId;
+use llmx_protocol::parse_command::ParsedCommand;
+use llmx_protocol::protocol::FileChange;
+use llmx_protocol::protocol::ReviewDecision;
+use llmx_protocol::protocol::SandboxCommandAssessment;
 use paste::paste;
 use schemars::JsonSchema;
 use serde::Deserialize;
@@ -436,8 +436,8 @@ server_request_definitions! {
 #[serde(rename_all = "camelCase")]
 pub struct ApplyPatchApprovalParams {
     pub conversation_id: ConversationId,
-    /// Use to correlate this with [codex_core::protocol::PatchApplyBeginEvent]
-    /// and [codex_core::protocol::PatchApplyEndEvent].
+    /// Use to correlate this with [llmx_core::protocol::PatchApplyBeginEvent]
+    /// and [llmx_core::protocol::PatchApplyEndEvent].
     pub call_id: String,
     pub file_changes: HashMap<PathBuf, FileChange>,
     /// Optional explanatory reason (e.g. request for extra write access).
@@ -451,8 +451,8 @@ pub struct ApplyPatchApprovalParams {
 #[serde(rename_all = "camelCase")]
 pub struct ExecCommandApprovalParams {
     pub conversation_id: ConversationId,
-    /// Use to correlate this with [codex_core::protocol::ExecCommandBeginEvent]
-    /// and [codex_core::protocol::ExecCommandEndEvent].
+    /// Use to correlate this with [llmx_core::protocol::ExecCommandBeginEvent]
+    /// and [llmx_core::protocol::ExecCommandEndEvent].
     pub call_id: String,
     pub command: Vec<String>,
     pub cwd: PathBuf,
@@ -481,7 +481,7 @@ pub struct FuzzyFileSearchParams {
     pub cancellation_token: Option<String>,
 }
 
-/// Superset of [`codex_file_search::FileMatch`]
+/// Superset of [`llmx_file_search::FileMatch`]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
 pub struct FuzzyFileSearchResult {
     pub root: String,
@@ -530,8 +530,8 @@ client_notification_definitions! {
 mod tests {
     use super::*;
     use anyhow::Result;
-    use codex_protocol::account::PlanType;
-    use codex_protocol::protocol::AskForApproval;
+    use llmx_protocol::account::PlanType;
+    use llmx_protocol::protocol::AskForApproval;
     use pretty_assertions::assert_eq;
     use serde_json::json;
 

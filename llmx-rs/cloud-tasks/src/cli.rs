@@ -1,6 +1,6 @@
 use clap::Args;
 use clap::Parser;
-use codex_common::CliConfigOverrides;
+use llmx_common::CliConfigOverrides;
 
 #[derive(Parser, Debug, Default)]
 #[command(version)]

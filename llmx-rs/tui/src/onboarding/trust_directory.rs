@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
-use codex_core::config::set_project_trusted;
-use codex_core::git_info::resolve_root_git_project_for_trust;
+use llmx_core::config::set_project_trusted;
+use llmx_core::git_info::resolve_root_git_project_for_trust;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyEventKind;

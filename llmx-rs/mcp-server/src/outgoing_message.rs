@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::sync::atomic::AtomicI64;
 use std::sync::atomic::Ordering;
 
-use codex_core::protocol::Event;
+use llmx_core::protocol::Event;
 use mcp_types::JSONRPC_VERSION;
 use mcp_types::JSONRPCError;
 use mcp_types::JSONRPCErrorError;
@@ -202,7 +202,7 @@ pub(crate) struct OutgoingNotificationParams {
     pub event: serde_json::Value,
 }
 
-// Additional mcp-specific data to be added to a [`codex_core::protocol::Event`] as notification.params._meta
+// Additional mcp-specific data to be added to a [`llmx_core::protocol::Event`] as notification.params._meta
 // MCP Spec: https://modelcontextprotocol.io/specification/2025-06-18/basic#meta
 // Typescript Schema: https://github.com/modelcontextprotocol/modelcontextprotocol/blob/0695a497eb50a804fc0e88c18a93a21a675d6b3e/schema/2025-06-18/schema.ts
 #[derive(Debug, Clone, PartialEq, Serialize)]
@@ -232,10 +232,10 @@ pub(crate) struct OutgoingError {
 #[cfg(test)]
 mod tests {
     use anyhow::Result;
-    use codex_core::protocol::EventMsg;
-    use codex_core::protocol::SessionConfiguredEvent;
-    use codex_protocol::ConversationId;
-    use codex_protocol::config_types::ReasoningEffort;
+    use llmx_core::protocol::EventMsg;
+    use llmx_core::protocol::SessionConfiguredEvent;
+    use llmx_protocol::ConversationId;
+    use llmx_protocol::config_types::ReasoningEffort;
     use pretty_assertions::assert_eq;
     use serde_json::json;
     use tempfile::NamedTempFile;

@@ -1,5 +1,5 @@
 [package]
-name = "codex-git"
+name = "llmx-git"
 version.workspace = true
 edition.workspace = true
 readme = "README.md"

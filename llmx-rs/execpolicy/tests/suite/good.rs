@@ -1,5 +1,5 @@
-use codex_execpolicy::PositiveExampleFailedCheck;
-use codex_execpolicy::get_default_policy;
+use llmx_execpolicy::PositiveExampleFailedCheck;
+use llmx_execpolicy::get_default_policy;
 
 #[test]
 fn verify_everything_in_good_list_is_allowed() {

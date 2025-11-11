@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
-use codex_core::CodexConversation;
-use codex_core::ConversationManager;
-use codex_core::NewConversation;
-use codex_core::config::Config;
-use codex_core::protocol::Op;
+use llmx_core::CodexConversation;
+use llmx_core::ConversationManager;
+use llmx_core::NewConversation;
+use llmx_core::config::Config;
+use llmx_core::protocol::Op;
 use tokio::sync::mpsc::UnboundedSender;
 use tokio::sync::mpsc::unbounded_channel;
 
@@ -36,10 +36,10 @@ pub(crate) fn spawn_agent(
         };
 
         // Forward the captured `SessionConfigured` event so it can be rendered in the UI.
-        let ev = codex_core::protocol::Event {
+        let ev = llmx_core::protocol::Event {
             // The `id` does not matter for rendering, so we can use a fake value.
             id: "".to_string(),
-            msg: codex_core::protocol::EventMsg::SessionConfigured(session_configured),
+            msg: llmx_core::protocol::EventMsg::SessionConfigured(session_configured),
         };
         app_event_tx_clone.send(AppEvent::CodexEvent(ev));
 
@@ -66,7 +66,7 @@ pub(crate) fn spawn_agent(
 /// events and accepts Ops for submission.
 pub(crate) fn spawn_agent_from_existing(
     conversation: std::sync::Arc<CodexConversation>,
-    session_configured: codex_core::protocol::SessionConfiguredEvent,
+    session_configured: llmx_core::protocol::SessionConfiguredEvent,
     app_event_tx: AppEventSender,
 ) -> UnboundedSender<Op> {
     let (codex_op_tx, mut codex_op_rx) = unbounded_channel::<Op>();
@@ -74,9 +74,9 @@ pub(crate) fn spawn_agent_from_existing(
     let app_event_tx_clone = app_event_tx;
     tokio::spawn(async move {
         // Forward the captured `SessionConfigured` event so it can be rendered in the UI.
-        let ev = codex_core::protocol::Event {
+        let ev = llmx_core::protocol::Event {
             id: "".to_string(),
-            msg: codex_core::protocol::EventMsg::SessionConfigured(session_configured),
+            msg: llmx_core::protocol::EventMsg::SessionConfigured(session_configured),
         };
         app_event_tx_clone.send(AppEvent::CodexEvent(ev));
 

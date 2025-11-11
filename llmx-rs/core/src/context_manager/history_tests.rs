@@ -1,14 +1,14 @@
 use super::*;
 use crate::context_manager::truncate;
-use codex_git::GhostCommit;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::FunctionCallOutputContentItem;
-use codex_protocol::models::FunctionCallOutputPayload;
-use codex_protocol::models::LocalShellAction;
-use codex_protocol::models::LocalShellExecAction;
-use codex_protocol::models::LocalShellStatus;
-use codex_protocol::models::ReasoningItemContent;
-use codex_protocol::models::ReasoningItemReasoningSummary;
+use llmx_git::GhostCommit;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::FunctionCallOutputContentItem;
+use llmx_protocol::models::FunctionCallOutputPayload;
+use llmx_protocol::models::LocalShellAction;
+use llmx_protocol::models::LocalShellExecAction;
+use llmx_protocol::models::LocalShellStatus;
+use llmx_protocol::models::ReasoningItemContent;
+use llmx_protocol::models::ReasoningItemReasoningSummary;
 use pretty_assertions::assert_eq;
 use regex_lite::Regex;
 

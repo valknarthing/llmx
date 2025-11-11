@@ -7,9 +7,9 @@ use chrono::DateTime;
 use chrono::Datelike;
 use chrono::Local;
 use chrono::Utc;
-use codex_async_utils::CancelErr;
-use codex_protocol::ConversationId;
-use codex_protocol::protocol::RateLimitSnapshot;
+use llmx_async_utils::CancelErr;
+use llmx_protocol::ConversationId;
+use llmx_protocol::protocol::RateLimitSnapshot;
 use reqwest::StatusCode;
 use serde_json;
 use std::io;
@@ -472,7 +472,7 @@ mod tests {
     use chrono::Duration as ChronoDuration;
     use chrono::TimeZone;
     use chrono::Utc;
-    use codex_protocol::protocol::RateLimitWindow;
+    use llmx_protocol::protocol::RateLimitWindow;
     use pretty_assertions::assert_eq;
 
     fn rate_limit_snapshot() -> RateLimitSnapshot {

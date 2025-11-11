@@ -8,7 +8,7 @@
 use crate::CodexAuth;
 use crate::default_client::CodexHttpClient;
 use crate::default_client::CodexRequestBuilder;
-use codex_app_server_protocol::AuthMode;
+use llmx_app_server_protocol::AuthMode;
 use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashMap;

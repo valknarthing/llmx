@@ -2,7 +2,7 @@ use std::ffi::OsString;
 use std::path::PathBuf;
 use std::time::Duration;
 
-use codex_rmcp_client::RmcpClient;
+use llmx_rmcp_client::RmcpClient;
 use escargot::CargoBuild;
 use mcp_types::ClientCapabilities;
 use mcp_types::Implementation;

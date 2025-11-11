@@ -1,21 +1,21 @@
 use std::collections::HashMap;
 use std::path::PathBuf;
 
-use crate::codex_tool_config::CodexToolCallParam;
-use crate::codex_tool_config::CodexToolCallReplyParam;
-use crate::codex_tool_config::create_tool_for_codex_tool_call_param;
-use crate::codex_tool_config::create_tool_for_codex_tool_call_reply_param;
+use crate::llmx_tool_config::CodexToolCallParam;
+use crate::llmx_tool_config::CodexToolCallReplyParam;
+use crate::llmx_tool_config::create_tool_for_codex_tool_call_param;
+use crate::llmx_tool_config::create_tool_for_codex_tool_call_reply_param;
 use crate::error_code::INVALID_REQUEST_ERROR_CODE;
 use crate::outgoing_message::OutgoingMessageSender;
-use codex_protocol::ConversationId;
-use codex_protocol::protocol::SessionSource;
+use llmx_protocol::ConversationId;
+use llmx_protocol::protocol::SessionSource;
 
-use codex_core::AuthManager;
-use codex_core::ConversationManager;
-use codex_core::config::Config;
-use codex_core::default_client::USER_AGENT_SUFFIX;
-use codex_core::default_client::get_codex_user_agent;
-use codex_core::protocol::Submission;
+use llmx_core::AuthManager;
+use llmx_core::ConversationManager;
+use llmx_core::config::Config;
+use llmx_core::default_client::USER_AGENT_SUFFIX;
+use llmx_core::default_client::get_codex_user_agent;
+use llmx_core::protocol::Submission;
 use mcp_types::CallToolRequestParams;
 use mcp_types::CallToolResult;
 use mcp_types::ClientRequest as McpClientRequest;
@@ -410,7 +410,7 @@ impl MessageProcessor {
         // block the synchronous message-processing loop.
         task::spawn(async move {
             // Run the Codex session and stream events back to the client.
-            crate::codex_tool_runner::run_codex_tool_session(
+            crate::llmx_tool_runner::run_codex_tool_session(
                 id,
                 initial_prompt,
                 config,
@@ -522,7 +522,7 @@ impl MessageProcessor {
             let running_requests_id_to_codex_uuid = running_requests_id_to_codex_uuid.clone();
 
             async move {
-                crate::codex_tool_runner::run_codex_tool_session_reply(
+                crate::llmx_tool_runner::run_codex_tool_session_reply(
                     codex,
                     outgoing,
                     request_id,
@@ -594,7 +594,7 @@ impl MessageProcessor {
         let err = codex_arc
             .submit_with_id(Submission {
                 id: request_id_string,
-                op: codex_core::protocol::Op::Interrupt,
+                op: llmx_core::protocol::Op::Interrupt,
             })
             .await;
         if let Err(e) = err {

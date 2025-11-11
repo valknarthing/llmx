@@ -1,17 +1,17 @@
 use std::path::PathBuf;
 
-use codex_common::approval_presets::ApprovalPreset;
-use codex_common::model_presets::ModelPreset;
-use codex_core::protocol::ConversationPathResponseEvent;
-use codex_core::protocol::Event;
-use codex_file_search::FileMatch;
+use llmx_common::approval_presets::ApprovalPreset;
+use llmx_common::model_presets::ModelPreset;
+use llmx_core::protocol::ConversationPathResponseEvent;
+use llmx_core::protocol::Event;
+use llmx_file_search::FileMatch;
 
 use crate::bottom_pane::ApprovalRequest;
 use crate::history_cell::HistoryCell;
 
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::SandboxPolicy;
-use codex_core::protocol_config_types::ReasoningEffort;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_core::protocol_config_types::ReasoningEffort;
 
 #[allow(clippy::large_enum_variant)]
 #[derive(Debug)]
@@ -26,7 +26,7 @@ pub(crate) enum AppEvent {
 
     /// Forward an `Op` to the Agent. Using an `AppEvent` for this avoids
     /// bubbling channels through layers of widgets.
-    CodexOp(codex_core::protocol::Op),
+    CodexOp(llmx_core::protocol::Op),
 
     /// Kick off an asynchronous file search for the given query (text after
     /// the `@`). Previous searches may be cancelled by the app layer so there

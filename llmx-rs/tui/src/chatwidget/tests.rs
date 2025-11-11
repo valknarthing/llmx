@@ -4,48 +4,48 @@ use crate::app_event_sender::AppEventSender;
 use crate::test_backend::VT100Backend;
 use crate::tui::FrameRequester;
 use assert_matches::assert_matches;
-use codex_common::approval_presets::builtin_approval_presets;
-use codex_common::model_presets::ModelPreset;
-use codex_common::model_presets::ReasoningEffortPreset;
-use codex_core::AuthManager;
-use codex_core::CodexAuth;
-use codex_core::config::Config;
-use codex_core::config::ConfigOverrides;
-use codex_core::config::ConfigToml;
-use codex_core::config::OPENAI_DEFAULT_MODEL;
-use codex_core::protocol::AgentMessageDeltaEvent;
-use codex_core::protocol::AgentMessageEvent;
-use codex_core::protocol::AgentReasoningDeltaEvent;
-use codex_core::protocol::AgentReasoningEvent;
-use codex_core::protocol::ApplyPatchApprovalRequestEvent;
-use codex_core::protocol::Event;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExecApprovalRequestEvent;
-use codex_core::protocol::ExecCommandBeginEvent;
-use codex_core::protocol::ExecCommandEndEvent;
-use codex_core::protocol::ExitedReviewModeEvent;
-use codex_core::protocol::FileChange;
-use codex_core::protocol::Op;
-use codex_core::protocol::PatchApplyBeginEvent;
-use codex_core::protocol::PatchApplyEndEvent;
-use codex_core::protocol::RateLimitWindow;
-use codex_core::protocol::ReviewCodeLocation;
-use codex_core::protocol::ReviewFinding;
-use codex_core::protocol::ReviewLineRange;
-use codex_core::protocol::ReviewOutputEvent;
-use codex_core::protocol::ReviewRequest;
-use codex_core::protocol::StreamErrorEvent;
-use codex_core::protocol::TaskCompleteEvent;
-use codex_core::protocol::TaskStartedEvent;
-use codex_core::protocol::UndoCompletedEvent;
-use codex_core::protocol::UndoStartedEvent;
-use codex_core::protocol::ViewImageToolCallEvent;
-use codex_core::protocol::WarningEvent;
-use codex_protocol::ConversationId;
-use codex_protocol::parse_command::ParsedCommand;
-use codex_protocol::plan_tool::PlanItemArg;
-use codex_protocol::plan_tool::StepStatus;
-use codex_protocol::plan_tool::UpdatePlanArgs;
+use llmx_common::approval_presets::builtin_approval_presets;
+use llmx_common::model_presets::ModelPreset;
+use llmx_common::model_presets::ReasoningEffortPreset;
+use llmx_core::AuthManager;
+use llmx_core::CodexAuth;
+use llmx_core::config::Config;
+use llmx_core::config::ConfigOverrides;
+use llmx_core::config::ConfigToml;
+use llmx_core::config::OPENAI_DEFAULT_MODEL;
+use llmx_core::protocol::AgentMessageDeltaEvent;
+use llmx_core::protocol::AgentMessageEvent;
+use llmx_core::protocol::AgentReasoningDeltaEvent;
+use llmx_core::protocol::AgentReasoningEvent;
+use llmx_core::protocol::ApplyPatchApprovalRequestEvent;
+use llmx_core::protocol::Event;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExecApprovalRequestEvent;
+use llmx_core::protocol::ExecCommandBeginEvent;
+use llmx_core::protocol::ExecCommandEndEvent;
+use llmx_core::protocol::ExitedReviewModeEvent;
+use llmx_core::protocol::FileChange;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::PatchApplyBeginEvent;
+use llmx_core::protocol::PatchApplyEndEvent;
+use llmx_core::protocol::RateLimitWindow;
+use llmx_core::protocol::ReviewCodeLocation;
+use llmx_core::protocol::ReviewFinding;
+use llmx_core::protocol::ReviewLineRange;
+use llmx_core::protocol::ReviewOutputEvent;
+use llmx_core::protocol::ReviewRequest;
+use llmx_core::protocol::StreamErrorEvent;
+use llmx_core::protocol::TaskCompleteEvent;
+use llmx_core::protocol::TaskStartedEvent;
+use llmx_core::protocol::UndoCompletedEvent;
+use llmx_core::protocol::UndoStartedEvent;
+use llmx_core::protocol::ViewImageToolCallEvent;
+use llmx_core::protocol::WarningEvent;
+use llmx_protocol::ConversationId;
+use llmx_protocol::parse_command::ParsedCommand;
+use llmx_protocol::plan_tool::PlanItemArg;
+use llmx_protocol::plan_tool::StepStatus;
+use llmx_protocol::plan_tool::UpdatePlanArgs;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyModifiers;
@@ -122,7 +122,7 @@ fn resumed_initial_messages_render_history() {
 
     let conversation_id = ConversationId::new();
     let rollout_file = NamedTempFile::new().unwrap();
-    let configured = codex_core::protocol::SessionConfiguredEvent {
+    let configured = llmx_core::protocol::SessionConfiguredEvent {
         session_id: conversation_id,
         model: "test-model".to_string(),
         reasoning_effort: Some(ReasoningEffortConfig::default()),
@@ -261,7 +261,7 @@ async fn helpers_are_available_and_do_not_panic() {
         initial_images: Vec::new(),
         enhanced_keys_supported: false,
         auth_manager,
-        feedback: codex_feedback::CodexFeedback::new(),
+        feedback: llmx_feedback::CodexFeedback::new(),
     };
     let mut w = ChatWidget::new(init, conversation_manager);
     // Basic construction sanity.
@@ -317,7 +317,7 @@ fn make_chatwidget_manual() -> (
         is_review_mode: false,
         needs_final_message_separator: false,
         last_rendered_width: std::cell::Cell::new(None),
-        feedback: codex_feedback::CodexFeedback::new(),
+        feedback: llmx_feedback::CodexFeedback::new(),
         current_rollout_path: None,
     };
     (widget, rx, op_rx)
@@ -633,7 +633,7 @@ fn begin_exec(chat: &mut ChatWidget, call_id: &str, raw_cmd: &str) {
     // Build the full command vec and parse it using core's parser,
     // then convert to protocol variants for the event payload.
     let command = vec!["bash".to_string(), "-lc".to_string(), raw_cmd.to_string()];
-    let parsed_cmd: Vec<ParsedCommand> = codex_core::parse_command::parse_command(&command);
+    let parsed_cmd: Vec<ParsedCommand> = llmx_core::parse_command::parse_command(&command);
     chat.handle_codex_event(Event {
         id: call_id.to_string(),
         msg: EventMsg::ExecCommandBegin(ExecCommandBeginEvent {
@@ -1128,12 +1128,12 @@ fn review_commit_picker_shows_subjects_without_timestamps() {
 
     // Show commit picker with synthetic entries.
     let entries = vec![
-        codex_core::git_info::CommitLogEntry {
+        llmx_core::git_info::CommitLogEntry {
             sha: "1111111deadbeef".to_string(),
             timestamp: 0,
             subject: "Add new feature X".to_string(),
         },
-        codex_core::git_info::CommitLogEntry {
+        llmx_core::git_info::CommitLogEntry {
             sha: "2222222cafebabe".to_string(),
             timestamp: 0,
             subject: "Fix bug Y".to_string(),
@@ -1252,7 +1252,7 @@ fn interrupt_exec_marks_failed_snapshot() {
     // cause the active exec cell to be finalized as failed and flushed.
     chat.handle_codex_event(Event {
         id: "call-int".into(),
-        msg: EventMsg::TurnAborted(codex_core::protocol::TurnAbortedEvent {
+        msg: EventMsg::TurnAborted(llmx_core::protocol::TurnAbortedEvent {
             reason: TurnAbortReason::Interrupted,
         }),
     });
@@ -1285,7 +1285,7 @@ fn interrupted_turn_error_message_snapshot() {
     // Abort the turn (like pressing Esc) and drain inserted history.
     chat.handle_codex_event(Event {
         id: "task-1".into(),
-        msg: EventMsg::TurnAborted(codex_core::protocol::TurnAbortedEvent {
+        msg: EventMsg::TurnAborted(llmx_core::protocol::TurnAbortedEvent {
             reason: TurnAbortReason::Interrupted,
         }),
     });
@@ -1704,7 +1704,7 @@ async fn binary_size_transcript_snapshot() {
                             ..
                         } => {
                             // Re-parse the command
-                            let parsed_cmd = codex_core::parse_command::parse_command(&e.command);
+                            let parsed_cmd = llmx_core::parse_command::parse_command(&e.command);
                             Event {
                                 id: ev.id,
                                 msg: EventMsg::ExecCommandBegin(ExecCommandBeginEvent {
@@ -1951,7 +1951,7 @@ fn interrupt_restores_queued_messages_into_composer() {
     // Deliver a TurnAborted event with Interrupted reason (as if Esc was pressed).
     chat.handle_codex_event(Event {
         id: "turn-1".into(),
-        msg: EventMsg::TurnAborted(codex_core::protocol::TurnAbortedEvent {
+        msg: EventMsg::TurnAborted(llmx_core::protocol::TurnAbortedEvent {
             reason: TurnAbortReason::Interrupted,
         }),
     });
@@ -1989,7 +1989,7 @@ fn interrupt_prepends_queued_messages_before_existing_composer_text() {
 
     chat.handle_codex_event(Event {
         id: "turn-1".into(),
-        msg: EventMsg::TurnAborted(codex_core::protocol::TurnAbortedEvent {
+        msg: EventMsg::TurnAborted(llmx_core::protocol::TurnAbortedEvent {
             reason: TurnAbortReason::Interrupted,
         }),
     });
@@ -2059,7 +2059,7 @@ fn ui_snapshots_small_heights_task_running() {
 // task (status indicator active) while an approval request is shown.
 #[test]
 fn status_widget_and_approval_modal_snapshot() {
-    use codex_core::protocol::ExecApprovalRequestEvent;
+    use llmx_core::protocol::ExecApprovalRequestEvent;
 
     let (mut chat, _rx, _op_rx) = make_chatwidget_manual();
     // Begin a running task so the status indicator would be active.
@@ -2347,7 +2347,7 @@ fn apply_patch_approval_sends_op_with_submission_id() {
     while let Ok(app_ev) = rx.try_recv() {
         if let AppEvent::CodexOp(Op::PatchApproval { id, decision }) = app_ev {
             assert_eq!(id, "sub-123");
-            assert_matches!(decision, codex_core::protocol::ReviewDecision::Approved);
+            assert_matches!(decision, llmx_core::protocol::ReviewDecision::Approved);
             found = true;
             break;
         }
@@ -2394,7 +2394,7 @@ fn apply_patch_full_flow_integration_like() {
     match forwarded {
         Op::PatchApproval { id, decision } => {
             assert_eq!(id, "sub-xyz");
-            assert_matches!(decision, codex_core::protocol::ReviewDecision::Approved);
+            assert_matches!(decision, llmx_core::protocol::ReviewDecision::Approved);
         }
         other => panic!("unexpected op forwarded: {other:?}"),
     }

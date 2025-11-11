@@ -1,5 +1,5 @@
 [package]
-name = "codex-utils-image"
+name = "llmx-utils-image"
 version.workspace = true
 edition.workspace = true
 
@@ -9,7 +9,7 @@ workspace = true
 [dependencies]
 base64 = { workspace = true }
 image = { workspace = true, features = ["jpeg", "png"] }
-codex-utils-cache = { workspace = true }
+llmx-utils-cache = { workspace = true }
 thiserror = { workspace = true }
 tokio = { workspace = true, features = ["fs", "rt", "rt-multi-thread", "macros"] }
 

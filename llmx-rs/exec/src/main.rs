@@ -10,10 +10,10 @@
 //! This allows us to ship a completely separate set of functionality as part
 //! of the `codex-exec` binary.
 use clap::Parser;
-use codex_arg0::arg0_dispatch_or_else;
-use codex_common::CliConfigOverrides;
-use codex_exec::Cli;
-use codex_exec::run_main;
+use llmx_arg0::arg0_dispatch_or_else;
+use llmx_common::CliConfigOverrides;
+use llmx_exec::Cli;
+use llmx_exec::run_main;
 
 #[derive(Parser, Debug)]
 struct TopCli {

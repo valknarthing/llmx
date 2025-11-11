@@ -1,9 +1,9 @@
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol::ReviewDecision;
-use codex_core::protocol::ReviewRequest;
-use codex_core::protocol::SandboxPolicy;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::ReviewDecision;
+use llmx_core::protocol::ReviewRequest;
+use llmx_core::protocol::SandboxPolicy;
 use core_test_support::responses::ev_apply_patch_function_call;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
@@ -22,7 +22,7 @@ use pretty_assertions::assert_eq;
 /// Delegate should surface ExecApprovalRequest from sub-agent and proceed
 /// after parent submits an approval decision.
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-async fn codex_delegate_forwards_exec_approval_and_proceeds_on_approval() {
+async fn llmx_delegate_forwards_exec_approval_and_proceeds_on_approval() {
     skip_if_no_network!();
 
     // Sub-agent turn 1: emit a shell function_call requiring approval, then complete.
@@ -106,7 +106,7 @@ async fn codex_delegate_forwards_exec_approval_and_proceeds_on_approval() {
 /// Delegate should surface ApplyPatchApprovalRequest and honor parent decision
 /// so the sub-agent can proceed to completion.
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-async fn codex_delegate_forwards_patch_approval_and_proceeds_on_decision() {
+async fn llmx_delegate_forwards_patch_approval_and_proceeds_on_decision() {
     skip_if_no_network!();
 
     let call_id = "call-patch-1";
@@ -176,7 +176,7 @@ async fn codex_delegate_forwards_patch_approval_and_proceeds_on_decision() {
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
-async fn codex_delegate_ignores_legacy_deltas() {
+async fn llmx_delegate_ignores_legacy_deltas() {
     skip_if_no_network!();
 
     // Single response with reasoning summary deltas.

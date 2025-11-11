@@ -17,8 +17,8 @@ use std::sync::Arc;
 use tracing::warn;
 
 use crate::token_data::TokenData;
-use codex_keyring_store::DefaultKeyringStore;
-use codex_keyring_store::KeyringStore;
+use llmx_keyring_store::DefaultKeyringStore;
+use llmx_keyring_store::KeyringStore;
 
 /// Determine where Codex should store CLI auth credentials.
 #[derive(Debug, Default, Copy, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -287,7 +287,7 @@ mod tests {
     use serde_json::json;
     use tempfile::tempdir;
 
-    use codex_keyring_store::tests::MockKeyringStore;
+    use llmx_keyring_store::tests::MockKeyringStore;
     use keyring::Error as KeyringError;
 
     #[tokio::test]

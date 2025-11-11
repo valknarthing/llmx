@@ -4,20 +4,20 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use anyhow::Result;
-use codex_core::CodexAuth;
-use codex_core::CodexConversation;
-use codex_core::ConversationManager;
-use codex_core::ModelProviderInfo;
-use codex_core::built_in_model_providers;
-use codex_core::config::Config;
-use codex_core::features::Feature;
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol::SandboxPolicy;
-use codex_core::protocol::SessionConfiguredEvent;
-use codex_protocol::config_types::ReasoningSummary;
-use codex_protocol::user_input::UserInput;
+use llmx_core::CodexAuth;
+use llmx_core::CodexConversation;
+use llmx_core::ConversationManager;
+use llmx_core::ModelProviderInfo;
+use llmx_core::built_in_model_providers;
+use llmx_core::config::Config;
+use llmx_core::features::Feature;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_core::protocol::SessionConfiguredEvent;
+use llmx_protocol::config_types::ReasoningSummary;
+use llmx_protocol::user_input::UserInput;
 use serde_json::Value;
 use tempfile::TempDir;
 use wiremock::MockServer;
@@ -66,7 +66,7 @@ impl TestCodexBuilder {
 
         let new_conversation = match resume_from {
             Some(path) => {
-                let auth_manager = codex_core::AuthManager::from_auth_for_testing(
+                let auth_manager = llmx_core::AuthManager::from_auth_for_testing(
                     CodexAuth::from_api_key("dummy"),
                 );
                 conversation_manager

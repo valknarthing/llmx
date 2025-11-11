@@ -1,12 +1,12 @@
 #![cfg(not(target_os = "windows"))]
 
 use anyhow::Ok;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ItemCompletedEvent;
-use codex_core::protocol::ItemStartedEvent;
-use codex_core::protocol::Op;
-use codex_protocol::items::TurnItem;
-use codex_protocol::user_input::UserInput;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ItemCompletedEvent;
+use llmx_core::protocol::ItemStartedEvent;
+use llmx_core::protocol::Op;
+use llmx_protocol::items::TurnItem;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::responses::ev_assistant_message;
 use core_test_support::responses::ev_completed;
 use core_test_support::responses::ev_message_item_added;
@@ -121,7 +121,7 @@ async fn assistant_message_item_is_emitted() -> anyhow::Result<()> {
     .await;
 
     assert_eq!(started.id, completed.id);
-    let Some(codex_protocol::items::AgentMessageContent::Text { text }) = completed.content.first()
+    let Some(llmx_protocol::items::AgentMessageContent::Text { text }) = completed.content.first()
     else {
         panic!("expected agent message text content");
     };

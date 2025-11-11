@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-file-search"
+name = "llmx-file-search"
 version = { workspace = true }
 
 [[bin]]
-name = "codex-file-search"
+name = "llmx-file-search"
 path = "src/main.rs"
 
 [lib]
-name = "codex_file_search"
+name = "llmx_file_search"
 path = "src/lib.rs"
 
 [dependencies]

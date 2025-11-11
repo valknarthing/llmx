@@ -1,12 +1,12 @@
 #![cfg(target_os = "linux")]
-use codex_core::config::types::ShellEnvironmentPolicy;
-use codex_core::error::CodexErr;
-use codex_core::error::SandboxErr;
-use codex_core::exec::ExecParams;
-use codex_core::exec::SandboxType;
-use codex_core::exec::process_exec_tool_call;
-use codex_core::exec_env::create_env;
-use codex_core::protocol::SandboxPolicy;
+use llmx_core::config::types::ShellEnvironmentPolicy;
+use llmx_core::error::CodexErr;
+use llmx_core::error::SandboxErr;
+use llmx_core::exec::ExecParams;
+use llmx_core::exec::SandboxType;
+use llmx_core::exec::process_exec_tool_call;
+use llmx_core::exec_env::create_env;
+use llmx_core::protocol::SandboxPolicy;
 use std::collections::HashMap;
 use std::path::PathBuf;
 use tempfile::NamedTempFile;

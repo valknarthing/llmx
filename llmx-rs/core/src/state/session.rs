@@ -1,6 +1,6 @@
 //! Session-wide mutable state.
 
-use codex_protocol::models::ResponseItem;
+use llmx_protocol::models::ResponseItem;
 
 use crate::codex::SessionConfiguration;
 use crate::context_manager::ContextManager;

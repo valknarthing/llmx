@@ -1,15 +1,15 @@
-use codex_protocol::items::AgentMessageContent;
-use codex_protocol::items::AgentMessageItem;
-use codex_protocol::items::ReasoningItem;
-use codex_protocol::items::TurnItem;
-use codex_protocol::items::UserMessageItem;
-use codex_protocol::items::WebSearchItem;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::ReasoningItemContent;
-use codex_protocol::models::ReasoningItemReasoningSummary;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::models::WebSearchAction;
-use codex_protocol::user_input::UserInput;
+use llmx_protocol::items::AgentMessageContent;
+use llmx_protocol::items::AgentMessageItem;
+use llmx_protocol::items::ReasoningItem;
+use llmx_protocol::items::TurnItem;
+use llmx_protocol::items::UserMessageItem;
+use llmx_protocol::items::WebSearchItem;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::ReasoningItemContent;
+use llmx_protocol::models::ReasoningItemReasoningSummary;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::models::WebSearchAction;
+use llmx_protocol::user_input::UserInput;
 use tracing::warn;
 use uuid::Uuid;
 
@@ -126,14 +126,14 @@ pub fn parse_turn_item(item: &ResponseItem) -> Option<TurnItem> {
 #[cfg(test)]
 mod tests {
     use super::parse_turn_item;
-    use codex_protocol::items::AgentMessageContent;
-    use codex_protocol::items::TurnItem;
-    use codex_protocol::models::ContentItem;
-    use codex_protocol::models::ReasoningItemContent;
-    use codex_protocol::models::ReasoningItemReasoningSummary;
-    use codex_protocol::models::ResponseItem;
-    use codex_protocol::models::WebSearchAction;
-    use codex_protocol::user_input::UserInput;
+    use llmx_protocol::items::AgentMessageContent;
+    use llmx_protocol::items::TurnItem;
+    use llmx_protocol::models::ContentItem;
+    use llmx_protocol::models::ReasoningItemContent;
+    use llmx_protocol::models::ReasoningItemReasoningSummary;
+    use llmx_protocol::models::ResponseItem;
+    use llmx_protocol::models::WebSearchAction;
+    use llmx_protocol::user_input::UserInput;
     use pretty_assertions::assert_eq;
 
     #[test]

@@ -1,7 +1,7 @@
 use assert_cmd::Command as AssertCommand;
 use assert_cmd::cargo::cargo_bin;
-use codex_core::RolloutRecorder;
-use codex_core::protocol::GitInfo;
+use llmx_core::RolloutRecorder;
+use llmx_core::protocol::GitInfo;
 use core_test_support::fs_wait;
 use core_test_support::skip_if_no_network;
 use std::time::Duration;
@@ -471,7 +471,7 @@ async fn integration_git_info_unit_test() {
         .unwrap();
 
     // 3. Test git info collection directly
-    let git_info = codex_core::git_info::collect_git_info(&git_repo).await;
+    let git_info = llmx_core::git_info::collect_git_info(&git_repo).await;
 
     // 4. Verify git info is present and contains expected data
     assert!(git_info.is_some(), "Git info should be collected");

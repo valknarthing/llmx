@@ -2,13 +2,13 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 
 use crate::protocol::common::AuthMode;
-use codex_protocol::ConversationId;
-use codex_protocol::account::PlanType;
-use codex_protocol::config_types::ReasoningEffort;
-use codex_protocol::config_types::ReasoningSummary;
-use codex_protocol::protocol::RateLimitSnapshot as CoreRateLimitSnapshot;
-use codex_protocol::protocol::RateLimitWindow as CoreRateLimitWindow;
-use codex_protocol::user_input::UserInput as CoreUserInput;
+use llmx_protocol::ConversationId;
+use llmx_protocol::account::PlanType;
+use llmx_protocol::config_types::ReasoningEffort;
+use llmx_protocol::config_types::ReasoningSummary;
+use llmx_protocol::protocol::RateLimitSnapshot as CoreRateLimitSnapshot;
+use llmx_protocol::protocol::RateLimitWindow as CoreRateLimitWindow;
+use llmx_protocol::user_input::UserInput as CoreUserInput;
 use mcp_types::ContentBlock as McpContentBlock;
 use schemars::JsonSchema;
 use serde::Deserialize;
@@ -42,13 +42,13 @@ macro_rules! v2_enum_from_core {
 }
 
 v2_enum_from_core!(
-    pub enum AskForApproval from codex_protocol::protocol::AskForApproval {
+    pub enum AskForApproval from llmx_protocol::protocol::AskForApproval {
         UnlessTrusted, OnFailure, OnRequest, Never
     }
 );
 
 v2_enum_from_core!(
-    pub enum SandboxMode from codex_protocol::config_types::SandboxMode {
+    pub enum SandboxMode from llmx_protocol::config_types::SandboxMode {
         ReadOnly, WorkspaceWrite, DangerFullAccess
     }
 );
@@ -73,18 +73,18 @@ pub enum SandboxPolicy {
 }
 
 impl SandboxPolicy {
-    pub fn to_core(&self) -> codex_protocol::protocol::SandboxPolicy {
+    pub fn to_core(&self) -> llmx_protocol::protocol::SandboxPolicy {
         match self {
             SandboxPolicy::DangerFullAccess => {
-                codex_protocol::protocol::SandboxPolicy::DangerFullAccess
+                llmx_protocol::protocol::SandboxPolicy::DangerFullAccess
             }
-            SandboxPolicy::ReadOnly => codex_protocol::protocol::SandboxPolicy::ReadOnly,
+            SandboxPolicy::ReadOnly => llmx_protocol::protocol::SandboxPolicy::ReadOnly,
             SandboxPolicy::WorkspaceWrite {
                 writable_roots,
                 network_access,
                 exclude_tmpdir_env_var,
                 exclude_slash_tmp,
-            } => codex_protocol::protocol::SandboxPolicy::WorkspaceWrite {
+            } => llmx_protocol::protocol::SandboxPolicy::WorkspaceWrite {
                 writable_roots: writable_roots.clone(),
                 network_access: *network_access,
                 exclude_tmpdir_env_var: *exclude_tmpdir_env_var,
@@ -94,14 +94,14 @@ impl SandboxPolicy {
     }
 }
 
-impl From<codex_protocol::protocol::SandboxPolicy> for SandboxPolicy {
-    fn from(value: codex_protocol::protocol::SandboxPolicy) -> Self {
+impl From<llmx_protocol::protocol::SandboxPolicy> for SandboxPolicy {
+    fn from(value: llmx_protocol::protocol::SandboxPolicy) -> Self {
         match value {
-            codex_protocol::protocol::SandboxPolicy::DangerFullAccess => {
+            llmx_protocol::protocol::SandboxPolicy::DangerFullAccess => {
                 SandboxPolicy::DangerFullAccess
             }
-            codex_protocol::protocol::SandboxPolicy::ReadOnly => SandboxPolicy::ReadOnly,
-            codex_protocol::protocol::SandboxPolicy::WorkspaceWrite {
+            llmx_protocol::protocol::SandboxPolicy::ReadOnly => SandboxPolicy::ReadOnly,
+            llmx_protocol::protocol::SandboxPolicy::WorkspaceWrite {
                 writable_roots,
                 network_access,
                 exclude_tmpdir_env_var,

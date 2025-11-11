@@ -8,18 +8,18 @@ use std::time::Duration;
 use std::time::SystemTime;
 use std::time::UNIX_EPOCH;
 
-use codex_core::config::types::McpServerConfig;
-use codex_core::config::types::McpServerTransportConfig;
-use codex_core::features::Feature;
+use llmx_core::config::types::McpServerConfig;
+use llmx_core::config::types::McpServerTransportConfig;
+use llmx_core::features::Feature;
 
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::McpInvocation;
-use codex_core::protocol::McpToolCallBeginEvent;
-use codex_core::protocol::Op;
-use codex_core::protocol::SandboxPolicy;
-use codex_protocol::config_types::ReasoningSummary;
-use codex_protocol::user_input::UserInput;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::McpInvocation;
+use llmx_core::protocol::McpToolCallBeginEvent;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_protocol::config_types::ReasoningSummary;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::responses;
 use core_test_support::responses::mount_sse_once_match;
 use core_test_support::skip_if_no_network;
@@ -417,7 +417,7 @@ async fn stdio_image_completions_round_trip() -> anyhow::Result<()> {
 
     let fixture = test_codex()
         .with_config(move |config| {
-            config.model_provider.wire_api = codex_core::WireApi::Chat;
+            config.model_provider.wire_api = llmx_core::WireApi::Chat;
             config.features.enable(Feature::RmcpClient);
             config.mcp_servers.insert(
                 server_name.to_string(),

@@ -184,9 +184,9 @@ dependencies = [
  "assert_cmd",
  "base64",
  "chrono",
- "codex-app-server-protocol",
- "codex-core",
- "codex-protocol",
+ "llmx-app-server-protocol",
+ "llmx-core",
+ "llmx-protocol",
  "serde",
  "serde_json",
  "tokio",
@@ -822,751 +822,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e9b18233253483ce2f65329a24072ec414db782531bdbb7d0bbc4bd2ce6b7e21"
 
 [[package]]
-name = "codex-ansi-escape"
-version = "0.0.0"
-dependencies = [
- "ansi-to-tui",
- "ratatui",
- "tracing",
-]
-
-[[package]]
-name = "codex-app-server"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "app_test_support",
- "assert_cmd",
- "base64",
- "chrono",
- "codex-app-server-protocol",
- "codex-arg0",
- "codex-backend-client",
- "codex-common",
- "codex-core",
- "codex-feedback",
- "codex-file-search",
- "codex-login",
- "codex-protocol",
- "codex-utils-json-to-toml",
- "core_test_support",
- "opentelemetry-appender-tracing",
- "os_info",
- "pretty_assertions",
- "serde",
- "serde_json",
- "serial_test",
- "tempfile",
- "tokio",
- "toml",
- "tracing",
- "tracing-subscriber",
- "uuid",
- "wiremock",
-]
-
-[[package]]
-name = "codex-app-server-protocol"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "codex-protocol",
- "mcp-types",
- "paste",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "strum_macros 0.27.2",
- "ts-rs",
- "uuid",
-]
-
-[[package]]
-name = "codex-apply-patch"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "assert_matches",
- "pretty_assertions",
- "similar",
- "tempfile",
- "thiserror 2.0.17",
- "tree-sitter",
- "tree-sitter-bash",
-]
-
-[[package]]
-name = "codex-arg0"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "codex-apply-patch",
- "codex-core",
- "codex-linux-sandbox",
- "dotenvy",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "codex-async-utils"
-version = "0.0.0"
-dependencies = [
- "async-trait",
- "pretty_assertions",
- "tokio",
- "tokio-util",
-]
-
-[[package]]
-name = "codex-backend-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "codex-backend-openapi-models",
- "codex-core",
- "codex-protocol",
- "pretty_assertions",
- "reqwest",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "codex-backend-openapi-models"
-version = "0.0.0"
-dependencies = [
- "serde",
- "serde_json",
- "serde_with",
-]
-
-[[package]]
-name = "codex-chatgpt"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "codex-common",
- "codex-core",
- "codex-git",
- "serde",
- "serde_json",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "codex-cli"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "assert_matches",
- "clap",
- "clap_complete",
- "codex-app-server",
- "codex-app-server-protocol",
- "codex-arg0",
- "codex-chatgpt",
- "codex-cloud-tasks",
- "codex-common",
- "codex-core",
- "codex-exec",
- "codex-login",
- "codex-mcp-server",
- "codex-process-hardening",
- "codex-protocol",
- "codex-responses-api-proxy",
- "codex-rmcp-client",
- "codex-stdio-to-uds",
- "codex-tui",
- "codex-windows-sandbox",
- "ctor 0.5.0",
- "libc",
- "owo-colors",
- "predicates",
- "pretty_assertions",
- "regex-lite",
- "serde_json",
- "supports-color",
- "tempfile",
- "tokio",
- "toml",
- "tracing",
-]
-
-[[package]]
-name = "codex-cloud-tasks"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "base64",
- "chrono",
- "clap",
- "codex-cloud-tasks-client",
- "codex-common",
- "codex-core",
- "codex-login",
- "codex-tui",
- "crossterm",
- "ratatui",
- "reqwest",
- "serde",
- "serde_json",
- "tokio",
- "tokio-stream",
- "tracing",
- "tracing-subscriber",
- "unicode-width 0.2.1",
-]
-
-[[package]]
-name = "codex-cloud-tasks-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "chrono",
- "codex-backend-client",
- "codex-git",
- "diffy",
- "serde",
- "serde_json",
- "thiserror 2.0.17",
-]
-
-[[package]]
-name = "codex-common"
-version = "0.0.0"
-dependencies = [
- "clap",
- "codex-app-server-protocol",
- "codex-core",
- "codex-protocol",
- "serde",
- "toml",
-]
-
-[[package]]
-name = "codex-core"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "askama",
- "assert_cmd",
- "assert_matches",
- "async-channel",
- "async-trait",
- "base64",
- "bytes",
- "chrono",
- "codex-app-server-protocol",
- "codex-apply-patch",
- "codex-arg0",
- "codex-async-utils",
- "codex-file-search",
- "codex-git",
- "codex-keyring-store",
- "codex-otel",
- "codex-protocol",
- "codex-rmcp-client",
- "codex-utils-pty",
- "codex-utils-readiness",
- "codex-utils-string",
- "codex-utils-tokenizer",
- "codex-windows-sandbox",
- "core-foundation 0.9.4",
- "core_test_support",
- "ctor 0.5.0",
- "dirs",
- "dunce",
- "env-flags",
- "escargot",
- "eventsource-stream",
- "futures",
- "http",
- "image",
- "indexmap 2.12.0",
- "keyring",
- "landlock",
- "libc",
- "maplit",
- "mcp-types",
- "openssl-sys",
- "os_info",
- "predicates",
- "pretty_assertions",
- "rand 0.9.2",
- "regex-lite",
- "reqwest",
- "seccompiler",
- "serde",
- "serde_json",
- "serial_test",
- "sha1",
- "sha2",
- "shlex",
- "similar",
- "strum_macros 0.27.2",
- "tempfile",
- "test-log",
- "thiserror 2.0.17",
- "time",
- "tokio",
- "tokio-test",
- "tokio-util",
- "toml",
- "toml_edit",
- "tracing",
- "tracing-test",
- "tree-sitter",
- "tree-sitter-bash",
- "uuid",
- "walkdir",
- "which",
- "wildmatch",
- "wiremock",
-]
-
-[[package]]
-name = "codex-exec"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "clap",
- "codex-arg0",
- "codex-common",
- "codex-core",
- "codex-ollama",
- "codex-protocol",
- "core_test_support",
- "libc",
- "mcp-types",
- "opentelemetry-appender-tracing",
- "owo-colors",
- "predicates",
- "pretty_assertions",
- "serde",
- "serde_json",
- "shlex",
- "supports-color",
- "tempfile",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "ts-rs",
- "uuid",
- "walkdir",
- "wiremock",
-]
-
-[[package]]
-name = "codex-execpolicy"
-version = "0.0.0"
-dependencies = [
- "allocative",
- "anyhow",
- "clap",
- "derive_more 2.0.1",
- "env_logger",
- "log",
- "multimap",
- "path-absolutize",
- "regex-lite",
- "serde",
- "serde_json",
- "serde_with",
- "starlark",
- "tempfile",
-]
-
-[[package]]
-name = "codex-feedback"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "codex-protocol",
- "pretty_assertions",
- "sentry",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "codex-file-search"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "ignore",
- "nucleo-matcher",
- "serde",
- "serde_json",
- "tokio",
-]
-
-[[package]]
-name = "codex-git"
-version = "0.0.0"
-dependencies = [
- "assert_matches",
- "once_cell",
- "pretty_assertions",
- "regex",
- "schemars 0.8.22",
- "serde",
- "tempfile",
- "thiserror 2.0.17",
- "ts-rs",
- "walkdir",
-]
-
-[[package]]
-name = "codex-keyring-store"
-version = "0.0.0"
-dependencies = [
- "keyring",
- "tracing",
-]
-
-[[package]]
-name = "codex-linux-sandbox"
-version = "0.0.0"
-dependencies = [
- "clap",
- "codex-core",
- "landlock",
- "libc",
- "seccompiler",
- "tempfile",
- "tokio",
-]
-
-[[package]]
-name = "codex-login"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64",
- "chrono",
- "codex-app-server-protocol",
- "codex-core",
- "core_test_support",
- "rand 0.9.2",
- "reqwest",
- "serde",
- "serde_json",
- "sha2",
- "tempfile",
- "tiny_http",
- "tokio",
- "url",
- "urlencoding",
- "webbrowser",
- "wiremock",
-]
-
-[[package]]
-name = "codex-mcp-server"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "codex-arg0",
- "codex-common",
- "codex-core",
- "codex-protocol",
- "codex-utils-json-to-toml",
- "core_test_support",
- "mcp-types",
- "mcp_test_support",
- "os_info",
- "pretty_assertions",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "shlex",
- "tempfile",
- "tokio",
- "tracing",
- "tracing-subscriber",
- "wiremock",
-]
-
-[[package]]
-name = "codex-ollama"
-version = "0.0.0"
-dependencies = [
- "assert_matches",
- "async-stream",
- "bytes",
- "codex-core",
- "futures",
- "reqwest",
- "serde_json",
- "tokio",
- "tracing",
- "wiremock",
-]
-
-[[package]]
-name = "codex-otel"
-version = "0.0.0"
-dependencies = [
- "chrono",
- "codex-app-server-protocol",
- "codex-protocol",
- "eventsource-stream",
- "opentelemetry",
- "opentelemetry-otlp",
- "opentelemetry-semantic-conventions",
- "opentelemetry_sdk",
- "reqwest",
- "serde",
- "serde_json",
- "strum_macros 0.27.2",
- "tokio",
- "tonic",
- "tracing",
-]
-
-[[package]]
-name = "codex-process-hardening"
-version = "0.0.0"
-dependencies = [
- "libc",
-]
-
-[[package]]
-name = "codex-protocol"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "base64",
- "codex-git",
- "codex-utils-image",
- "icu_decimal",
- "icu_locale_core",
- "icu_provider",
- "mcp-types",
- "mime_guess",
- "schemars 0.8.22",
- "serde",
- "serde_json",
- "serde_with",
- "strum 0.27.2",
- "strum_macros 0.27.2",
- "sys-locale",
- "tempfile",
- "tracing",
- "ts-rs",
- "uuid",
-]
-
-[[package]]
-name = "codex-responses-api-proxy"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "clap",
- "codex-process-hardening",
- "ctor 0.5.0",
- "libc",
- "reqwest",
- "serde",
- "serde_json",
- "tiny_http",
- "zeroize",
-]
-
-[[package]]
-name = "codex-rmcp-client"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "axum",
- "codex-keyring-store",
- "codex-protocol",
- "dirs",
- "escargot",
- "futures",
- "keyring",
- "mcp-types",
- "oauth2",
- "pretty_assertions",
- "reqwest",
- "rmcp",
- "serde",
- "serde_json",
- "serial_test",
- "sha2",
- "tempfile",
- "tiny_http",
- "tokio",
- "tracing",
- "urlencoding",
- "webbrowser",
-]
-
-[[package]]
-name = "codex-stdio-to-uds"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "pretty_assertions",
- "tempfile",
- "uds_windows",
-]
-
-[[package]]
-name = "codex-tui"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "arboard",
- "assert_matches",
- "async-stream",
- "base64",
- "chrono",
- "clap",
- "codex-ansi-escape",
- "codex-app-server-protocol",
- "codex-arg0",
- "codex-common",
- "codex-core",
- "codex-feedback",
- "codex-file-search",
- "codex-login",
- "codex-ollama",
- "codex-protocol",
- "codex-windows-sandbox",
- "color-eyre",
- "crossterm",
- "derive_more 2.0.1",
- "diffy",
- "dirs",
- "dunce",
- "image",
- "insta",
- "itertools 0.14.0",
- "lazy_static",
- "libc",
- "mcp-types",
- "opentelemetry-appender-tracing",
- "pathdiff",
- "pretty_assertions",
- "pulldown-cmark",
- "rand 0.9.2",
- "ratatui",
- "ratatui-macros",
- "regex-lite",
- "serde",
- "serde_json",
- "serial_test",
- "shlex",
- "strum 0.27.2",
- "strum_macros 0.27.2",
- "supports-color",
- "tempfile",
- "textwrap 0.16.2",
- "tokio",
- "tokio-stream",
- "toml",
- "tracing",
- "tracing-appender",
- "tracing-subscriber",
- "tree-sitter-bash",
- "tree-sitter-highlight",
- "unicode-segmentation",
- "unicode-width 0.2.1",
- "url",
- "vt100",
-]
-
-[[package]]
-name = "codex-utils-cache"
-version = "0.0.0"
-dependencies = [
- "lru",
- "sha1",
- "tokio",
-]
-
-[[package]]
-name = "codex-utils-image"
-version = "0.0.0"
-dependencies = [
- "base64",
- "codex-utils-cache",
- "image",
- "tempfile",
- "thiserror 2.0.17",
- "tokio",
-]
-
-[[package]]
-name = "codex-utils-json-to-toml"
-version = "0.0.0"
-dependencies = [
- "pretty_assertions",
- "serde_json",
- "toml",
-]
-
-[[package]]
-name = "codex-utils-pty"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "portable-pty",
- "tokio",
-]
-
-[[package]]
-name = "codex-utils-readiness"
-version = "0.0.0"
-dependencies = [
- "assert_matches",
- "async-trait",
- "thiserror 2.0.17",
- "time",
- "tokio",
-]
-
-[[package]]
-name = "codex-utils-string"
-version = "0.0.0"
-
-[[package]]
-name = "codex-utils-tokenizer"
-version = "0.0.0"
-dependencies = [
- "anyhow",
- "pretty_assertions",
- "thiserror 2.0.17",
- "tiktoken-rs",
-]
-
-[[package]]
-name = "codex-windows-sandbox"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "dirs-next",
- "dunce",
- "rand 0.8.5",
- "serde",
- "serde_json",
- "windows-sys 0.52.0",
-]
-
-[[package]]
 name = "color-eyre"
 version = "0.6.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1694,8 +949,8 @@ version = "0.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
- "codex-core",
- "codex-protocol",
+ "llmx-core",
+ "llmx-protocol",
  "notify",
  "regex-lite",
  "serde_json",
@@ -3566,6 +2821,751 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "241eaef5fd12c88705a01fc1066c48c4b36e0dd4377dcdc7ec3942cea7a69956"
 
 [[package]]
+name = "llmx-ansi-escape"
+version = "0.0.0"
+dependencies = [
+ "ansi-to-tui",
+ "ratatui",
+ "tracing",
+]
+
+[[package]]
+name = "llmx-app-server"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "app_test_support",
+ "assert_cmd",
+ "base64",
+ "chrono",
+ "core_test_support",
+ "llmx-app-server-protocol",
+ "llmx-arg0",
+ "llmx-backend-client",
+ "llmx-common",
+ "llmx-core",
+ "llmx-feedback",
+ "llmx-file-search",
+ "llmx-login",
+ "llmx-protocol",
+ "llmx-utils-json-to-toml",
+ "opentelemetry-appender-tracing",
+ "os_info",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "tempfile",
+ "tokio",
+ "toml",
+ "tracing",
+ "tracing-subscriber",
+ "uuid",
+ "wiremock",
+]
+
+[[package]]
+name = "llmx-app-server-protocol"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "llmx-protocol",
+ "mcp-types",
+ "paste",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "strum_macros 0.27.2",
+ "ts-rs",
+ "uuid",
+]
+
+[[package]]
+name = "llmx-apply-patch"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "assert_matches",
+ "pretty_assertions",
+ "similar",
+ "tempfile",
+ "thiserror 2.0.17",
+ "tree-sitter",
+ "tree-sitter-bash",
+]
+
+[[package]]
+name = "llmx-arg0"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "dotenvy",
+ "llmx-apply-patch",
+ "llmx-core",
+ "llmx-linux-sandbox",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-async-utils"
+version = "0.0.0"
+dependencies = [
+ "async-trait",
+ "pretty_assertions",
+ "tokio",
+ "tokio-util",
+]
+
+[[package]]
+name = "llmx-backend-client"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "llmx-backend-openapi-models",
+ "llmx-core",
+ "llmx-protocol",
+ "pretty_assertions",
+ "reqwest",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "llmx-backend-openapi-models"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "serde_with",
+]
+
+[[package]]
+name = "llmx-chatgpt"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "llmx-common",
+ "llmx-core",
+ "llmx-git",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-cli"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "assert_matches",
+ "clap",
+ "clap_complete",
+ "ctor 0.5.0",
+ "libc",
+ "llmx-app-server",
+ "llmx-app-server-protocol",
+ "llmx-arg0",
+ "llmx-chatgpt",
+ "llmx-cloud-tasks",
+ "llmx-common",
+ "llmx-core",
+ "llmx-exec",
+ "llmx-login",
+ "llmx-mcp-server",
+ "llmx-process-hardening",
+ "llmx-protocol",
+ "llmx-responses-api-proxy",
+ "llmx-rmcp-client",
+ "llmx-stdio-to-uds",
+ "llmx-tui",
+ "llmx-windows-sandbox",
+ "owo-colors",
+ "predicates",
+ "pretty_assertions",
+ "regex-lite",
+ "serde_json",
+ "supports-color",
+ "tempfile",
+ "tokio",
+ "toml",
+ "tracing",
+]
+
+[[package]]
+name = "llmx-cloud-tasks"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "base64",
+ "chrono",
+ "clap",
+ "crossterm",
+ "llmx-cloud-tasks-client",
+ "llmx-common",
+ "llmx-core",
+ "llmx-login",
+ "llmx-tui",
+ "ratatui",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tokio-stream",
+ "tracing",
+ "tracing-subscriber",
+ "unicode-width 0.2.1",
+]
+
+[[package]]
+name = "llmx-cloud-tasks-client"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "chrono",
+ "diffy",
+ "llmx-backend-client",
+ "llmx-git",
+ "serde",
+ "serde_json",
+ "thiserror 2.0.17",
+]
+
+[[package]]
+name = "llmx-common"
+version = "0.0.0"
+dependencies = [
+ "clap",
+ "llmx-app-server-protocol",
+ "llmx-core",
+ "llmx-protocol",
+ "serde",
+ "toml",
+]
+
+[[package]]
+name = "llmx-core"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "askama",
+ "assert_cmd",
+ "assert_matches",
+ "async-channel",
+ "async-trait",
+ "base64",
+ "bytes",
+ "chrono",
+ "core-foundation 0.9.4",
+ "core_test_support",
+ "ctor 0.5.0",
+ "dirs",
+ "dunce",
+ "env-flags",
+ "escargot",
+ "eventsource-stream",
+ "futures",
+ "http",
+ "image",
+ "indexmap 2.12.0",
+ "keyring",
+ "landlock",
+ "libc",
+ "llmx-app-server-protocol",
+ "llmx-apply-patch",
+ "llmx-arg0",
+ "llmx-async-utils",
+ "llmx-file-search",
+ "llmx-git",
+ "llmx-keyring-store",
+ "llmx-otel",
+ "llmx-protocol",
+ "llmx-rmcp-client",
+ "llmx-utils-pty",
+ "llmx-utils-readiness",
+ "llmx-utils-string",
+ "llmx-utils-tokenizer",
+ "llmx-windows-sandbox",
+ "maplit",
+ "mcp-types",
+ "openssl-sys",
+ "os_info",
+ "predicates",
+ "pretty_assertions",
+ "rand 0.9.2",
+ "regex-lite",
+ "reqwest",
+ "seccompiler",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha1",
+ "sha2",
+ "shlex",
+ "similar",
+ "strum_macros 0.27.2",
+ "tempfile",
+ "test-log",
+ "thiserror 2.0.17",
+ "time",
+ "tokio",
+ "tokio-test",
+ "tokio-util",
+ "toml",
+ "toml_edit",
+ "tracing",
+ "tracing-test",
+ "tree-sitter",
+ "tree-sitter-bash",
+ "uuid",
+ "walkdir",
+ "which",
+ "wildmatch",
+ "wiremock",
+]
+
+[[package]]
+name = "llmx-exec"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap",
+ "core_test_support",
+ "libc",
+ "llmx-arg0",
+ "llmx-common",
+ "llmx-core",
+ "llmx-ollama",
+ "llmx-protocol",
+ "mcp-types",
+ "opentelemetry-appender-tracing",
+ "owo-colors",
+ "predicates",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "shlex",
+ "supports-color",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "ts-rs",
+ "uuid",
+ "walkdir",
+ "wiremock",
+]
+
+[[package]]
+name = "llmx-execpolicy"
+version = "0.0.0"
+dependencies = [
+ "allocative",
+ "anyhow",
+ "clap",
+ "derive_more 2.0.1",
+ "env_logger",
+ "log",
+ "multimap",
+ "path-absolutize",
+ "regex-lite",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "starlark",
+ "tempfile",
+]
+
+[[package]]
+name = "llmx-feedback"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "llmx-protocol",
+ "pretty_assertions",
+ "sentry",
+ "tracing-subscriber",
+]
+
+[[package]]
+name = "llmx-file-search"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "ignore",
+ "nucleo-matcher",
+ "serde",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-git"
+version = "0.0.0"
+dependencies = [
+ "assert_matches",
+ "once_cell",
+ "pretty_assertions",
+ "regex",
+ "schemars 0.8.22",
+ "serde",
+ "tempfile",
+ "thiserror 2.0.17",
+ "ts-rs",
+ "walkdir",
+]
+
+[[package]]
+name = "llmx-keyring-store"
+version = "0.0.0"
+dependencies = [
+ "keyring",
+ "tracing",
+]
+
+[[package]]
+name = "llmx-linux-sandbox"
+version = "0.0.0"
+dependencies = [
+ "clap",
+ "landlock",
+ "libc",
+ "llmx-core",
+ "seccompiler",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-login"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "base64",
+ "chrono",
+ "core_test_support",
+ "llmx-app-server-protocol",
+ "llmx-core",
+ "rand 0.9.2",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "tiny_http",
+ "tokio",
+ "url",
+ "urlencoding",
+ "webbrowser",
+ "wiremock",
+]
+
+[[package]]
+name = "llmx-mcp-server"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "core_test_support",
+ "llmx-arg0",
+ "llmx-common",
+ "llmx-core",
+ "llmx-protocol",
+ "llmx-utils-json-to-toml",
+ "mcp-types",
+ "mcp_test_support",
+ "os_info",
+ "pretty_assertions",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "shlex",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "wiremock",
+]
+
+[[package]]
+name = "llmx-ollama"
+version = "0.0.0"
+dependencies = [
+ "assert_matches",
+ "async-stream",
+ "bytes",
+ "futures",
+ "llmx-core",
+ "reqwest",
+ "serde_json",
+ "tokio",
+ "tracing",
+ "wiremock",
+]
+
+[[package]]
+name = "llmx-otel"
+version = "0.0.0"
+dependencies = [
+ "chrono",
+ "eventsource-stream",
+ "llmx-app-server-protocol",
+ "llmx-protocol",
+ "opentelemetry",
+ "opentelemetry-otlp",
+ "opentelemetry-semantic-conventions",
+ "opentelemetry_sdk",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "strum_macros 0.27.2",
+ "tokio",
+ "tonic",
+ "tracing",
+]
+
+[[package]]
+name = "llmx-process-hardening"
+version = "0.0.0"
+dependencies = [
+ "libc",
+]
+
+[[package]]
+name = "llmx-protocol"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "base64",
+ "icu_decimal",
+ "icu_locale_core",
+ "icu_provider",
+ "llmx-git",
+ "llmx-utils-image",
+ "mcp-types",
+ "mime_guess",
+ "schemars 0.8.22",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "strum 0.27.2",
+ "strum_macros 0.27.2",
+ "sys-locale",
+ "tempfile",
+ "tracing",
+ "ts-rs",
+ "uuid",
+]
+
+[[package]]
+name = "llmx-responses-api-proxy"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "ctor 0.5.0",
+ "libc",
+ "llmx-process-hardening",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tiny_http",
+ "zeroize",
+]
+
+[[package]]
+name = "llmx-rmcp-client"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "axum",
+ "dirs",
+ "escargot",
+ "futures",
+ "keyring",
+ "llmx-keyring-store",
+ "llmx-protocol",
+ "mcp-types",
+ "oauth2",
+ "pretty_assertions",
+ "reqwest",
+ "rmcp",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "sha2",
+ "tempfile",
+ "tiny_http",
+ "tokio",
+ "tracing",
+ "urlencoding",
+ "webbrowser",
+]
+
+[[package]]
+name = "llmx-stdio-to-uds"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "pretty_assertions",
+ "tempfile",
+ "uds_windows",
+]
+
+[[package]]
+name = "llmx-tui"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "arboard",
+ "assert_matches",
+ "async-stream",
+ "base64",
+ "chrono",
+ "clap",
+ "color-eyre",
+ "crossterm",
+ "derive_more 2.0.1",
+ "diffy",
+ "dirs",
+ "dunce",
+ "image",
+ "insta",
+ "itertools 0.14.0",
+ "lazy_static",
+ "libc",
+ "llmx-ansi-escape",
+ "llmx-app-server-protocol",
+ "llmx-arg0",
+ "llmx-common",
+ "llmx-core",
+ "llmx-feedback",
+ "llmx-file-search",
+ "llmx-login",
+ "llmx-ollama",
+ "llmx-protocol",
+ "llmx-windows-sandbox",
+ "mcp-types",
+ "opentelemetry-appender-tracing",
+ "pathdiff",
+ "pretty_assertions",
+ "pulldown-cmark",
+ "rand 0.9.2",
+ "ratatui",
+ "ratatui-macros",
+ "regex-lite",
+ "serde",
+ "serde_json",
+ "serial_test",
+ "shlex",
+ "strum 0.27.2",
+ "strum_macros 0.27.2",
+ "supports-color",
+ "tempfile",
+ "textwrap 0.16.2",
+ "tokio",
+ "tokio-stream",
+ "toml",
+ "tracing",
+ "tracing-appender",
+ "tracing-subscriber",
+ "tree-sitter-bash",
+ "tree-sitter-highlight",
+ "unicode-segmentation",
+ "unicode-width 0.2.1",
+ "url",
+ "vt100",
+]
+
+[[package]]
+name = "llmx-utils-cache"
+version = "0.0.0"
+dependencies = [
+ "lru",
+ "sha1",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-utils-image"
+version = "0.0.0"
+dependencies = [
+ "base64",
+ "image",
+ "llmx-utils-cache",
+ "tempfile",
+ "thiserror 2.0.17",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-utils-json-to-toml"
+version = "0.0.0"
+dependencies = [
+ "pretty_assertions",
+ "serde_json",
+ "toml",
+]
+
+[[package]]
+name = "llmx-utils-pty"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "portable-pty",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-utils-readiness"
+version = "0.0.0"
+dependencies = [
+ "assert_matches",
+ "async-trait",
+ "thiserror 2.0.17",
+ "time",
+ "tokio",
+]
+
+[[package]]
+name = "llmx-utils-string"
+version = "0.0.0"
+
+[[package]]
+name = "llmx-utils-tokenizer"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "pretty_assertions",
+ "thiserror 2.0.17",
+ "tiktoken-rs",
+]
+
+[[package]]
+name = "llmx-windows-sandbox"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "dirs-next",
+ "dunce",
+ "rand 0.8.5",
+ "serde",
+ "serde_json",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
 name = "lock_api"
 version = "0.4.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3669,8 +3669,8 @@ version = "0.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
- "codex-core",
- "codex-mcp-server",
+ "llmx-core",
+ "llmx-mcp-server",
  "mcp-types",
  "os_info",
  "pretty_assertions",
@@ -4450,7 +4450,7 @@ checksum = "3af6b589e163c5a788fab00ce0c0366f6efbb9959c2f9874b224936af7fce7e1"
 dependencies = [
  "base64",
  "indexmap 2.12.0",
- "quick-xml",
+ "quick-xml 0.38.0",
  "serde",
  "time",
 ]
@@ -7093,7 +7093,7 @@ version = "0.31.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c66a47e840dc20793f2264eb4b3e4ecb4b75d91c0dd4af04b456128e0bdd449d"
 dependencies = [
- "bitflags 2.9.1",
+ "bitflags 2.10.0",
  "rustix 1.0.8",
  "wayland-backend",
  "wayland-scanner",
@@ -7105,7 +7105,7 @@ version = "0.32.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "efa790ed75fbfd71283bd2521a1cfdc022aabcc28bdcff00851f9e4ae88d9901"
 dependencies = [
- "bitflags 2.9.1",
+ "bitflags 2.10.0",
  "wayland-backend",
  "wayland-client",
  "wayland-scanner",
@@ -7117,7 +7117,7 @@ version = "0.3.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "efd94963ed43cf9938a090ca4f7da58eb55325ec8200c3848963e98dc25b78ec"
 dependencies = [
- "bitflags 2.9.1",
+ "bitflags 2.10.0",
  "wayland-backend",
  "wayland-client",
  "wayland-protocols",
@@ -7726,7 +7726,7 @@ dependencies = [
  "os_pipe",
  "rustix 0.38.44",
  "tempfile",
- "thiserror 2.0.16",
+ "thiserror 2.0.17",
  "tree_magic_mini",
  "wayland-backend",
  "wayland-client",

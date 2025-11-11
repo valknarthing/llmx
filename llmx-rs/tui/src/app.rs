@@ -14,16 +14,16 @@ use crate::resume_picker::ResumeSelection;
 use crate::tui;
 use crate::tui::TuiEvent;
 use crate::update_action::UpdateAction;
-use codex_ansi_escape::ansi_escape_line;
-use codex_core::AuthManager;
-use codex_core::ConversationManager;
-use codex_core::config::Config;
-use codex_core::config::edit::ConfigEditsBuilder;
-use codex_core::model_family::find_family_for_model;
-use codex_core::protocol::SessionSource;
-use codex_core::protocol::TokenUsage;
-use codex_core::protocol_config_types::ReasoningEffort as ReasoningEffortConfig;
-use codex_protocol::ConversationId;
+use llmx_ansi_escape::ansi_escape_line;
+use llmx_core::AuthManager;
+use llmx_core::ConversationManager;
+use llmx_core::config::Config;
+use llmx_core::config::edit::ConfigEditsBuilder;
+use llmx_core::model_family::find_family_for_model;
+use llmx_core::protocol::SessionSource;
+use llmx_core::protocol::TokenUsage;
+use llmx_core::protocol_config_types::ReasoningEffort as ReasoningEffortConfig;
+use llmx_protocol::ConversationId;
 use color_eyre::eyre::Result;
 use color_eyre::eyre::WrapErr;
 use crossterm::event::KeyCode;
@@ -76,7 +76,7 @@ pub(crate) struct App {
 
     // Esc-backtracking state grouped
     pub(crate) backtrack: crate::app_backtrack::BacktrackState,
-    pub(crate) feedback: codex_feedback::CodexFeedback,
+    pub(crate) feedback: llmx_feedback::CodexFeedback,
     /// Set when the user confirms an update; propagated on exit.
     pub(crate) pending_update_action: Option<UpdateAction>,
 
@@ -94,7 +94,7 @@ impl App {
         initial_prompt: Option<String>,
         initial_images: Vec<PathBuf>,
         resume_selection: ResumeSelection,
-        feedback: codex_feedback::CodexFeedback,
+        feedback: llmx_feedback::CodexFeedback,
     ) -> Result<AppExitInfo> {
         use tokio_stream::StreamExt;
         let (app_event_tx, mut app_event_rx) = unbounded_channel();
@@ -177,11 +177,11 @@ impl App {
         // On startup, if Auto mode (workspace-write) or ReadOnly is active, warn about world-writable dirs on Windows.
         #[cfg(target_os = "windows")]
         {
-            let should_check = codex_core::get_platform_sandbox().is_some()
+            let should_check = llmx_core::get_platform_sandbox().is_some()
                 && matches!(
                     app.config.sandbox_policy,
-                    codex_core::protocol::SandboxPolicy::WorkspaceWrite { .. }
-                        | codex_core::protocol::SandboxPolicy::ReadOnly
+                    llmx_core::protocol::SandboxPolicy::WorkspaceWrite { .. }
+                        | llmx_core::protocol::SandboxPolicy::ReadOnly
                 )
                 && !app
                     .config
@@ -461,8 +461,8 @@ impl App {
                 #[cfg(target_os = "windows")]
                 let policy_is_workspace_write_or_ro = matches!(
                     policy,
-                    codex_core::protocol::SandboxPolicy::WorkspaceWrite { .. }
-                        | codex_core::protocol::SandboxPolicy::ReadOnly
+                    llmx_core::protocol::SandboxPolicy::WorkspaceWrite { .. }
+                        | llmx_core::protocol::SandboxPolicy::ReadOnly
                 );
 
                 self.chat_widget.set_sandbox_policy(policy);
@@ -476,7 +476,7 @@ impl App {
                         return Ok(true);
                     }
 
-                    let should_check = codex_core::get_platform_sandbox().is_some()
+                    let should_check = llmx_core::get_platform_sandbox().is_some()
                         && policy_is_workspace_write_or_ro
                         && !self.chat_widget.world_writable_warning_hidden();
                     if should_check {
@@ -582,7 +582,7 @@ impl App {
         Ok(true)
     }
 
-    pub(crate) fn token_usage(&self) -> codex_core::protocol::TokenUsage {
+    pub(crate) fn token_usage(&self) -> llmx_core::protocol::TokenUsage {
         self.chat_widget.token_usage()
     }
 
@@ -664,7 +664,7 @@ impl App {
             canon.display().to_string().replace('/', "\\")
         }
         tokio::task::spawn_blocking(move || {
-            let result = codex_windows_sandbox::preflight_audit_everyone_writable(
+            let result = llmx_windows_sandbox::preflight_audit_everyone_writable(
                 &cwd,
                 &env_map,
                 Some(logs_base_dir.as_path()),
@@ -715,11 +715,11 @@ mod tests {
     use crate::history_cell::HistoryCell;
     use crate::history_cell::UserHistoryCell;
     use crate::history_cell::new_session_info;
-    use codex_core::AuthManager;
-    use codex_core::CodexAuth;
-    use codex_core::ConversationManager;
-    use codex_core::protocol::SessionConfiguredEvent;
-    use codex_protocol::ConversationId;
+    use llmx_core::AuthManager;
+    use llmx_core::CodexAuth;
+    use llmx_core::ConversationManager;
+    use llmx_core::protocol::SessionConfiguredEvent;
+    use llmx_protocol::ConversationId;
     use ratatui::prelude::Line;
     use std::path::PathBuf;
     use std::sync::Arc;
@@ -751,7 +751,7 @@ mod tests {
             enhanced_keys_supported: false,
             commit_anim_running: Arc::new(AtomicBool::new(false)),
             backtrack: BacktrackState::default(),
-            feedback: codex_feedback::CodexFeedback::new(),
+            feedback: llmx_feedback::CodexFeedback::new(),
             pending_update_action: None,
             skip_world_writable_scan_once: false,
         }

@@ -1,6 +1,6 @@
 [package]
 edition = "2024"
-name = "codex-rmcp-client"
+name = "llmx-rmcp-client"
 version = { workspace = true }
 
 [lints]
@@ -12,8 +12,8 @@ axum = { workspace = true, default-features = false, features = [
     "http1",
     "tokio",
 ] }
-codex-keyring-store = { workspace = true }
-codex-protocol = { workspace = true }
+llmx-keyring-store = { workspace = true }
+llmx-protocol = { workspace = true }
 dirs = { workspace = true }
 futures = { workspace = true, default-features = false, features = ["std"] }
 keyring = { workspace = true, features = [

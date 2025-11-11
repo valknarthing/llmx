@@ -1,10 +1,10 @@
-use codex_core::CodexAuth;
+use llmx_core::CodexAuth;
 use std::path::Path;
 use std::sync::LazyLock;
 use std::sync::RwLock;
 
-use codex_core::auth::AuthCredentialsStoreMode;
-use codex_core::token_data::TokenData;
+use llmx_core::auth::AuthCredentialsStoreMode;
+use llmx_core::token_data::TokenData;
 
 static CHATGPT_TOKEN: LazyLock<RwLock<Option<TokenData>>> = LazyLock::new(|| RwLock::new(None));
 

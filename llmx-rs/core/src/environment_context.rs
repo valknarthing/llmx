@@ -6,11 +6,11 @@ use crate::codex::TurnContext;
 use crate::protocol::AskForApproval;
 use crate::protocol::SandboxPolicy;
 use crate::shell::Shell;
-use codex_protocol::config_types::SandboxMode;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::protocol::ENVIRONMENT_CONTEXT_CLOSE_TAG;
-use codex_protocol::protocol::ENVIRONMENT_CONTEXT_OPEN_TAG;
+use llmx_protocol::config_types::SandboxMode;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::protocol::ENVIRONMENT_CONTEXT_CLOSE_TAG;
+use llmx_protocol::protocol::ENVIRONMENT_CONTEXT_OPEN_TAG;
 use std::path::PathBuf;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, DeriveDisplay)]

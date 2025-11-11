@@ -1,11 +1,11 @@
 [package]
 edition = "2024"
-name = "codex-core"
+name = "llmx-core"
 version = { workspace = true }
 
 [lib]
 doctest = false
-name = "codex_core"
+name = "llmx_core"
 path = "src/lib.rs"
 
 [lints]
@@ -19,20 +19,20 @@ async-trait = { workspace = true }
 base64 = { workspace = true }
 bytes = { workspace = true }
 chrono = { workspace = true, features = ["serde"] }
-codex-app-server-protocol = { workspace = true }
-codex-apply-patch = { workspace = true }
-codex-async-utils = { workspace = true }
-codex-file-search = { workspace = true }
-codex-git = { workspace = true }
-codex-keyring-store = { workspace = true }
-codex-otel = { workspace = true, features = ["otel"] }
-codex-protocol = { workspace = true }
-codex-rmcp-client = { workspace = true }
-codex-utils-pty = { workspace = true }
-codex-utils-readiness = { workspace = true }
-codex-utils-string = { workspace = true }
-codex-utils-tokenizer = { workspace = true }
-codex-windows-sandbox = { package = "codex-windows-sandbox", path = "../windows-sandbox-rs" }
+llmx-app-server-protocol = { workspace = true }
+llmx-apply-patch = { workspace = true }
+llmx-async-utils = { workspace = true }
+llmx-file-search = { workspace = true }
+llmx-git = { workspace = true }
+llmx-keyring-store = { workspace = true }
+llmx-otel = { workspace = true, features = ["otel"] }
+llmx-protocol = { workspace = true }
+llmx-rmcp-client = { workspace = true }
+llmx-utils-pty = { workspace = true }
+llmx-utils-readiness = { workspace = true }
+llmx-utils-string = { workspace = true }
+llmx-utils-tokenizer = { workspace = true }
+llmx-windows-sandbox = { package = "llmx-windows-sandbox", path = "../windows-sandbox-rs" }
 dirs = { workspace = true }
 dunce = { workspace = true }
 env-flags = { workspace = true }
@@ -104,7 +104,7 @@ openssl-sys = { workspace = true, features = ["vendored"] }
 [dev-dependencies]
 assert_cmd = { workspace = true }
 assert_matches = { workspace = true }
-codex-arg0 = { workspace = true }
+llmx-arg0 = { workspace = true }
 core_test_support = { workspace = true }
 ctor = { workspace = true }
 escargot = { workspace = true }

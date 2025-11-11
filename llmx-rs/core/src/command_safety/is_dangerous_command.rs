@@ -1,5 +1,5 @@
-use codex_protocol::protocol::AskForApproval;
-use codex_protocol::protocol::SandboxPolicy;
+use llmx_protocol::protocol::AskForApproval;
+use llmx_protocol::protocol::SandboxPolicy;
 
 use crate::bash::parse_shell_lc_plain_commands;
 use crate::is_safe_command::is_known_safe_command;

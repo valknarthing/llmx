@@ -1,11 +1,11 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use codex_core::CodexConversation;
-use codex_core::protocol::Op;
-use codex_core::protocol::ReviewDecision;
-use codex_core::protocol::SandboxCommandAssessment;
-use codex_protocol::parse_command::ParsedCommand;
+use llmx_core::CodexConversation;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::ReviewDecision;
+use llmx_core::protocol::SandboxCommandAssessment;
+use llmx_protocol::parse_command::ParsedCommand;
 use mcp_types::ElicitRequest;
 use mcp_types::ElicitRequestParamsRequestedSchema;
 use mcp_types::JSONRPCErrorError;
@@ -16,7 +16,7 @@ use serde::Serialize;
 use serde_json::json;
 use tracing::error;
 
-use crate::codex_tool_runner::INVALID_PARAMS_ERROR_CODE;
+use crate::llmx_tool_runner::INVALID_PARAMS_ERROR_CODE;
 
 /// Conforms to [`mcp_types::ElicitRequestParams`] so that it can be used as the
 /// `params` field of an [`ElicitRequest`].

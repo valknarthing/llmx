@@ -4,7 +4,7 @@
 use std::time::Duration;
 use std::time::Instant;
 
-use codex_core::protocol::Op;
+use llmx_core::protocol::Op;
 use crossterm::event::KeyCode;
 use ratatui::buffer::Buffer;
 use ratatui::layout::Rect;

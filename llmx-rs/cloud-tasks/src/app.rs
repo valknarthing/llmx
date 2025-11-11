@@ -40,9 +40,9 @@ pub struct ApplyModalState {
 }
 
 use crate::scrollable_diff::ScrollableDiff;
-use codex_cloud_tasks_client::CloudBackend;
-use codex_cloud_tasks_client::TaskId;
-use codex_cloud_tasks_client::TaskSummary;
+use llmx_cloud_tasks_client::CloudBackend;
+use llmx_cloud_tasks_client::TaskId;
+use llmx_cloud_tasks_client::TaskSummary;
 #[derive(Default)]
 pub struct App {
     pub tasks: Vec<TaskSummary>,
@@ -148,7 +148,7 @@ pub struct DiffOverlay {
 #[derive(Clone, Debug, Default)]
 pub struct AttemptView {
     pub turn_id: Option<String>,
-    pub status: codex_cloud_tasks_client::AttemptStatus,
+    pub status: llmx_cloud_tasks_client::AttemptStatus,
     pub attempt_placement: Option<i64>,
     pub diff_lines: Vec<String>,
     pub text_lines: Vec<String>,
@@ -316,7 +316,7 @@ pub enum AppEvent {
         turn_id: Option<String>,
         sibling_turn_ids: Vec<String>,
         attempt_placement: Option<i64>,
-        attempt_status: codex_cloud_tasks_client::AttemptStatus,
+        attempt_status: llmx_cloud_tasks_client::AttemptStatus,
     },
     DetailsFailed {
         id: TaskId,
@@ -325,10 +325,10 @@ pub enum AppEvent {
     },
     AttemptsLoaded {
         id: TaskId,
-        attempts: Vec<codex_cloud_tasks_client::TurnAttempt>,
+        attempts: Vec<llmx_cloud_tasks_client::TurnAttempt>,
     },
     /// Background completion of new task submission
-    NewTaskSubmitted(Result<codex_cloud_tasks_client::CreatedTask, String>),
+    NewTaskSubmitted(Result<llmx_cloud_tasks_client::CreatedTask, String>),
     /// Background completion of apply preflight when opening modal or on demand
     ApplyPreflightFinished {
         id: TaskId,
@@ -341,7 +341,7 @@ pub enum AppEvent {
     /// Background completion of apply action (actual patch application)
     ApplyFinished {
         id: TaskId,
-        result: std::result::Result<codex_cloud_tasks_client::ApplyOutcome, String>,
+        result: std::result::Result<llmx_cloud_tasks_client::ApplyOutcome, String>,
     },
 }
 
@@ -357,11 +357,11 @@ mod tests {
     }
 
     #[async_trait::async_trait]
-    impl codex_cloud_tasks_client::CloudBackend for FakeBackend {
+    impl llmx_cloud_tasks_client::CloudBackend for FakeBackend {
         async fn list_tasks(
             &self,
             env: Option<&str>,
-        ) -> codex_cloud_tasks_client::Result<Vec<TaskSummary>> {
+        ) -> llmx_cloud_tasks_client::Result<Vec<TaskSummary>> {
             let key = env.map(str::to_string);
             let titles = self
                 .by_env
@@ -373,11 +373,11 @@ mod tests {
                 out.push(TaskSummary {
                     id: TaskId(format!("T-{i}")),
                     title: t.to_string(),
-                    status: codex_cloud_tasks_client::TaskStatus::Ready,
+                    status: llmx_cloud_tasks_client::TaskStatus::Ready,
                     updated_at: Utc::now(),
                     environment_id: env.map(str::to_string),
                     environment_label: None,
-                    summary: codex_cloud_tasks_client::DiffSummary::default(),
+                    summary: llmx_cloud_tasks_client::DiffSummary::default(),
                     is_review: false,
                     attempt_total: Some(1),
                 });
@@ -388,8 +388,8 @@ mod tests {
         async fn get_task_diff(
             &self,
             _id: TaskId,
-        ) -> codex_cloud_tasks_client::Result<Option<String>> {
-            Err(codex_cloud_tasks_client::CloudTaskError::Unimplemented(
+        ) -> llmx_cloud_tasks_client::Result<Option<String>> {
+            Err(llmx_cloud_tasks_client::CloudTaskError::Unimplemented(
                 "not used in test",
             ))
         }
@@ -397,20 +397,20 @@ mod tests {
         async fn get_task_messages(
             &self,
             _id: TaskId,
-        ) -> codex_cloud_tasks_client::Result<Vec<String>> {
+        ) -> llmx_cloud_tasks_client::Result<Vec<String>> {
             Ok(vec![])
         }
         async fn get_task_text(
             &self,
             _id: TaskId,
-        ) -> codex_cloud_tasks_client::Result<codex_cloud_tasks_client::TaskText> {
-            Ok(codex_cloud_tasks_client::TaskText {
+        ) -> llmx_cloud_tasks_client::Result<llmx_cloud_tasks_client::TaskText> {
+            Ok(llmx_cloud_tasks_client::TaskText {
                 prompt: Some("Example prompt".to_string()),
                 messages: Vec::new(),
                 turn_id: Some("fake-turn".to_string()),
                 sibling_turn_ids: Vec::new(),
                 attempt_placement: Some(0),
-                attempt_status: codex_cloud_tasks_client::AttemptStatus::Completed,
+                attempt_status: llmx_cloud_tasks_client::AttemptStatus::Completed,
             })
         }
 
@@ -418,7 +418,7 @@ mod tests {
             &self,
             _task: TaskId,
             _turn_id: String,
-        ) -> codex_cloud_tasks_client::Result<Vec<codex_cloud_tasks_client::TurnAttempt>> {
+        ) -> llmx_cloud_tasks_client::Result<Vec<llmx_cloud_tasks_client::TurnAttempt>> {
             Ok(Vec::new())
         }
 
@@ -426,8 +426,8 @@ mod tests {
             &self,
             _id: TaskId,
             _diff_override: Option<String>,
-        ) -> codex_cloud_tasks_client::Result<codex_cloud_tasks_client::ApplyOutcome> {
-            Err(codex_cloud_tasks_client::CloudTaskError::Unimplemented(
+        ) -> llmx_cloud_tasks_client::Result<llmx_cloud_tasks_client::ApplyOutcome> {
+            Err(llmx_cloud_tasks_client::CloudTaskError::Unimplemented(
                 "not used in test",
             ))
         }
@@ -436,8 +436,8 @@ mod tests {
             &self,
             _id: TaskId,
             _diff_override: Option<String>,
-        ) -> codex_cloud_tasks_client::Result<codex_cloud_tasks_client::ApplyOutcome> {
-            Err(codex_cloud_tasks_client::CloudTaskError::Unimplemented(
+        ) -> llmx_cloud_tasks_client::Result<llmx_cloud_tasks_client::ApplyOutcome> {
+            Err(llmx_cloud_tasks_client::CloudTaskError::Unimplemented(
                 "not used in test",
             ))
         }
@@ -449,8 +449,8 @@ mod tests {
             _git_ref: &str,
             _qa_mode: bool,
             _best_of_n: usize,
-        ) -> codex_cloud_tasks_client::Result<codex_cloud_tasks_client::CreatedTask> {
-            Err(codex_cloud_tasks_client::CloudTaskError::Unimplemented(
+        ) -> llmx_cloud_tasks_client::Result<llmx_cloud_tasks_client::CreatedTask> {
+            Err(llmx_cloud_tasks_client::CloudTaskError::Unimplemented(
                 "not used in test",
             ))
         }

@@ -1,6 +1,6 @@
 [package]
 edition = "2024"
-name = "codex-chatgpt"
+name = "llmx-chatgpt"
 version = { workspace = true }
 
 [lints]
@@ -9,12 +9,12 @@ workspace = true
 [dependencies]
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["derive"] }
-codex-common = { workspace = true, features = ["cli"] }
-codex-core = { workspace = true }
+llmx-common = { workspace = true, features = ["cli"] }
+llmx-core = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 tokio = { workspace = true, features = ["full"] }
-codex-git = { workspace = true }
+llmx-git = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }

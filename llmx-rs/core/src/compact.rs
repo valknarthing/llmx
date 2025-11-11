@@ -16,12 +16,12 @@ use crate::protocol::TurnContextItem;
 use crate::protocol::WarningEvent;
 use crate::truncate::truncate_middle;
 use crate::util::backoff;
-use codex_protocol::items::TurnItem;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::ResponseInputItem;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::protocol::RolloutItem;
-use codex_protocol::user_input::UserInput;
+use llmx_protocol::items::TurnItem;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::ResponseInputItem;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::protocol::RolloutItem;
+use llmx_protocol::user_input::UserInput;
 use futures::prelude::*;
 use tracing::error;
 

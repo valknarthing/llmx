@@ -1,8 +1,8 @@
 use clap::Parser;
-use codex_arg0::arg0_dispatch_or_else;
-use codex_common::CliConfigOverrides;
-use codex_tui::Cli;
-use codex_tui::run_main;
+use llmx_arg0::arg0_dispatch_or_else;
+use llmx_common::CliConfigOverrides;
+use llmx_tui::Cli;
+use llmx_tui::run_main;
 
 #[derive(Parser, Debug)]
 struct TopCli {
@@ -24,7 +24,7 @@ fn main() -> anyhow::Result<()> {
         let exit_info = run_main(inner, codex_linux_sandbox_exe).await?;
         let token_usage = exit_info.token_usage;
         if !token_usage.is_zero() {
-            println!("{}", codex_core::protocol::FinalOutput::from(token_usage),);
+            println!("{}", llmx_core::protocol::FinalOutput::from(token_usage),);
         }
         Ok(())
     })

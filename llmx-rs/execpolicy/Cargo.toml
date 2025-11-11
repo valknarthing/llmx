@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-execpolicy"
+name = "llmx-execpolicy"
 version = { workspace = true }
 
 [[bin]]
-name = "codex-execpolicy"
+name = "llmx-execpolicy"
 path = "src/main.rs"
 
 [lib]
-name = "codex_execpolicy"
+name = "llmx_execpolicy"
 path = "src/lib.rs"
 
 [lints]

@@ -3,7 +3,7 @@ use std::io::Write;
 use std::path::Path;
 use std::path::PathBuf;
 
-use codex_core::find_conversation_path_by_id_str;
+use llmx_core::find_conversation_path_by_id_str;
 use tempfile::TempDir;
 use uuid::Uuid;
 

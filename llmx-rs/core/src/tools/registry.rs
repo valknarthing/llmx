@@ -3,7 +3,7 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use async_trait::async_trait;
-use codex_protocol::models::ResponseInputItem;
+use llmx_protocol::models::ResponseInputItem;
 use tracing::warn;
 
 use crate::client_common::tools::ToolSpec;

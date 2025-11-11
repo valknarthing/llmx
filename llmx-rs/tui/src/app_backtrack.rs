@@ -8,8 +8,8 @@ use crate::history_cell::UserHistoryCell;
 use crate::pager_overlay::Overlay;
 use crate::tui;
 use crate::tui::TuiEvent;
-use codex_core::protocol::ConversationPathResponseEvent;
-use codex_protocol::ConversationId;
+use llmx_core::protocol::ConversationPathResponseEvent;
+use llmx_protocol::ConversationId;
 use color_eyre::eyre::Result;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
@@ -320,8 +320,8 @@ impl App {
         &self,
         path: PathBuf,
         nth_user_message: usize,
-        cfg: codex_core::config::Config,
-    ) -> codex_core::error::Result<codex_core::NewConversation> {
+        cfg: llmx_core::config::Config,
+    ) -> llmx_core::error::Result<llmx_core::NewConversation> {
         self.server
             .fork_conversation(nth_user_message, cfg, path)
             .await
@@ -331,8 +331,8 @@ impl App {
     fn install_forked_conversation(
         &mut self,
         tui: &mut tui::Tui,
-        cfg: codex_core::config::Config,
-        new_conv: codex_core::NewConversation,
+        cfg: llmx_core::config::Config,
+        new_conv: llmx_core::NewConversation,
         nth_user_message: usize,
         prefill: &str,
     ) {

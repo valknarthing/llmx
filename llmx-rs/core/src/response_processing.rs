@@ -1,8 +1,8 @@
 use crate::codex::Session;
 use crate::codex::TurnContext;
-use codex_protocol::models::FunctionCallOutputPayload;
-use codex_protocol::models::ResponseInputItem;
-use codex_protocol::models::ResponseItem;
+use llmx_protocol::models::FunctionCallOutputPayload;
+use llmx_protocol::models::ResponseInputItem;
+use llmx_protocol::models::ResponseItem;
 use tracing::warn;
 
 /// Process streamed `ResponseItem`s from the model into the pair of:

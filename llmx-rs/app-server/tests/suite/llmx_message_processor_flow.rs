@@ -4,31 +4,31 @@ use app_test_support::create_final_assistant_message_sse_response;
 use app_test_support::create_mock_chat_completions_server;
 use app_test_support::create_shell_sse_response;
 use app_test_support::to_response;
-use codex_app_server_protocol::AddConversationListenerParams;
-use codex_app_server_protocol::AddConversationSubscriptionResponse;
-use codex_app_server_protocol::ExecCommandApprovalParams;
-use codex_app_server_protocol::InputItem;
-use codex_app_server_protocol::JSONRPCNotification;
-use codex_app_server_protocol::JSONRPCResponse;
-use codex_app_server_protocol::NewConversationParams;
-use codex_app_server_protocol::NewConversationResponse;
-use codex_app_server_protocol::RemoveConversationListenerParams;
-use codex_app_server_protocol::RemoveConversationSubscriptionResponse;
-use codex_app_server_protocol::RequestId;
-use codex_app_server_protocol::SendUserMessageParams;
-use codex_app_server_protocol::SendUserMessageResponse;
-use codex_app_server_protocol::SendUserTurnParams;
-use codex_app_server_protocol::SendUserTurnResponse;
-use codex_app_server_protocol::ServerRequest;
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::SandboxPolicy;
-use codex_core::protocol_config_types::ReasoningEffort;
-use codex_core::protocol_config_types::ReasoningSummary;
-use codex_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
-use codex_protocol::config_types::SandboxMode;
-use codex_protocol::parse_command::ParsedCommand;
-use codex_protocol::protocol::Event;
-use codex_protocol::protocol::EventMsg;
+use llmx_app_server_protocol::AddConversationListenerParams;
+use llmx_app_server_protocol::AddConversationSubscriptionResponse;
+use llmx_app_server_protocol::ExecCommandApprovalParams;
+use llmx_app_server_protocol::InputItem;
+use llmx_app_server_protocol::JSONRPCNotification;
+use llmx_app_server_protocol::JSONRPCResponse;
+use llmx_app_server_protocol::NewConversationParams;
+use llmx_app_server_protocol::NewConversationResponse;
+use llmx_app_server_protocol::RemoveConversationListenerParams;
+use llmx_app_server_protocol::RemoveConversationSubscriptionResponse;
+use llmx_app_server_protocol::RequestId;
+use llmx_app_server_protocol::SendUserMessageParams;
+use llmx_app_server_protocol::SendUserMessageResponse;
+use llmx_app_server_protocol::SendUserTurnParams;
+use llmx_app_server_protocol::SendUserTurnResponse;
+use llmx_app_server_protocol::ServerRequest;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_core::protocol_config_types::ReasoningEffort;
+use llmx_core::protocol_config_types::ReasoningSummary;
+use llmx_core::spawn::CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR;
+use llmx_protocol::config_types::SandboxMode;
+use llmx_protocol::parse_command::ParsedCommand;
+use llmx_protocol::protocol::Event;
+use llmx_protocol::protocol::EventMsg;
 use pretty_assertions::assert_eq;
 use std::env;
 use std::path::Path;
@@ -111,7 +111,7 @@ async fn test_codex_jsonrpc_conversation_flow() -> Result<()> {
     let send_user_id = mcp
         .send_send_user_message_request(SendUserMessageParams {
             conversation_id,
-            items: vec![codex_app_server_protocol::InputItem::Text {
+            items: vec![llmx_app_server_protocol::InputItem::Text {
                 text: "text".to_string(),
             }],
         })
@@ -240,7 +240,7 @@ async fn test_send_user_turn_changes_approval_policy_behavior() -> Result<()> {
     let send_user_id = mcp
         .send_send_user_message_request(SendUserMessageParams {
             conversation_id,
-            items: vec![codex_app_server_protocol::InputItem::Text {
+            items: vec![llmx_app_server_protocol::InputItem::Text {
                 text: "run python".to_string(),
             }],
         })
@@ -285,7 +285,7 @@ async fn test_send_user_turn_changes_approval_policy_behavior() -> Result<()> {
     // Approve so the first turn can complete
     mcp.send_response(
         request_id,
-        serde_json::json!({ "decision": codex_core::protocol::ReviewDecision::Approved }),
+        serde_json::json!({ "decision": llmx_core::protocol::ReviewDecision::Approved }),
     )
     .await?;
 
@@ -300,7 +300,7 @@ async fn test_send_user_turn_changes_approval_policy_behavior() -> Result<()> {
     let send_turn_id = mcp
         .send_send_user_turn_request(SendUserTurnParams {
             conversation_id,
-            items: vec![codex_app_server_protocol::InputItem::Text {
+            items: vec![llmx_app_server_protocol::InputItem::Text {
                 text: "run python again".to_string(),
             }],
             cwd: working_directory.clone(),

@@ -1,4 +1,4 @@
-use codex_protocol::custom_prompts::CustomPrompt;
+use llmx_protocol::custom_prompts::CustomPrompt;
 use std::collections::HashSet;
 use std::path::Path;
 use std::path::PathBuf;

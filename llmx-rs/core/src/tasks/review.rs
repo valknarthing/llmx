@@ -1,24 +1,24 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use codex_protocol::items::TurnItem;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::protocol::AgentMessageContentDeltaEvent;
-use codex_protocol::protocol::AgentMessageDeltaEvent;
-use codex_protocol::protocol::Event;
-use codex_protocol::protocol::EventMsg;
-use codex_protocol::protocol::ExitedReviewModeEvent;
-use codex_protocol::protocol::ItemCompletedEvent;
-use codex_protocol::protocol::ReviewOutputEvent;
+use llmx_protocol::items::TurnItem;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::protocol::AgentMessageContentDeltaEvent;
+use llmx_protocol::protocol::AgentMessageDeltaEvent;
+use llmx_protocol::protocol::Event;
+use llmx_protocol::protocol::EventMsg;
+use llmx_protocol::protocol::ExitedReviewModeEvent;
+use llmx_protocol::protocol::ItemCompletedEvent;
+use llmx_protocol::protocol::ReviewOutputEvent;
 use tokio_util::sync::CancellationToken;
 
 use crate::codex::Session;
 use crate::codex::TurnContext;
-use crate::codex_delegate::run_codex_conversation_one_shot;
+use crate::llmx_delegate::run_llmx_conversation_one_shot;
 use crate::review_format::format_review_findings_block;
 use crate::state::TaskKind;
-use codex_protocol::user_input::UserInput;
+use llmx_protocol::user_input::UserInput;
 
 use super::SessionTask;
 use super::SessionTaskContext;
@@ -83,7 +83,7 @@ async fn start_review_conversation(
 
     // Set explicit review rubric for the sub-agent
     sub_agent_config.base_instructions = Some(crate::REVIEW_PROMPT.to_string());
-    (run_codex_conversation_one_shot(
+    (run_llmx_conversation_one_shot(
         sub_agent_config,
         session.auth_manager(),
         input,

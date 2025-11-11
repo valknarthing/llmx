@@ -52,11 +52,11 @@ impl ToolHandler for McpHandler {
         .await;
 
         match response {
-            codex_protocol::models::ResponseInputItem::McpToolCallOutput { result, .. } => {
+            llmx_protocol::models::ResponseInputItem::McpToolCallOutput { result, .. } => {
                 Ok(ToolOutput::Mcp { result })
             }
-            codex_protocol::models::ResponseInputItem::FunctionCallOutput { output, .. } => {
-                let codex_protocol::models::FunctionCallOutputPayload {
+            llmx_protocol::models::ResponseInputItem::FunctionCallOutput { output, .. } => {
+                let llmx_protocol::models::FunctionCallOutputPayload {
                     content,
                     content_items,
                     success,

@@ -1,8 +1,8 @@
-use codex_core::CodexAuth;
-use codex_core::ConversationManager;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol_config_types::ReasoningEffort;
+use llmx_core::CodexAuth;
+use llmx_core::ConversationManager;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol_config_types::ReasoningEffort;
 use core_test_support::load_default_config_for_test;
 use core_test_support::wait_for_event;
 use pretty_assertions::assert_eq;

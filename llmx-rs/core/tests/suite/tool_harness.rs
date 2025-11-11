@@ -3,15 +3,15 @@
 use std::fs;
 
 use assert_matches::assert_matches;
-use codex_core::features::Feature;
-use codex_core::model_family::find_family_for_model;
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol::SandboxPolicy;
-use codex_protocol::config_types::ReasoningSummary;
-use codex_protocol::plan_tool::StepStatus;
-use codex_protocol::user_input::UserInput;
+use llmx_core::features::Feature;
+use llmx_core::model_family::find_family_for_model;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_protocol::config_types::ReasoningSummary;
+use llmx_protocol::plan_tool::StepStatus;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::assert_regex_match;
 use core_test_support::responses;
 use core_test_support::responses::ev_apply_patch_function_call;

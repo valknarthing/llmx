@@ -3,17 +3,17 @@
 use std::collections::HashMap;
 use std::string::ToString;
 
-use codex_core::exec::ExecParams;
-use codex_core::exec::ExecToolCallOutput;
-use codex_core::exec::SandboxType;
-use codex_core::exec::process_exec_tool_call;
-use codex_core::protocol::SandboxPolicy;
-use codex_core::spawn::CODEX_SANDBOX_ENV_VAR;
+use llmx_core::exec::ExecParams;
+use llmx_core::exec::ExecToolCallOutput;
+use llmx_core::exec::SandboxType;
+use llmx_core::exec::process_exec_tool_call;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_core::spawn::CODEX_SANDBOX_ENV_VAR;
 use tempfile::TempDir;
 
-use codex_core::error::Result;
+use llmx_core::error::Result;
 
-use codex_core::get_platform_sandbox;
+use llmx_core::get_platform_sandbox;
 
 fn skip_test() -> bool {
     if std::env::var(CODEX_SANDBOX_ENV_VAR) == Ok("seatbelt".to_string()) {

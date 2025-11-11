@@ -1,5 +1,5 @@
 // Aggregates all former standalone integration tests as modules.
-use codex_arg0::arg0_dispatch;
+use llmx_arg0::arg0_dispatch;
 use ctor::ctor;
 use tempfile::TempDir;
 
@@ -24,7 +24,7 @@ mod approvals;
 mod auth_refresh;
 mod cli_stream;
 mod client;
-mod codex_delegate;
+mod llmx_delegate;
 mod compact;
 mod compact_resume_fork;
 mod deprecation_notice;

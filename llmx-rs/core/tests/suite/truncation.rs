@@ -3,16 +3,16 @@
 
 use anyhow::Context;
 use anyhow::Result;
-use codex_core::config::types::McpServerConfig;
-use codex_core::config::types::McpServerTransportConfig;
-use codex_core::features::Feature;
-use codex_core::model_family::find_family_for_model;
-use codex_core::protocol::AskForApproval;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol::SandboxPolicy;
-use codex_protocol::config_types::ReasoningSummary;
-use codex_protocol::user_input::UserInput;
+use llmx_core::config::types::McpServerConfig;
+use llmx_core::config::types::McpServerTransportConfig;
+use llmx_core::features::Feature;
+use llmx_core::model_family::find_family_for_model;
+use llmx_core::protocol::AskForApproval;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::SandboxPolicy;
+use llmx_protocol::config_types::ReasoningSummary;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::assert_regex_match;
 use core_test_support::responses;
 use core_test_support::responses::ev_assistant_message;
@@ -229,8 +229,8 @@ async fn mcp_tool_call_output_exceeds_limit_truncated_for_model() -> Result<()> 
         config.features.enable(Feature::RmcpClient);
         config.mcp_servers.insert(
             server_name.to_string(),
-            codex_core::config::types::McpServerConfig {
-                transport: codex_core::config::types::McpServerTransportConfig::Stdio {
+            llmx_core::config::types::McpServerConfig {
+                transport: llmx_core::config::types::McpServerTransportConfig::Stdio {
                     command: rmcp_test_server_bin,
                     args: Vec::new(),
                     env: None,

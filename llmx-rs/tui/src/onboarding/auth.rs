@@ -1,13 +1,13 @@
 #![allow(clippy::unwrap_used)]
 
-use codex_core::AuthManager;
-use codex_core::auth::AuthCredentialsStoreMode;
-use codex_core::auth::CLIENT_ID;
-use codex_core::auth::login_with_api_key;
-use codex_core::auth::read_openai_api_key_from_env;
-use codex_login::ServerOptions;
-use codex_login::ShutdownHandle;
-use codex_login::run_login_server;
+use llmx_core::AuthManager;
+use llmx_core::auth::AuthCredentialsStoreMode;
+use llmx_core::auth::CLIENT_ID;
+use llmx_core::auth::login_with_api_key;
+use llmx_core::auth::read_openai_api_key_from_env;
+use llmx_login::ServerOptions;
+use llmx_login::ShutdownHandle;
+use llmx_login::run_login_server;
 use crossterm::event::KeyCode;
 use crossterm::event::KeyEvent;
 use crossterm::event::KeyEventKind;
@@ -29,8 +29,8 @@ use ratatui::widgets::Paragraph;
 use ratatui::widgets::WidgetRef;
 use ratatui::widgets::Wrap;
 
-use codex_app_server_protocol::AuthMode;
-use codex_protocol::config_types::ForcedLoginMethod;
+use llmx_app_server_protocol::AuthMode;
+use llmx_protocol::config_types::ForcedLoginMethod;
 use std::sync::RwLock;
 
 use crate::LoginStatus;
@@ -650,7 +650,7 @@ mod tests {
     use pretty_assertions::assert_eq;
     use tempfile::TempDir;
 
-    use codex_core::auth::AuthCredentialsStoreMode;
+    use llmx_core::auth::AuthCredentialsStoreMode;
 
     fn widget_forced_chatgpt() -> (AuthModeWidget, TempDir) {
         let codex_home = TempDir::new().unwrap();

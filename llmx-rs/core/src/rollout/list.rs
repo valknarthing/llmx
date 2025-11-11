@@ -14,10 +14,10 @@ use uuid::Uuid;
 
 use super::SESSIONS_SUBDIR;
 use crate::protocol::EventMsg;
-use codex_file_search as file_search;
-use codex_protocol::protocol::RolloutItem;
-use codex_protocol::protocol::RolloutLine;
-use codex_protocol::protocol::SessionSource;
+use llmx_file_search as file_search;
+use llmx_protocol::protocol::RolloutItem;
+use llmx_protocol::protocol::RolloutLine;
+use llmx_protocol::protocol::SessionSource;
 
 /// Returned page of conversation summaries.
 #[derive(Debug, Default, PartialEq)]

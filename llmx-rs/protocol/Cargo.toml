@@ -1,20 +1,20 @@
 [package]
 edition = "2024"
-name = "codex-protocol"
+name = "llmx-protocol"
 version = { workspace = true }
 
 [lib]
-name = "codex_protocol"
+name = "llmx_protocol"
 path = "src/lib.rs"
 
 [lints]
 workspace = true
 
 [dependencies]
-codex-git = { workspace = true }
+llmx-git = { workspace = true }
 
 base64 = { workspace = true }
-codex-utils-image = { workspace = true }
+llmx-utils-image = { workspace = true }
 icu_decimal = { workspace = true }
 icu_locale_core = { workspace = true }
 icu_provider = { workspace = true, features = ["sync"] }

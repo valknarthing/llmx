@@ -2,8 +2,8 @@ use std::path::Component;
 use std::path::Path;
 use std::path::PathBuf;
 
-use codex_apply_patch::ApplyPatchAction;
-use codex_apply_patch::ApplyPatchFileChange;
+use llmx_apply_patch::ApplyPatchAction;
+use llmx_apply_patch::ApplyPatchFileChange;
 
 use crate::exec::SandboxType;
 

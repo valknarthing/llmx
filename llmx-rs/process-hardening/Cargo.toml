@@ -1,10 +1,10 @@
 [package]
 edition = "2024"
-name = "codex-process-hardening"
+name = "llmx-process-hardening"
 version = { workspace = true }
 
 [lib]
-name = "codex_process_hardening"
+name = "llmx_process_hardening"
 path = "src/lib.rs"
 
 [lints]

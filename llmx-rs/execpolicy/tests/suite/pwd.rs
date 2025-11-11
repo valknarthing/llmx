@@ -1,15 +1,15 @@
-extern crate codex_execpolicy;
+extern crate llmx_execpolicy;
 
 use std::vec;
 
-use codex_execpolicy::Error;
-use codex_execpolicy::ExecCall;
-use codex_execpolicy::MatchedExec;
-use codex_execpolicy::MatchedFlag;
-use codex_execpolicy::Policy;
-use codex_execpolicy::PositionalArg;
-use codex_execpolicy::ValidExec;
-use codex_execpolicy::get_default_policy;
+use llmx_execpolicy::Error;
+use llmx_execpolicy::ExecCall;
+use llmx_execpolicy::MatchedExec;
+use llmx_execpolicy::MatchedFlag;
+use llmx_execpolicy::Policy;
+use llmx_execpolicy::PositionalArg;
+use llmx_execpolicy::ValidExec;
+use llmx_execpolicy::get_default_policy;
 
 #[expect(clippy::expect_used)]
 fn setup() -> Policy {

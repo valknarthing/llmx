@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-cli"
+name = "llmx-cli"
 version = { workspace = true }
 
 [[bin]]
-name = "codex"
+name = "llmx"
 path = "src/main.rs"
 
 [lib]
-name = "codex_cli"
+name = "llmx_cli"
 path = "src/lib.rs"
 
 [lints]
@@ -18,22 +18,22 @@ workspace = true
 anyhow = { workspace = true }
 clap = { workspace = true, features = ["derive"] }
 clap_complete = { workspace = true }
-codex-app-server = { workspace = true }
-codex-app-server-protocol = { workspace = true }
-codex-arg0 = { workspace = true }
-codex-chatgpt = { workspace = true }
-codex-cloud-tasks = { path = "../cloud-tasks" }
-codex-common = { workspace = true, features = ["cli"] }
-codex-core = { workspace = true }
-codex-exec = { workspace = true }
-codex-login = { workspace = true }
-codex-mcp-server = { workspace = true }
-codex-process-hardening = { workspace = true }
-codex-protocol = { workspace = true }
-codex-responses-api-proxy = { workspace = true }
-codex-rmcp-client = { workspace = true }
-codex-stdio-to-uds = { workspace = true }
-codex-tui = { workspace = true }
+llmx-app-server = { workspace = true }
+llmx-app-server-protocol = { workspace = true }
+llmx-arg0 = { workspace = true }
+llmx-chatgpt = { workspace = true }
+llmx-cloud-tasks = { path = "../cloud-tasks" }
+llmx-common = { workspace = true, features = ["cli"] }
+llmx-core = { workspace = true }
+llmx-exec = { workspace = true }
+llmx-login = { workspace = true }
+llmx-mcp-server = { workspace = true }
+llmx-process-hardening = { workspace = true }
+llmx-protocol = { workspace = true }
+llmx-responses-api-proxy = { workspace = true }
+llmx-rmcp-client = { workspace = true }
+llmx-stdio-to-uds = { workspace = true }
+llmx-tui = { workspace = true }
 ctor = { workspace = true }
 libc = { workspace = true }
 owo-colors = { workspace = true }
@@ -51,7 +51,7 @@ tokio = { workspace = true, features = [
 tracing = { workspace = true }
 
 [target.'cfg(target_os = "windows")'.dependencies]
-codex_windows_sandbox = { package = "codex-windows-sandbox", path = "../windows-sandbox-rs" }
+codex_windows_sandbox = { package = "llmx-windows-sandbox", path = "../windows-sandbox-rs" }
 
 [dev-dependencies]
 assert_cmd = { workspace = true }

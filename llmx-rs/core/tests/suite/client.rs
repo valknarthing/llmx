@@ -1,30 +1,30 @@
-use codex_app_server_protocol::AuthMode;
-use codex_core::CodexAuth;
-use codex_core::ContentItem;
-use codex_core::ConversationManager;
-use codex_core::LocalShellAction;
-use codex_core::LocalShellExecAction;
-use codex_core::LocalShellStatus;
-use codex_core::ModelClient;
-use codex_core::ModelProviderInfo;
-use codex_core::NewConversation;
-use codex_core::Prompt;
-use codex_core::ResponseEvent;
-use codex_core::ResponseItem;
-use codex_core::WireApi;
-use codex_core::auth::AuthCredentialsStoreMode;
-use codex_core::built_in_model_providers;
-use codex_core::error::CodexErr;
-use codex_core::model_family::find_family_for_model;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_core::protocol::SessionSource;
-use codex_otel::otel_event_manager::OtelEventManager;
-use codex_protocol::ConversationId;
-use codex_protocol::models::ReasoningItemContent;
-use codex_protocol::models::ReasoningItemReasoningSummary;
-use codex_protocol::models::WebSearchAction;
-use codex_protocol::user_input::UserInput;
+use llmx_app_server_protocol::AuthMode;
+use llmx_core::CodexAuth;
+use llmx_core::ContentItem;
+use llmx_core::ConversationManager;
+use llmx_core::LocalShellAction;
+use llmx_core::LocalShellExecAction;
+use llmx_core::LocalShellStatus;
+use llmx_core::ModelClient;
+use llmx_core::ModelProviderInfo;
+use llmx_core::NewConversation;
+use llmx_core::Prompt;
+use llmx_core::ResponseEvent;
+use llmx_core::ResponseItem;
+use llmx_core::WireApi;
+use llmx_core::auth::AuthCredentialsStoreMode;
+use llmx_core::built_in_model_providers;
+use llmx_core::error::CodexErr;
+use llmx_core::model_family::find_family_for_model;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_core::protocol::SessionSource;
+use llmx_otel::otel_event_manager::OtelEventManager;
+use llmx_protocol::ConversationId;
+use llmx_protocol::models::ReasoningItemContent;
+use llmx_protocol::models::ReasoningItemReasoningSummary;
+use llmx_protocol::models::WebSearchAction;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::load_default_config_for_test;
 use core_test_support::load_sse_fixture_with_id;
 use core_test_support::responses;
@@ -174,10 +174,10 @@ async fn resume_includes_initial_messages_and_sends_prior_items() {
     .unwrap();
 
     // Prior item: user message (should be delivered)
-    let prior_user = codex_protocol::models::ResponseItem::Message {
+    let prior_user = llmx_protocol::models::ResponseItem::Message {
         id: None,
         role: "user".to_string(),
-        content: vec![codex_protocol::models::ContentItem::InputText {
+        content: vec![llmx_protocol::models::ContentItem::InputText {
             text: "resumed user message".to_string(),
         }],
     };
@@ -194,10 +194,10 @@ async fn resume_includes_initial_messages_and_sends_prior_items() {
     .unwrap();
 
     // Prior item: system message (excluded from API history)
-    let prior_system = codex_protocol::models::ResponseItem::Message {
+    let prior_system = llmx_protocol::models::ResponseItem::Message {
         id: None,
         role: "system".to_string(),
-        content: vec![codex_protocol::models::ContentItem::OutputText {
+        content: vec![llmx_protocol::models::ContentItem::OutputText {
             text: "resumed system instruction".to_string(),
         }],
     };
@@ -214,10 +214,10 @@ async fn resume_includes_initial_messages_and_sends_prior_items() {
     .unwrap();
 
     // Prior item: assistant message
-    let prior_item = codex_protocol::models::ResponseItem::Message {
+    let prior_item = llmx_protocol::models::ResponseItem::Message {
         id: None,
         role: "assistant".to_string(),
-        content: vec![codex_protocol::models::ContentItem::OutputText {
+        content: vec![llmx_protocol::models::ContentItem::OutputText {
             text: "resumed assistant message".to_string(),
         }],
     };
@@ -254,7 +254,7 @@ async fn resume_includes_initial_messages_and_sends_prior_items() {
     let conversation_manager =
         ConversationManager::with_auth(CodexAuth::from_api_key("Test API Key"));
     let auth_manager =
-        codex_core::AuthManager::from_auth_for_testing(CodexAuth::from_api_key("Test API Key"));
+        llmx_core::AuthManager::from_auth_for_testing(CodexAuth::from_api_key("Test API Key"));
     let NewConversation {
         conversation: codex,
         session_configured,
@@ -539,7 +539,7 @@ async fn prefers_apikey_when_config_prefers_apikey_even_with_chatgpt_tokens() {
 
     let auth_manager =
         match CodexAuth::from_auth_storage(codex_home.path(), AuthCredentialsStoreMode::File) {
-            Ok(Some(auth)) => codex_core::AuthManager::from_auth_for_testing(auth),
+            Ok(Some(auth)) => llmx_core::AuthManager::from_auth_for_testing(auth),
             Ok(None) => panic!("No CodexAuth found in codex_home"),
             Err(e) => panic!("Failed to load CodexAuth: {e}"),
         };
@@ -754,7 +754,7 @@ async fn azure_responses_request_includes_store_and_reasoning_ids() {
         effort,
         summary,
         conversation_id,
-        codex_protocol::protocol::SessionSource::Exec,
+        llmx_protocol::protocol::SessionSource::Exec,
     );
 
     let mut prompt = Prompt::default();

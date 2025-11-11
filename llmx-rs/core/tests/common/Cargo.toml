@@ -9,8 +9,8 @@ path = "lib.rs"
 [dependencies]
 anyhow = { workspace = true }
 assert_cmd = { workspace = true }
-codex-core = { workspace = true }
-codex-protocol = { workspace = true }
+llmx-core = { workspace = true }
+llmx-protocol = { workspace = true }
 notify = { workspace = true }
 regex-lite = { workspace = true }
 serde_json = { workspace = true }

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use base64::Engine;
-use codex_utils_image::load_and_resize_to_fit;
+use llmx_utils_image::load_and_resize_to_fit;
 use mcp_types::CallToolResult;
 use mcp_types::ContentBlock;
 use serde::Deserialize;
@@ -11,8 +11,8 @@ use serde::ser::Serializer;
 use ts_rs::TS;
 
 use crate::user_input::UserInput;
-use codex_git::GhostCommit;
-use codex_utils_image::error::ImageProcessingError;
+use llmx_git::GhostCommit;
+use llmx_utils_image::error::ImageProcessingError;
 use schemars::JsonSchema;
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema, TS)]

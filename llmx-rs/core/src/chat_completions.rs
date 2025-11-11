@@ -15,13 +15,13 @@ use crate::model_family::ModelFamily;
 use crate::tools::spec::create_tools_json_for_chat_completions_api;
 use crate::util::backoff;
 use bytes::Bytes;
-use codex_otel::otel_event_manager::OtelEventManager;
-use codex_protocol::models::ContentItem;
-use codex_protocol::models::FunctionCallOutputContentItem;
-use codex_protocol::models::ReasoningItemContent;
-use codex_protocol::models::ResponseItem;
-use codex_protocol::protocol::SessionSource;
-use codex_protocol::protocol::SubAgentSource;
+use llmx_otel::otel_event_manager::OtelEventManager;
+use llmx_protocol::models::ContentItem;
+use llmx_protocol::models::FunctionCallOutputContentItem;
+use llmx_protocol::models::ReasoningItemContent;
+use llmx_protocol::models::ResponseItem;
+use llmx_protocol::protocol::SessionSource;
+use llmx_protocol::protocol::SubAgentSource;
 use eventsource_stream::Eventsource;
 use futures::Stream;
 use futures::StreamExt;
@@ -774,7 +774,7 @@ where
 
                     let is_assistant_message = matches!(
                         &item,
-                        codex_protocol::models::ResponseItem::Message { role, .. } if role == "assistant"
+                        llmx_protocol::models::ResponseItem::Message { role, .. } if role == "assistant"
                     );
 
                     if is_assistant_message {
@@ -784,12 +784,12 @@ where
                                 // seen any deltas; otherwise, deltas already built the
                                 // cumulative text and this would duplicate it.
                                 if this.cumulative.is_empty()
-                                    && let codex_protocol::models::ResponseItem::Message {
+                                    && let llmx_protocol::models::ResponseItem::Message {
                                         content,
                                         ..
                                     } = &item
                                     && let Some(text) = content.iter().find_map(|c| match c {
-                                        codex_protocol::models::ContentItem::OutputText {
+                                        llmx_protocol::models::ContentItem::OutputText {
                                             text,
                                         } => Some(text),
                                         _ => None,
@@ -832,11 +832,11 @@ where
                         && matches!(this.mode, AggregateMode::AggregatedOnly)
                     {
                         let aggregated_reasoning =
-                            codex_protocol::models::ResponseItem::Reasoning {
+                            llmx_protocol::models::ResponseItem::Reasoning {
                                 id: String::new(),
                                 summary: Vec::new(),
                                 content: Some(vec![
-                                    codex_protocol::models::ReasoningItemContent::ReasoningText {
+                                    llmx_protocol::models::ReasoningItemContent::ReasoningText {
                                         text: std::mem::take(&mut this.cumulative_reasoning),
                                     },
                                 ]),
@@ -853,10 +853,10 @@ where
                     // the streamed deltas into a terminal OutputItemDone so callers
                     // can persist/render the message once per turn.
                     if !this.cumulative.is_empty() {
-                        let aggregated_message = codex_protocol::models::ResponseItem::Message {
+                        let aggregated_message = llmx_protocol::models::ResponseItem::Message {
                             id: None,
                             role: "assistant".to_string(),
-                            content: vec![codex_protocol::models::ContentItem::OutputText {
+                            content: vec![llmx_protocol::models::ContentItem::OutputText {
                                 text: std::mem::take(&mut this.cumulative),
                             }],
                         };

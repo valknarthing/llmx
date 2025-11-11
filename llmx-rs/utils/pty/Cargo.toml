@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "codex-utils-pty"
+name = "llmx-utils-pty"
 version = { workspace = true }
 
 [lints]

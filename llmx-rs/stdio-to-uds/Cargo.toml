@@ -1,14 +1,14 @@
 [package]
 edition = "2024"
-name = "codex-stdio-to-uds"
+name = "llmx-stdio-to-uds"
 version = { workspace = true }
 
 [[bin]]
-name = "codex-stdio-to-uds"
+name = "llmx-stdio-to-uds"
 path = "src/main.rs"
 
 [lib]
-name = "codex_stdio_to_uds"
+name = "llmx_stdio_to_uds"
 path = "src/lib.rs"
 
 [lints]

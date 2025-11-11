@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use codex_protocol::models::ShellToolCallParams;
+use llmx_protocol::models::ShellToolCallParams;
 use std::sync::Arc;
 
 use crate::apply_patch;
@@ -116,7 +116,7 @@ impl ShellHandler {
         if exec_params.with_escalated_permissions.unwrap_or(false)
             && !matches!(
                 turn.approval_policy,
-                codex_protocol::protocol::AskForApproval::OnRequest
+                llmx_protocol::protocol::AskForApproval::OnRequest
             )
         {
             return Err(FunctionCallError::RespondToModel(format!(
@@ -126,11 +126,11 @@ impl ShellHandler {
         }
 
         // Intercept apply_patch if present.
-        match codex_apply_patch::maybe_parse_apply_patch_verified(
+        match llmx_apply_patch::maybe_parse_apply_patch_verified(
             &exec_params.command,
             &exec_params.cwd,
         ) {
-            codex_apply_patch::MaybeApplyPatchVerified::Body(changes) => {
+            llmx_apply_patch::MaybeApplyPatchVerified::Body(changes) => {
                 match apply_patch::apply_patch(session.as_ref(), turn.as_ref(), &call_id, changes)
                     .await
                 {
@@ -189,16 +189,16 @@ impl ShellHandler {
                     }
                 }
             }
-            codex_apply_patch::MaybeApplyPatchVerified::CorrectnessError(parse_error) => {
+            llmx_apply_patch::MaybeApplyPatchVerified::CorrectnessError(parse_error) => {
                 return Err(FunctionCallError::RespondToModel(format!(
                     "apply_patch verification failed: {parse_error}"
                 )));
             }
-            codex_apply_patch::MaybeApplyPatchVerified::ShellParseError(error) => {
+            llmx_apply_patch::MaybeApplyPatchVerified::ShellParseError(error) => {
                 tracing::trace!("Failed to parse shell command, {error:?}");
                 // Fall through to regular shell execution.
             }
-            codex_apply_patch::MaybeApplyPatchVerified::NotApplyPatch => {
+            llmx_apply_patch::MaybeApplyPatchVerified::NotApplyPatch => {
                 // Fall through to regular shell execution.
             }
         }

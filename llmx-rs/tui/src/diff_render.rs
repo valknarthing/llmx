@@ -18,8 +18,8 @@ use crate::render::line_utils::prefix_lines;
 use crate::render::renderable::ColumnRenderable;
 use crate::render::renderable::InsetRenderable;
 use crate::render::renderable::Renderable;
-use codex_core::git_info::get_git_repo_root;
-use codex_core::protocol::FileChange;
+use llmx_core::git_info::get_git_repo_root;
+use llmx_core::protocol::FileChange;
 
 // Internal representation for diff line rendering
 enum DiffLineType {

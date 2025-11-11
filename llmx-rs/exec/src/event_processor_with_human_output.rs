@@ -1,29 +1,29 @@
-use codex_common::elapsed::format_duration;
-use codex_common::elapsed::format_elapsed;
-use codex_core::config::Config;
-use codex_core::protocol::AgentMessageEvent;
-use codex_core::protocol::AgentReasoningRawContentEvent;
-use codex_core::protocol::BackgroundEventEvent;
-use codex_core::protocol::DeprecationNoticeEvent;
-use codex_core::protocol::ErrorEvent;
-use codex_core::protocol::Event;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExecCommandBeginEvent;
-use codex_core::protocol::ExecCommandEndEvent;
-use codex_core::protocol::FileChange;
-use codex_core::protocol::McpInvocation;
-use codex_core::protocol::McpToolCallBeginEvent;
-use codex_core::protocol::McpToolCallEndEvent;
-use codex_core::protocol::PatchApplyBeginEvent;
-use codex_core::protocol::PatchApplyEndEvent;
-use codex_core::protocol::SessionConfiguredEvent;
-use codex_core::protocol::StreamErrorEvent;
-use codex_core::protocol::TaskCompleteEvent;
-use codex_core::protocol::TurnAbortReason;
-use codex_core::protocol::TurnDiffEvent;
-use codex_core::protocol::WarningEvent;
-use codex_core::protocol::WebSearchEndEvent;
-use codex_protocol::num_format::format_with_separators;
+use llmx_common::elapsed::format_duration;
+use llmx_common::elapsed::format_elapsed;
+use llmx_core::config::Config;
+use llmx_core::protocol::AgentMessageEvent;
+use llmx_core::protocol::AgentReasoningRawContentEvent;
+use llmx_core::protocol::BackgroundEventEvent;
+use llmx_core::protocol::DeprecationNoticeEvent;
+use llmx_core::protocol::ErrorEvent;
+use llmx_core::protocol::Event;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExecCommandBeginEvent;
+use llmx_core::protocol::ExecCommandEndEvent;
+use llmx_core::protocol::FileChange;
+use llmx_core::protocol::McpInvocation;
+use llmx_core::protocol::McpToolCallBeginEvent;
+use llmx_core::protocol::McpToolCallEndEvent;
+use llmx_core::protocol::PatchApplyBeginEvent;
+use llmx_core::protocol::PatchApplyEndEvent;
+use llmx_core::protocol::SessionConfiguredEvent;
+use llmx_core::protocol::StreamErrorEvent;
+use llmx_core::protocol::TaskCompleteEvent;
+use llmx_core::protocol::TurnAbortReason;
+use llmx_core::protocol::TurnDiffEvent;
+use llmx_core::protocol::WarningEvent;
+use llmx_core::protocol::WebSearchEndEvent;
+use llmx_protocol::num_format::format_with_separators;
 use owo_colors::OwoColorize;
 use owo_colors::Style;
 use shlex::try_join;
@@ -34,9 +34,9 @@ use std::time::Instant;
 use crate::event_processor::CodexStatus;
 use crate::event_processor::EventProcessor;
 use crate::event_processor::handle_last_message;
-use codex_common::create_config_summary_entries;
-use codex_protocol::plan_tool::StepStatus;
-use codex_protocol::plan_tool::UpdatePlanArgs;
+use llmx_common::create_config_summary_entries;
+use llmx_protocol::plan_tool::StepStatus;
+use llmx_protocol::plan_tool::UpdatePlanArgs;
 
 /// This should be configurable. When used in CI, users may not want to impose
 /// a limit so they can see the full transcript.
@@ -61,7 +61,7 @@ pub(crate) struct EventProcessorWithHumanOutput {
     show_agent_reasoning: bool,
     show_raw_agent_reasoning: bool,
     last_message_path: Option<PathBuf>,
-    last_total_token_usage: Option<codex_core::protocol::TokenUsageInfo>,
+    last_total_token_usage: Option<llmx_core::protocol::TokenUsageInfo>,
     final_message: Option<String>,
 }
 

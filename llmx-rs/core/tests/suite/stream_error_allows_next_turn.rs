@@ -1,8 +1,8 @@
-use codex_core::ModelProviderInfo;
-use codex_core::WireApi;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::Op;
-use codex_protocol::user_input::UserInput;
+use llmx_core::ModelProviderInfo;
+use llmx_core::WireApi;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::Op;
+use llmx_protocol::user_input::UserInput;
 use core_test_support::load_sse_fixture_with_id;
 use core_test_support::skip_if_no_network;
 use core_test_support::test_codex::TestCodex;

@@ -33,24 +33,24 @@ use crate::exec_events::TurnFailedEvent;
 use crate::exec_events::TurnStartedEvent;
 use crate::exec_events::Usage;
 use crate::exec_events::WebSearchItem;
-use codex_core::config::Config;
-use codex_core::protocol::AgentMessageEvent;
-use codex_core::protocol::AgentReasoningEvent;
-use codex_core::protocol::Event;
-use codex_core::protocol::EventMsg;
-use codex_core::protocol::ExecCommandBeginEvent;
-use codex_core::protocol::ExecCommandEndEvent;
-use codex_core::protocol::FileChange;
-use codex_core::protocol::McpToolCallBeginEvent;
-use codex_core::protocol::McpToolCallEndEvent;
-use codex_core::protocol::PatchApplyBeginEvent;
-use codex_core::protocol::PatchApplyEndEvent;
-use codex_core::protocol::SessionConfiguredEvent;
-use codex_core::protocol::TaskCompleteEvent;
-use codex_core::protocol::TaskStartedEvent;
-use codex_core::protocol::WebSearchEndEvent;
-use codex_protocol::plan_tool::StepStatus;
-use codex_protocol::plan_tool::UpdatePlanArgs;
+use llmx_core::config::Config;
+use llmx_core::protocol::AgentMessageEvent;
+use llmx_core::protocol::AgentReasoningEvent;
+use llmx_core::protocol::Event;
+use llmx_core::protocol::EventMsg;
+use llmx_core::protocol::ExecCommandBeginEvent;
+use llmx_core::protocol::ExecCommandEndEvent;
+use llmx_core::protocol::FileChange;
+use llmx_core::protocol::McpToolCallBeginEvent;
+use llmx_core::protocol::McpToolCallEndEvent;
+use llmx_core::protocol::PatchApplyBeginEvent;
+use llmx_core::protocol::PatchApplyEndEvent;
+use llmx_core::protocol::SessionConfiguredEvent;
+use llmx_core::protocol::TaskCompleteEvent;
+use llmx_core::protocol::TaskStartedEvent;
+use llmx_core::protocol::WebSearchEndEvent;
+use llmx_protocol::plan_tool::StepStatus;
+use llmx_protocol::plan_tool::UpdatePlanArgs;
 use serde_json::Value as JsonValue;
 use tracing::error;
 use tracing::warn;
@@ -63,7 +63,7 @@ pub struct EventProcessorWithJsonOutput {
     running_patch_applies: HashMap<String, PatchApplyBeginEvent>,
     // Tracks the todo list for the current turn (at most one per turn).
     running_todo_list: Option<RunningTodoList>,
-    last_total_token_usage: Option<codex_core::protocol::TokenUsage>,
+    last_total_token_usage: Option<llmx_core::protocol::TokenUsage>,
     running_mcp_tool_calls: HashMap<String, RunningMcpToolCall>,
     last_critical_error: Option<ThreadErrorEvent>,
 }

@@ -1,24 +1,24 @@
 use std::path::PathBuf;
 
-use crate::codex_message_processor::CodexMessageProcessor;
+use crate::llmx_message_processor::CodexMessageProcessor;
 use crate::error_code::INVALID_REQUEST_ERROR_CODE;
 use crate::outgoing_message::OutgoingMessageSender;
-use codex_app_server_protocol::ClientInfo;
-use codex_app_server_protocol::ClientRequest;
-use codex_app_server_protocol::InitializeResponse;
+use llmx_app_server_protocol::ClientInfo;
+use llmx_app_server_protocol::ClientRequest;
+use llmx_app_server_protocol::InitializeResponse;
 
-use codex_app_server_protocol::JSONRPCError;
-use codex_app_server_protocol::JSONRPCErrorError;
-use codex_app_server_protocol::JSONRPCNotification;
-use codex_app_server_protocol::JSONRPCRequest;
-use codex_app_server_protocol::JSONRPCResponse;
-use codex_core::AuthManager;
-use codex_core::ConversationManager;
-use codex_core::config::Config;
-use codex_core::default_client::USER_AGENT_SUFFIX;
-use codex_core::default_client::get_codex_user_agent;
-use codex_feedback::CodexFeedback;
-use codex_protocol::protocol::SessionSource;
+use llmx_app_server_protocol::JSONRPCError;
+use llmx_app_server_protocol::JSONRPCErrorError;
+use llmx_app_server_protocol::JSONRPCNotification;
+use llmx_app_server_protocol::JSONRPCRequest;
+use llmx_app_server_protocol::JSONRPCResponse;
+use llmx_core::AuthManager;
+use llmx_core::ConversationManager;
+use llmx_core::config::Config;
+use llmx_core::default_client::USER_AGENT_SUFFIX;
+use llmx_core::default_client::get_codex_user_agent;
+use llmx_feedback::CodexFeedback;
+use llmx_protocol::protocol::SessionSource;
 use std::sync::Arc;
 
 pub(crate) struct MessageProcessor {

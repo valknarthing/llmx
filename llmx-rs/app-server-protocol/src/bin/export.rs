@@ -18,5 +18,5 @@ struct Args {
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    codex_app_server_protocol::generate_types(&args.out_dir, args.prettier.as_deref())
+    llmx_app_server_protocol::generate_types(&args.out_dir, args.prettier.as_deref())
 }

@@ -8,7 +8,7 @@ members = [
     "apply-patch",
     "arg0",
     "feedback",
-    "codex-backend-openapi-models",
+    "llmx-backend-openapi-models",
     "cloud-tasks",
     "cloud-tasks-client",
     "cli",
@@ -52,40 +52,40 @@ edition = "2024"
 [workspace.dependencies]
 # Internal
 app_test_support = { path = "app-server/tests/common" }
-codex-ansi-escape = { path = "ansi-escape" }
-codex-app-server = { path = "app-server" }
-codex-app-server-protocol = { path = "app-server-protocol" }
-codex-apply-patch = { path = "apply-patch" }
-codex-arg0 = { path = "arg0" }
-codex-async-utils = { path = "async-utils" }
-codex-backend-client = { path = "backend-client" }
-codex-chatgpt = { path = "chatgpt" }
-codex-common = { path = "common" }
-codex-core = { path = "core" }
-codex-exec = { path = "exec" }
-codex-feedback = { path = "feedback" }
-codex-file-search = { path = "file-search" }
-codex-git = { path = "utils/git" }
-codex-keyring-store = { path = "keyring-store" }
-codex-linux-sandbox = { path = "linux-sandbox" }
-codex-login = { path = "login" }
-codex-mcp-server = { path = "mcp-server" }
-codex-ollama = { path = "ollama" }
-codex-otel = { path = "otel" }
-codex-process-hardening = { path = "process-hardening" }
-codex-protocol = { path = "protocol" }
-codex-responses-api-proxy = { path = "responses-api-proxy" }
-codex-rmcp-client = { path = "rmcp-client" }
-codex-stdio-to-uds = { path = "stdio-to-uds" }
-codex-tui = { path = "tui" }
-codex-utils-cache = { path = "utils/cache" }
-codex-utils-image = { path = "utils/image" }
-codex-utils-json-to-toml = { path = "utils/json-to-toml" }
-codex-utils-pty = { path = "utils/pty" }
-codex-utils-readiness = { path = "utils/readiness" }
-codex-utils-string = { path = "utils/string" }
-codex-utils-tokenizer = { path = "utils/tokenizer" }
-codex-windows-sandbox = { path = "windows-sandbox-rs" }
+llmx-ansi-escape = { path = "ansi-escape" }
+llmx-app-server = { path = "app-server" }
+llmx-app-server-protocol = { path = "app-server-protocol" }
+llmx-apply-patch = { path = "apply-patch" }
+llmx-arg0 = { path = "arg0" }
+llmx-async-utils = { path = "async-utils" }
+llmx-backend-client = { path = "backend-client" }
+llmx-chatgpt = { path = "chatgpt" }
+llmx-common = { path = "common" }
+llmx-core = { path = "core" }
+llmx-exec = { path = "exec" }
+llmx-feedback = { path = "feedback" }
+llmx-file-search = { path = "file-search" }
+llmx-git = { path = "utils/git" }
+llmx-keyring-store = { path = "keyring-store" }
+llmx-linux-sandbox = { path = "linux-sandbox" }
+llmx-login = { path = "login" }
+llmx-mcp-server = { path = "mcp-server" }
+llmx-ollama = { path = "ollama" }
+llmx-otel = { path = "otel" }
+llmx-process-hardening = { path = "process-hardening" }
+llmx-protocol = { path = "protocol" }
+llmx-responses-api-proxy = { path = "responses-api-proxy" }
+llmx-rmcp-client = { path = "rmcp-client" }
+llmx-stdio-to-uds = { path = "stdio-to-uds" }
+llmx-tui = { path = "tui" }
+llmx-utils-cache = { path = "utils/cache" }
+llmx-utils-image = { path = "utils/image" }
+llmx-utils-json-to-toml = { path = "utils/json-to-toml" }
+llmx-utils-pty = { path = "utils/pty" }
+llmx-utils-readiness = { path = "utils/readiness" }
+llmx-utils-string = { path = "utils/string" }
+llmx-utils-tokenizer = { path = "utils/tokenizer" }
+llmx-windows-sandbox = { path = "windows-sandbox-rs" }
 core_test_support = { path = "core/tests/common" }
 mcp-types = { path = "mcp-types" }
 mcp_test_support = { path = "mcp-server/tests/common" }
@@ -257,8 +257,8 @@ unwrap_used = "deny"
 ignored = [
     "icu_provider",
     "openssl-sys",
-    "codex-utils-readiness",
-    "codex-utils-tokenizer",
+    "llmx-utils-readiness",
+    "llmx-utils-tokenizer",
 ]
 
 [profile.release]
