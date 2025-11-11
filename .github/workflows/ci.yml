@@ -36,7 +36,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          CODEX_VERSION=0.40.0
+          CODEX_VERSION=0.1.0
           OUTPUT_DIR="${RUNNER_TEMP}"
           python3 ./scripts/stage_npm_packages.py \
             --release-version "$CODEX_VERSION" \
