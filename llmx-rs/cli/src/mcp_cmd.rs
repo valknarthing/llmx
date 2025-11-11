@@ -27,7 +27,7 @@ use llmx_rmcp_client::supports_oauth_login;
 /// - `serve`  — run the MCP server on stdio
 /// - `list`   — list configured servers (with `--json`)
 /// - `get`    — show a single server (with `--json`)
-/// - `add`    — add a server launcher entry to `~/.codex/config.toml`
+/// - `add`    — add a server launcher entry to `~/.llmx/config.toml`
 /// - `remove` — delete a server entry
 #[derive(Debug, clap::Parser)]
 pub struct McpCli {
@@ -354,7 +354,7 @@ async fn run_login(config_overrides: &CliConfigOverrides, login_args: LoginArgs)
 
     if !config.features.enabled(Feature::RmcpClient) {
         bail!(
-            "OAuth login is only supported when [features].rmcp_client is true in config.toml. See https://github.com/openai/codex/blob/main/docs/config.md#feature-flags for details."
+            "OAuth login is only supported when [features].rmcp_client is true in config.toml. See https://github.com/valknar/llmx/blob/main/docs/config.md#feature-flags for details."
         );
     }
 

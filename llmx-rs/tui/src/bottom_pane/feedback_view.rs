@@ -26,7 +26,7 @@ use super::popup_consts::standard_popup_hint_line;
 use super::textarea::TextArea;
 use super::textarea::TextAreaState;
 
-const BASE_ISSUE_URL: &str = "https://github.com/openai/codex/issues/new?template=2-bug-report.yml";
+const BASE_ISSUE_URL: &str = "https://github.com/valknar/llmx/issues/new?template=2-bug-report.yml";
 
 /// Minimal input overlay to collect an optional feedback note, then upload
 /// both logs and rollout with classification + metadata.

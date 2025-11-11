@@ -142,7 +142,7 @@ pub struct Config {
     /// appends one extra argument containing a JSON payload describing the
     /// event.
     ///
-    /// Example `~/.codex/config.toml` snippet:
+    /// Example `~/.llmx/config.toml` snippet:
     ///
     /// ```toml
     /// notify = ["notify-send", "Codex"]
@@ -178,7 +178,7 @@ pub struct Config {
     /// Preferred store for MCP OAuth credentials.
     /// keyring: Use an OS-specific keyring service.
     ///          Credentials stored in the keyring will only be readable by Codex unless the user explicitly grants access via OS-level keyring access.
-    ///          https://github.com/openai/codex/blob/main/codex-rs/rmcp-client/src/oauth.rs#L2
+    ///          https://github.com/valknar/llmx/blob/main/codex-rs/rmcp-client/src/oauth.rs#L2
     /// file: CODEX_HOME/.credentials.json
     ///       This file will be readable to Codex and other applications running as the same user.
     /// auto (default): keyring if available, otherwise file.
@@ -197,7 +197,7 @@ pub struct Config {
     /// overridden by the `CODEX_HOME` environment variable).
     pub codex_home: PathBuf,
 
-    /// Settings that govern if and what will be written to `~/.codex/history.jsonl`.
+    /// Settings that govern if and what will be written to `~/.llmx/history.jsonl`.
     pub history: History,
 
     /// Optional URI-based file opener. If set, citations to files in the model
@@ -504,7 +504,7 @@ fn apply_toml_override(root: &mut TomlValue, path: &str, value: TomlValue) {
     }
 }
 
-/// Base config deserialized from ~/.codex/config.toml.
+/// Base config deserialized from ~/.llmx/config.toml.
 #[derive(Deserialize, Debug, Clone, Default, PartialEq)]
 pub struct ConfigToml {
     /// Optional override of model selection.
@@ -571,7 +571,7 @@ pub struct ConfigToml {
 
     /// Preferred backend for storing MCP OAuth credentials.
     /// keyring: Use an OS-specific keyring service.
-    ///          https://github.com/openai/codex/blob/main/codex-rs/rmcp-client/src/oauth.rs#L2
+    ///          https://github.com/valknar/llmx/blob/main/codex-rs/rmcp-client/src/oauth.rs#L2
     /// file: Use a file in the Codex home directory.
     /// auto (default): Use the OS-specific keyring service if available, otherwise use a file.
     #[serde(default)]
@@ -594,7 +594,7 @@ pub struct ConfigToml {
     #[serde(default)]
     pub profiles: HashMap<String, ConfigProfile>,
 
-    /// Settings that govern if and what will be written to `~/.codex/history.jsonl`.
+    /// Settings that govern if and what will be written to `~/.llmx/history.jsonl`.
     #[serde(default)]
     pub history: Option<History>,
 

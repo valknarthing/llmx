@@ -291,7 +291,7 @@ impl AuthModeWidget {
             "  Decide how much autonomy you want to grant Codex".into(),
             Line::from(vec![
                 "  For more details see the ".into(),
-                "\u{1b}]8;;https://github.com/openai/codex\u{7}Codex docs\u{1b}]8;;\u{7}".underlined(),
+                "\u{1b}]8;;https://github.com/valknar/llmx\u{7}LLMX docs\u{1b}]8;;\u{7}".underlined(),
             ])
             .dim(),
             "".into(),

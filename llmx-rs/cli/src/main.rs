@@ -36,7 +36,7 @@ use llmx_core::config::Config;
 use llmx_core::config::ConfigOverrides;
 use llmx_core::features::is_known_feature_key;
 
-/// Codex CLI
+/// LLMX CLI
 ///
 /// If no subcommand is specified, options will be forwarded to the interactive CLI.
 #[derive(Debug, Parser)]
@@ -46,10 +46,10 @@ use llmx_core::features::is_known_feature_key;
     // If a sub‑command is given, ignore requirements of the default args.
     subcommand_negates_reqs = true,
     // The executable is sometimes invoked via a platform‑specific name like
-    // `codex-x86_64-unknown-linux-musl`, but the help output should always use
-    // the generic `codex` command name that users run.
-    bin_name = "codex",
-    override_usage = "codex [OPTIONS] [PROMPT]\n       codex [OPTIONS] <COMMAND> [ARGS]"
+    // `llmx-x86_64-unknown-linux-musl`, but the help output should always use
+    // the generic `llmx` command name that users run.
+    bin_name = "llmx",
+    override_usage = "llmx [OPTIONS] [PROMPT]\n       llmx [OPTIONS] <COMMAND> [ARGS]"
 )]
 struct MultitoolCli {
     #[clap(flatten)]

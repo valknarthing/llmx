@@ -17,6 +17,8 @@ importers:
         specifier: ^3.5.3
         version: 3.5.3
 
+  llmx-cli: {}
+
   sdk/typescript:
     devDependencies:
       '@modelcontextprotocol/sdk':
