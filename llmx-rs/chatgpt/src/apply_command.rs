@@ -11,7 +11,7 @@ use crate::get_task::OutputItem;
 use crate::get_task::PrOutputItem;
 use crate::get_task::get_task;
 
-/// Applies the latest diff from a Codex agent task.
+/// Applies the latest diff from a LLMX agent task.
 #[derive(Debug, Parser)]
 pub struct ApplyCommand {
     pub task_id: String,
