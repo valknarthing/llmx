@@ -1,6 +1,7 @@
 packages:
   - docs
   - sdk/typescript
+  - llmx-cli
 
 ignoredBuiltDependencies:
   - esbuild

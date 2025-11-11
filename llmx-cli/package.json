@@ -1,0 +1,22 @@
+{
+  "name": "@llmx/llmx",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "description": "LLMX CLI - Multi-provider coding agent powered by LiteLLM",
+  "bin": {
+    "llmx": "bin/llmx.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "bin",
+    "vendor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valknar/llmx.git",
+    "directory": "llmx-cli"
+  }
+}
