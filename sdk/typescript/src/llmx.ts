@@ -1,19 +1,19 @@
-import { CodexOptions } from "./codexOptions";
-import { CodexExec } from "./exec";
+import { LLMXOptions } from "./llmxOptions";
+import { LLMXExec } from "./exec";
 import { Thread } from "./thread";
 import { ThreadOptions } from "./threadOptions";
 
 /**
- * Codex is the main class for interacting with the Codex agent.
+ * LLMX is the main class for interacting with the LLMX agent.
  *
  * Use the `startThread()` method to start a new thread or `resumeThread()` to resume a previously started thread.
  */
-export class Codex {
-  private exec: CodexExec;
-  private options: CodexOptions;
+export class LLMX {
+  private exec: LLMXExec;
+  private options: LLMXOptions;
 
-  constructor(options: CodexOptions = {}) {
-    this.exec = new CodexExec(options.codexPathOverride);
+  constructor(options: LLMXOptions = {}) {
+    this.exec = new LLMXExec(options.llmxPathOverride);
     this.options = options;
   }
 
@@ -27,7 +27,7 @@ export class Codex {
 
   /**
    * Resumes a conversation with an agent based on the thread id.
-   * Threads are persisted in ~/.codex/sessions.
+   * Threads are persisted in ~/.llmx/sessions.
    *
    * @param id The id of the thread to resume.
    * @returns A new thread instance.

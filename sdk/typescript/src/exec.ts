@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import { SandboxMode, ModelReasoningEffort, ApprovalMode } from "./threadOptions";
 
-export type CodexExecArgs = {
+export type LLMXExecArgs = {
   input: string;
 
   baseUrl?: string;
@@ -35,13 +35,13 @@ export type CodexExecArgs = {
 const INTERNAL_ORIGINATOR_ENV = "CODEX_INTERNAL_ORIGINATOR_OVERRIDE";
 const TYPESCRIPT_SDK_ORIGINATOR = "codex_sdk_ts";
 
-export class CodexExec {
+export class LLMXExec {
   private executablePath: string;
   constructor(executablePath: string | null = null) {
     this.executablePath = executablePath || findCodexPath();
   }
 
-  async *run(args: CodexExecArgs): AsyncGenerator<string> {
+  async *run(args: LLMXExecArgs): AsyncGenerator<string> {
     const commandArgs: string[] = ["exec", "--experimental-json"];
 
     if (args.model) {
@@ -147,7 +147,7 @@ export class CodexExec {
           } else {
             const stderrBuffer = Buffer.concat(stderrChunks);
             reject(
-              new Error(`Codex Exec exited with code ${code}: ${stderrBuffer.toString("utf8")}`),
+              new Error(`LLMX Exec exited with code ${code}: ${stderrBuffer.toString("utf8")}`),
             );
           }
         });
@@ -222,8 +222,8 @@ function findCodexPath() {
 
   const vendorRoot = path.join(scriptDirName, "..", "vendor");
   const archRoot = path.join(vendorRoot, targetTriple);
-  const codexBinaryName = process.platform === "win32" ? "codex.exe" : "codex";
-  const binaryPath = path.join(archRoot, "codex", codexBinaryName);
+  const codexBinaryName = process.platform === "win32" ? "llmx.exe" : "llmx";
+  const binaryPath = path.join(archRoot, "llmx", codexBinaryName);
 
   return binaryPath;
 }
