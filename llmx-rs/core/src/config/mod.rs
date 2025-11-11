@@ -58,12 +58,13 @@ pub mod edit;
 pub mod profile;
 pub mod types;
 
+// Default models for LLMX using LiteLLM format (provider/model)
 #[cfg(target_os = "windows")]
-pub const OPENAI_DEFAULT_MODEL: &str = "gpt-5";
+pub const OPENAI_DEFAULT_MODEL: &str = "anthropic/claude-sonnet-4-20250514";
 #[cfg(not(target_os = "windows"))]
-pub const OPENAI_DEFAULT_MODEL: &str = "gpt-5-codex";
-const OPENAI_DEFAULT_REVIEW_MODEL: &str = "gpt-5-codex";
-pub const GPT_5_CODEX_MEDIUM_MODEL: &str = "gpt-5-codex";
+pub const OPENAI_DEFAULT_MODEL: &str = "anthropic/claude-sonnet-4-20250514";
+const OPENAI_DEFAULT_REVIEW_MODEL: &str = "anthropic/claude-sonnet-4-20250514";
+pub const GPT_5_CODEX_MEDIUM_MODEL: &str = "anthropic/claude-sonnet-4-20250514";
 
 /// Maximum number of bytes of the documentation that will be embedded. Larger
 /// files are *silently truncated* to this size so we do not take up too much of

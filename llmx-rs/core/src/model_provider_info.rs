@@ -267,10 +267,32 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
     use ModelProviderInfo as P;
 
     // We do not want to be in the business of adjucating which third-party
-    // providers are bundled with Codex CLI, so we only include the OpenAI and
-    // open source ("oss") providers by default. Users are encouraged to add to
-    // `model_providers` in config.toml to add their own providers.
+    // providers are bundled with LLMX CLI, so we include LiteLLM as the default,
+    // along with OpenAI and open source ("oss") providers. Users are encouraged
+    // to add to `model_providers` in config.toml to add their own providers.
     [
+        (
+            "litellm",
+            P {
+                name: "LiteLLM".into(),
+                // Allow users to override the default LiteLLM endpoint
+                base_url: std::env::var("LITELLM_BASE_URL")
+                    .ok()
+                    .filter(|v| !v.trim().is_empty())
+                    .or_else(|| Some("http://localhost:4000/v1".into())),
+                env_key: Some("LITELLM_API_KEY".into()),
+                env_key_instructions: Some("Set LITELLM_API_KEY to your LiteLLM master key. See https://docs.litellm.ai/ for setup.".into()),
+                experimental_bearer_token: None,
+                wire_api: WireApi::Chat,
+                query_params: None,
+                http_headers: None,
+                env_http_headers: None,
+                request_max_retries: None,
+                stream_max_retries: None,
+                stream_idle_timeout_ms: None,
+                requires_openai_auth: false,
+            },
+        ),
         (
             "openai",
             P {
