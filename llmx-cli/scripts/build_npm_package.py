@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage and optionally package the @openai/codex npm module."""
+"""Stage and optionally package the @valknar/llmx npm module."""
 
 import argparse
 import json
@@ -12,17 +12,17 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parent
 CODEX_CLI_ROOT = SCRIPT_DIR.parent
 REPO_ROOT = CODEX_CLI_ROOT.parent
-RESPONSES_API_PROXY_NPM_ROOT = REPO_ROOT / "codex-rs" / "responses-api-proxy" / "npm"
+RESPONSES_API_PROXY_NPM_ROOT = REPO_ROOT / "llmx-rs" / "responses-api-proxy" / "npm"
 CODEX_SDK_ROOT = REPO_ROOT / "sdk" / "typescript"
 
 PACKAGE_NATIVE_COMPONENTS: dict[str, list[str]] = {
-    "codex": ["codex", "rg"],
-    "codex-responses-api-proxy": ["codex-responses-api-proxy"],
-    "codex-sdk": ["codex"],
+    "llmx": ["codex", "rg"],
+    "llmx-responses-api-proxy": ["llmx-responses-api-proxy"],
+    "llmx-sdk": ["llmx"],
 }
 COMPONENT_DEST_DIR: dict[str, str] = {
-    "codex": "codex",
-    "codex-responses-api-proxy": "codex-responses-api-proxy",
+    "llmx": "codex",
+    "llmx-responses-api-proxy": "codex-responses-api-proxy",
     "rg": "path",
 }
 
@@ -31,8 +31,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build or stage the Codex CLI npm package.")
     parser.add_argument(
         "--package",
-        choices=("codex", "codex-responses-api-proxy", "codex-sdk"),
-        default="codex",
+        choices=("llmx", "llmx-responses-api-proxy", "llmx-sdk"),
+        default="llmx",
         help="Which npm package to stage (default: codex).",
     )
     parser.add_argument(
@@ -107,14 +107,14 @@ def main() -> int:
 
         if release_version:
             staging_dir_str = str(staging_dir)
-            if package == "codex":
+            if package == "llmx":
                 print(
                     f"Staged version {version} for release in {staging_dir_str}\n\n"
                     "Verify the CLI:\n"
                     f"    node {staging_dir_str}/bin/codex.js --version\n"
                     f"    node {staging_dir_str}/bin/codex.js --help\n\n"
                 )
-            elif package == "codex-responses-api-proxy":
+            elif package == "llmx-responses-api-proxy":
                 print(
                     f"Staged version {version} for release in {staging_dir_str}\n\n"
                     "Verify the responses API proxy:\n"
@@ -155,7 +155,7 @@ def prepare_staging_dir(staging_dir: Path | None) -> tuple[Path, bool]:
 
 
 def stage_sources(staging_dir: Path, version: str, package: str) -> None:
-    if package == "codex":
+    if package == "llmx":
         bin_dir = staging_dir / "bin"
         bin_dir.mkdir(parents=True, exist_ok=True)
         shutil.copy2(CODEX_CLI_ROOT / "bin" / "codex.js", bin_dir / "codex.js")
@@ -168,7 +168,7 @@ def stage_sources(staging_dir: Path, version: str, package: str) -> None:
             shutil.copy2(readme_src, staging_dir / "README.md")
 
         package_json_path = CODEX_CLI_ROOT / "package.json"
-    elif package == "codex-responses-api-proxy":
+    elif package == "llmx-responses-api-proxy":
         bin_dir = staging_dir / "bin"
         bin_dir.mkdir(parents=True, exist_ok=True)
         launcher_src = RESPONSES_API_PROXY_NPM_ROOT / "bin" / "codex-responses-api-proxy.js"
@@ -179,7 +179,7 @@ def stage_sources(staging_dir: Path, version: str, package: str) -> None:
             shutil.copy2(readme_src, staging_dir / "README.md")
 
         package_json_path = RESPONSES_API_PROXY_NPM_ROOT / "package.json"
-    elif package == "codex-sdk":
+    elif package == "llmx-sdk":
         package_json_path = CODEX_SDK_ROOT / "package.json"
         stage_codex_sdk_sources(staging_dir)
     else:
@@ -189,7 +189,7 @@ def stage_sources(staging_dir: Path, version: str, package: str) -> None:
         package_json = json.load(fh)
     package_json["version"] = version
 
-    if package == "codex-sdk":
+    if package == "llmx-sdk":
         scripts = package_json.get("scripts")
         if isinstance(scripts, dict):
             scripts.pop("prepare", None)

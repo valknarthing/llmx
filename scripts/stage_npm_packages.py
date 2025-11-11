@@ -14,12 +14,12 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-BUILD_SCRIPT = REPO_ROOT / "codex-cli" / "scripts" / "build_npm_package.py"
-INSTALL_NATIVE_DEPS = REPO_ROOT / "codex-cli" / "scripts" / "install_native_deps.py"
+BUILD_SCRIPT = REPO_ROOT / "llmx-cli" / "scripts" / "build_npm_package.py"
+INSTALL_NATIVE_DEPS = REPO_ROOT / "llmx-cli" / "scripts" / "install_native_deps.py"
 WORKFLOW_NAME = ".github/workflows/rust-release.yml"
-GITHUB_REPO = "openai/codex"
+GITHUB_REPO = "valknar/llmx"
 
-_SPEC = importlib.util.spec_from_file_location("codex_build_npm_package", BUILD_SCRIPT)
+_SPEC = importlib.util.spec_from_file_location("llmx_build_npm_package", BUILD_SCRIPT)
 if _SPEC is None or _SPEC.loader is None:
     raise RuntimeError(f"Unable to load module from {BUILD_SCRIPT}")
 _BUILD_MODULE = importlib.util.module_from_spec(_SPEC)

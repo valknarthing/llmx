@@ -17,10 +17,10 @@ from urllib.parse import urlparse
 from urllib.request import urlopen
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-CODEX_CLI_ROOT = SCRIPT_DIR.parent
-DEFAULT_WORKFLOW_URL = "https://github.com/openai/codex/actions/runs/17952349351"  # rust-v0.40.0
+LLMX_CLI_ROOT = SCRIPT_DIR.parent
+DEFAULT_WORKFLOW_URL = "https://github.com/valknar/llmx/actions/runs/17952349351"  # rust-v0.40.0
 VENDOR_DIR_NAME = "vendor"
-RG_MANIFEST = CODEX_CLI_ROOT / "bin" / "rg"
+RG_MANIFEST = LLMX_CLI_ROOT / "bin" / "rg"
 BINARY_TARGETS = (
     "x86_64-unknown-linux-musl",
     "aarch64-unknown-linux-musl",
@@ -39,15 +39,15 @@ class BinaryComponent:
 
 
 BINARY_COMPONENTS = {
-    "codex": BinaryComponent(
-        artifact_prefix="codex",
-        dest_dir="codex",
-        binary_basename="codex",
+    "llmx": BinaryComponent(
+        artifact_prefix="llmx",
+        dest_dir="llmx",
+        binary_basename="llmx",
     ),
-    "codex-responses-api-proxy": BinaryComponent(
-        artifact_prefix="codex-responses-api-proxy",
-        dest_dir="codex-responses-api-proxy",
-        binary_basename="codex-responses-api-proxy",
+    "llmx-responses-api-proxy": BinaryComponent(
+        artifact_prefix="llmx-responses-api-proxy",
+        dest_dir="llmx-responses-api-proxy",
+        binary_basename="llmx-responses-api-proxy",
     ),
 }
 
@@ -97,11 +97,11 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
 
-    codex_cli_root = (args.root or CODEX_CLI_ROOT).resolve()
+    codex_cli_root = (args.root or LLMX_CLI_ROOT).resolve()
     vendor_dir = codex_cli_root / VENDOR_DIR_NAME
     vendor_dir.mkdir(parents=True, exist_ok=True)
 
-    components = args.components or ["codex", "rg"]
+    components = args.components or ["llmx", "rg"]
 
     workflow_url = (args.workflow_url or DEFAULT_WORKFLOW_URL).strip()
     if not workflow_url:
@@ -110,7 +110,7 @@ def main() -> int:
     workflow_id = workflow_url.rstrip("/").split("/")[-1]
     print(f"Downloading native artifacts from workflow {workflow_id}...")
 
-    with tempfile.TemporaryDirectory(prefix="codex-native-artifacts-") as artifacts_dir_str:
+    with tempfile.TemporaryDirectory(prefix="llmx-native-artifacts-") as artifacts_dir_str:
         artifacts_dir = Path(artifacts_dir_str)
         _download_artifacts(workflow_id, artifacts_dir)
         install_binary_components(
@@ -197,7 +197,7 @@ def _download_artifacts(workflow_id: str, dest_dir: Path) -> None:
         "--dir",
         str(dest_dir),
         "--repo",
-        "openai/codex",
+        "valknar/llmx",
         workflow_id,
     ]
     subprocess.check_call(cmd)
