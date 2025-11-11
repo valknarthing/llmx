@@ -197,7 +197,7 @@ def _download_artifacts(workflow_id: str, dest_dir: Path) -> None:
         "--dir",
         str(dest_dir),
         "--repo",
-        "valknar/llmx",
+        "valknarthing/llmx",
         workflow_id,
     ]
     subprocess.check_call(cmd)
