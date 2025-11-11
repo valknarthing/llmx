@@ -16,13 +16,13 @@ RESPONSES_API_PROXY_NPM_ROOT = REPO_ROOT / "llmx-rs" / "responses-api-proxy" / "
 CODEX_SDK_ROOT = REPO_ROOT / "sdk" / "typescript"
 
 PACKAGE_NATIVE_COMPONENTS: dict[str, list[str]] = {
-    "llmx": ["codex", "rg"],
+    "llmx": ["llmx", "rg"],
     "llmx-responses-api-proxy": ["llmx-responses-api-proxy"],
     "llmx-sdk": ["llmx"],
 }
 COMPONENT_DEST_DIR: dict[str, str] = {
-    "llmx": "codex",
-    "llmx-responses-api-proxy": "codex-responses-api-proxy",
+    "llmx": "llmx",
+    "llmx-responses-api-proxy": "llmx-responses-api-proxy",
     "rg": "path",
 }
 
@@ -111,14 +111,14 @@ def main() -> int:
                 print(
                     f"Staged version {version} for release in {staging_dir_str}\n\n"
                     "Verify the CLI:\n"
-                    f"    node {staging_dir_str}/bin/codex.js --version\n"
-                    f"    node {staging_dir_str}/bin/codex.js --help\n\n"
+                    f"    node {staging_dir_str}/bin/llmx.js --version\n"
+                    f"    node {staging_dir_str}/bin/llmx.js --help\n\n"
                 )
             elif package == "llmx-responses-api-proxy":
                 print(
                     f"Staged version {version} for release in {staging_dir_str}\n\n"
                     "Verify the responses API proxy:\n"
-                    f"    node {staging_dir_str}/bin/codex-responses-api-proxy.js --help\n\n"
+                    f"    node {staging_dir_str}/bin/llmx-responses-api-proxy.js --help\n\n"
                 )
             else:
                 print(
@@ -158,7 +158,7 @@ def stage_sources(staging_dir: Path, version: str, package: str) -> None:
     if package == "llmx":
         bin_dir = staging_dir / "bin"
         bin_dir.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(CODEX_CLI_ROOT / "bin" / "codex.js", bin_dir / "codex.js")
+        shutil.copy2(CODEX_CLI_ROOT / "bin" / "llmx.js", bin_dir / "llmx.js")
         rg_manifest = CODEX_CLI_ROOT / "bin" / "rg"
         if rg_manifest.exists():
             shutil.copy2(rg_manifest, bin_dir / "rg")
@@ -171,8 +171,8 @@ def stage_sources(staging_dir: Path, version: str, package: str) -> None:
     elif package == "llmx-responses-api-proxy":
         bin_dir = staging_dir / "bin"
         bin_dir.mkdir(parents=True, exist_ok=True)
-        launcher_src = RESPONSES_API_PROXY_NPM_ROOT / "bin" / "codex-responses-api-proxy.js"
-        shutil.copy2(launcher_src, bin_dir / "codex-responses-api-proxy.js")
+        launcher_src = RESPONSES_API_PROXY_NPM_ROOT / "bin" / "llmx-responses-api-proxy.js"
+        shutil.copy2(launcher_src, bin_dir / "llmx-responses-api-proxy.js")
 
         readme_src = RESPONSES_API_PROXY_NPM_ROOT / "README.md"
         if readme_src.exists():
