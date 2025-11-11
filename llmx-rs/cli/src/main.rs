@@ -80,7 +80,7 @@ enum Subcommand {
     /// [experimental] Run LLMX as an MCP server and manage MCP servers.
     Mcp(McpCli),
 
-    /// [experimental] Run the Codex MCP server (stdio transport).
+    /// [experimental] Run the LLMX MCP server (stdio transport).
     McpServer,
 
     /// [experimental] Run the app server or related tooling.
