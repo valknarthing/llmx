@@ -19,6 +19,7 @@ members = [
     "keyring-store",
     "file-search",
     "linux-sandbox",
+    "windows-sandbox-rs",
     "login",
     "mcp-server",
     "mcp-types",
