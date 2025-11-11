@@ -371,7 +371,7 @@ pub(crate) fn create_text_param_for_request(
             r#type: TextFormatType::JsonSchema,
             strict: true,
             schema: schema.clone(),
-            name: "codex_output_schema".to_string(),
+            name: "llmx_output_schema".to_string(),
         }),
     })
 }
@@ -518,7 +518,7 @@ mod tests {
 
         assert_eq!(
             format.get("name"),
-            Some(&serde_json::Value::String("codex_output_schema".into()))
+            Some(&serde_json::Value::String("llmx_output_schema".into()))
         );
         assert_eq!(
             format.get("type"),

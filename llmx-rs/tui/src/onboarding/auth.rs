@@ -177,7 +177,7 @@ impl AuthModeWidget {
         let mut lines: Vec<Line> = vec![
             Line::from(vec![
                 "  ".into(),
-                "Sign in with ChatGPT to use Codex as part of your paid plan".into(),
+                "Sign in with ChatGPT to use LLMX as part of your paid plan".into(),
             ]),
             Line::from(vec![
                 "  ".into(),
@@ -288,14 +288,14 @@ impl AuthModeWidget {
             "".into(),
             "  Before you start:".into(),
             "".into(),
-            "  Decide how much autonomy you want to grant Codex".into(),
+            "  Decide how much autonomy you want to grant LLMX".into(),
             Line::from(vec![
                 "  For more details see the ".into(),
                 "\u{1b}]8;;https://github.com/valknar/llmx\u{7}LLMX docs\u{1b}]8;;\u{7}".underlined(),
             ])
             .dim(),
             "".into(),
-            "  Codex can make mistakes".into(),
+            "  LLMX can make mistakes".into(),
             "  Review the code it writes and commands it runs".dim().into(),
             "".into(),
             "  Powered by your ChatGPT account".into(),
@@ -329,7 +329,7 @@ impl AuthModeWidget {
         let lines = vec![
             "✓ API key configured".fg(Color::Green).into(),
             "".into(),
-            "  Codex will use usage-based billing with your API key.".into(),
+            "  LLMX will use usage-based billing with your API key.".into(),
         ];
 
         Paragraph::new(lines)
