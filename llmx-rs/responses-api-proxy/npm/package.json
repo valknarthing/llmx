@@ -1,9 +1,9 @@
 {
-  "name": "@openai/codex-responses-api-proxy",
-  "version": "0.0.0-dev",
+  "name": "@valknar/llmx-responses-api-proxy",
+  "version": "0.1.0",
   "license": "Apache-2.0",
   "bin": {
-    "codex-responses-api-proxy": "bin/codex-responses-api-proxy.js"
+    "llmx-responses-api-proxy": "bin/llmx-responses-api-proxy.js"
   },
   "type": "module",
   "engines": {
@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/openai/codex.git",
-    "directory": "codex-rs/responses-api-proxy/npm"
+    "url": "git+https://github.com/valknar/llmx.git",
+    "directory": "llmx-rs/responses-api-proxy/npm"
   }
 }

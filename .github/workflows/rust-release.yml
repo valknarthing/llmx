@@ -445,9 +445,9 @@ jobs:
         run: |
           ./scripts/stage_npm_packages.py \
             --release-version "${{ steps.release_name.outputs.name }}" \
-            --package llmx \
-            --package llmx-responses-api-proxy \
-            --package llmx-sdk
+            --package @valknar/llmx \
+            --package @valknar/llmx-responses-api-proxy \
+            --package @valknar/llmx-sdk
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -501,15 +501,15 @@ jobs:
           mkdir -p dist/npm
           gh release download "$tag" \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "llmx-npm-${version}.tgz" \
+            --pattern "valknar-llmx-npm-${version}.tgz" \
             --dir dist/npm
           gh release download "$tag" \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "llmx-responses-api-proxy-npm-${version}.tgz" \
+            --pattern "valknar-llmx-responses-api-proxy-npm-${version}.tgz" \
             --dir dist/npm
           gh release download "$tag" \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "llmx-sdk-npm-${version}.tgz" \
+            --pattern "valknar-llmx-sdk-npm-${version}.tgz" \
             --dir dist/npm
 
       # No NODE_AUTH_TOKEN needed because we use OIDC.
@@ -525,9 +525,9 @@ jobs:
           fi
 
           tarballs=(
-            "llmx-npm-${VERSION}.tgz"
-            "llmx-responses-api-proxy-npm-${VERSION}.tgz"
-            "llmx-sdk-npm-${VERSION}.tgz"
+            "valknar-llmx-npm-${VERSION}.tgz"
+            "valknar-llmx-responses-api-proxy-npm-${VERSION}.tgz"
+            "valknar-llmx-sdk-npm-${VERSION}.tgz"
           )
 
           for tarball in "${tarballs[@]}"; do
