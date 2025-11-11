@@ -111,13 +111,15 @@ jobs:
           set -euo pipefail
 
           if [[ -z "${APPLE_CERTIFICATE:-}" ]]; then
-            echo "APPLE_CERTIFICATE is required for macOS signing"
-            exit 1
+            echo "⚠️  APPLE_CERTIFICATE not set - skipping macOS code signing"
+            echo "SKIP_MACOS_SIGNING=true" >> "$GITHUB_ENV"
+            exit 0
           fi
 
           if [[ -z "${APPLE_CERTIFICATE_PASSWORD:-}" ]]; then
-            echo "APPLE_CERTIFICATE_PASSWORD is required for macOS signing"
-            exit 1
+            echo "⚠️  APPLE_CERTIFICATE_PASSWORD not set - skipping macOS code signing"
+            echo "SKIP_MACOS_SIGNING=true" >> "$GITHUB_ENV"
+            exit 0
           fi
 
           cert_path="${RUNNER_TEMP}/apple_signing_certificate.p12"
@@ -185,15 +187,15 @@ jobs:
           echo "APPLE_CODESIGN_KEYCHAIN=$keychain_path" >> "$GITHUB_ENV"
           echo "::add-mask::$APPLE_CODESIGN_IDENTITY"
 
-      - if: ${{ matrix.runner == 'macos-15-xlarge' }}
+      - if: ${{ matrix.runner == 'macos-15-xlarge' && env.SKIP_MACOS_SIGNING != 'true' }}
         name: Sign macOS binaries
         shell: bash
         run: |
           set -euo pipefail
 
           if [[ -z "${APPLE_CODESIGN_IDENTITY:-}" ]]; then
-            echo "APPLE_CODESIGN_IDENTITY is required for macOS signing"
-            exit 1
+            echo "⚠️  APPLE_CODESIGN_IDENTITY not set - skipping macOS signing"
+            exit 0
           fi
 
           keychain_args=()
@@ -206,7 +208,7 @@ jobs:
             codesign --force --options runtime --timestamp --sign "$APPLE_CODESIGN_IDENTITY" "${keychain_args[@]}" "$path"
           done
 
-      - if: ${{ matrix.runner == 'macos-15-xlarge' }}
+      - if: ${{ matrix.runner == 'macos-15-xlarge' && env.SKIP_MACOS_SIGNING != 'true' }}
         name: Notarize macOS binaries
         shell: bash
         env:
@@ -218,8 +220,8 @@ jobs:
 
           for var in APPLE_NOTARIZATION_KEY_P8 APPLE_NOTARIZATION_KEY_ID APPLE_NOTARIZATION_ISSUER_ID; do
             if [[ -z "${!var:-}" ]]; then
-              echo "$var is required for notarization"
-              exit 1
+              echo "⚠️  $var not set - skipping macOS notarization"
+              exit 0
             fi
           done
 
@@ -341,7 +343,7 @@ jobs:
           done
 
       - name: Remove signing keychain
-        if: ${{ always() && matrix.runner == 'macos-15-xlarge' }}
+        if: ${{ always() && matrix.runner == 'macos-15-xlarge' && env.SKIP_MACOS_SIGNING != 'true' }}
         shell: bash
         env:
           APPLE_CODESIGN_KEYCHAIN: ${{ env.APPLE_CODESIGN_KEYCHAIN }}
