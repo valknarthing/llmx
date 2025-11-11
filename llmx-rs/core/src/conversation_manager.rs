@@ -1,8 +1,8 @@
 use crate::AuthManager;
 use crate::CodexAuth;
-use crate::codex::Codex;
-use crate::codex::CodexSpawnOk;
-use crate::codex::INITIAL_SUBMIT_ID;
+use crate::llmx::Codex;
+use crate::llmx::CodexSpawnOk;
+use crate::llmx::INITIAL_SUBMIT_ID;
 use crate::llmx_conversation::CodexConversation;
 use crate::config::Config;
 use crate::error::CodexErr;
@@ -229,7 +229,7 @@ fn truncate_before_nth_user_message(history: InitialHistory, n: usize) -> Initia
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::codex::make_session_and_context;
+    use crate::llmx::make_session_and_context;
     use assert_matches::assert_matches;
     use llmx_protocol::models::ContentItem;
     use llmx_protocol::models::ReasoningItemReasoningSummary;

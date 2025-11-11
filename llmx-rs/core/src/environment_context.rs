@@ -2,7 +2,7 @@ use serde::Deserialize;
 use serde::Serialize;
 use strum_macros::Display as DeriveDisplay;
 
-use crate::codex::TurnContext;
+use crate::llmx::TurnContext;
 use crate::protocol::AskForApproval;
 use crate::protocol::SandboxPolicy;
 use crate::shell::Shell;

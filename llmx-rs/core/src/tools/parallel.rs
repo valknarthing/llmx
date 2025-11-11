@@ -6,8 +6,8 @@ use tokio_util::either::Either;
 use tokio_util::sync::CancellationToken;
 use tokio_util::task::AbortOnDropHandle;
 
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 use crate::error::CodexErr;
 use crate::function_tool::FunctionCallError;
 use crate::tools::context::SharedTurnDiffTracker;

@@ -16,11 +16,11 @@ use llmx_protocol::user_input::UserInput;
 use tokio_util::sync::CancellationToken;
 
 use crate::AuthManager;
-use crate::codex::Codex;
-use crate::codex::CodexSpawnOk;
-use crate::codex::SUBMISSION_CHANNEL_CAPACITY;
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Codex;
+use crate::llmx::CodexSpawnOk;
+use crate::llmx::SUBMISSION_CHANNEL_CAPACITY;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 use crate::config::Config;
 use crate::error::CodexErr;
 use llmx_protocol::protocol::InitialHistory;

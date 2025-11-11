@@ -2,9 +2,9 @@ use std::sync::Arc;
 
 use crate::Prompt;
 use crate::client_common::ResponseEvent;
-use crate::codex::Session;
-use crate::codex::TurnContext;
-use crate::codex::get_last_assistant_message_from_turn;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
+use crate::llmx::get_last_assistant_message_from_turn;
 use crate::error::CodexErr;
 use crate::error::Result as CodexResult;
 use crate::protocol::AgentMessageEvent;

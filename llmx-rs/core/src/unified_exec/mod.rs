@@ -31,8 +31,8 @@ use rand::Rng;
 use rand::rng;
 use tokio::sync::Mutex;
 
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 
 mod errors;
 mod session;
@@ -161,9 +161,9 @@ pub(crate) fn truncate_output_to_tokens(
 #[cfg(unix)]
 mod tests {
     use super::*;
-    use crate::codex::Session;
-    use crate::codex::TurnContext;
-    use crate::codex::make_session_and_context;
+    use crate::llmx::Session;
+    use crate::llmx::TurnContext;
+    use crate::llmx::make_session_and_context;
     use crate::protocol::AskForApproval;
     use crate::protocol::SandboxPolicy;
     use crate::unified_exec::ExecCommandRequest;

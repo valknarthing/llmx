@@ -17,8 +17,8 @@ use tracing::trace;
 use tracing::warn;
 
 use crate::AuthManager;
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 use crate::protocol::EventMsg;
 use crate::protocol::TaskCompleteEvent;
 use crate::protocol::TurnAbortReason;

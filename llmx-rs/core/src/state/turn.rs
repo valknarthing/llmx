@@ -11,7 +11,7 @@ use tokio_util::task::AbortOnDropHandle;
 use llmx_protocol::models::ResponseInputItem;
 use tokio::sync::oneshot;
 
-use crate::codex::TurnContext;
+use crate::llmx::TurnContext;
 use crate::protocol::ReviewDecision;
 use crate::tasks::SessionTask;
 

@@ -1,4 +1,4 @@
-use crate::codex::ProcessedResponseItem;
+use crate::llmx::ProcessedResponseItem;
 use crate::exec::ExecToolCallOutput;
 use crate::token_data::KnownPlan;
 use crate::token_data::PlanType;

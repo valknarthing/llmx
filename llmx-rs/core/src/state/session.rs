@@ -2,7 +2,7 @@
 
 use llmx_protocol::models::ResponseItem;
 
-use crate::codex::SessionConfiguration;
+use crate::llmx::SessionConfiguration;
 use crate::context_manager::ContextManager;
 use crate::protocol::RateLimitSnapshot;
 use crate::protocol::TokenUsage;

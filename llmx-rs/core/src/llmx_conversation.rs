@@ -1,4 +1,4 @@
-use crate::codex::Codex;
+use crate::llmx::Codex;
 use crate::error::Result as CodexResult;
 use crate::protocol::Event;
 use crate::protocol::Op;

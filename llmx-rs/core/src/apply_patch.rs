@@ -1,5 +1,5 @@
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 use crate::function_tool::FunctionCallError;
 use crate::protocol::FileChange;
 use crate::protocol::ReviewDecision;

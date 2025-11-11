@@ -13,8 +13,8 @@ use llmx_protocol::protocol::ItemCompletedEvent;
 use llmx_protocol::protocol::ReviewOutputEvent;
 use tokio_util::sync::CancellationToken;
 
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 use crate::llmx_delegate::run_llmx_conversation_one_shot;
 use crate::review_format::format_review_findings_block;
 use crate::state::TaskKind;

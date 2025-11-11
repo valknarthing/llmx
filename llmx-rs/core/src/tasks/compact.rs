@@ -3,7 +3,7 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use tokio_util::sync::CancellationToken;
 
-use crate::codex::TurnContext;
+use crate::llmx::TurnContext;
 use crate::compact;
 use crate::state::TaskKind;
 use llmx_protocol::user_input::UserInput;

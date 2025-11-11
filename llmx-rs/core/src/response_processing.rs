@@ -1,5 +1,5 @@
-use crate::codex::Session;
-use crate::codex::TurnContext;
+use crate::llmx::Session;
+use crate::llmx::TurnContext;
 use llmx_protocol::models::FunctionCallOutputPayload;
 use llmx_protocol::models::ResponseInputItem;
 use llmx_protocol::models::ResponseItem;
@@ -9,14 +9,14 @@ use tracing::warn;
 /// - items we should record in conversation history; and
 /// - `ResponseInputItem`s to send back to the model on the next turn.
 pub(crate) async fn process_items(
-    processed_items: Vec<crate::codex::ProcessedResponseItem>,
+    processed_items: Vec<crate::llmx::ProcessedResponseItem>,
     sess: &Session,
     turn_context: &TurnContext,
 ) -> (Vec<ResponseInputItem>, Vec<ResponseItem>) {
     let mut items_to_record_in_conversation_history = Vec::<ResponseItem>::new();
     let mut responses = Vec::<ResponseInputItem>::new();
     for processed_response_item in processed_items {
-        let crate::codex::ProcessedResponseItem { item, response } = processed_response_item;
+        let crate::llmx::ProcessedResponseItem { item, response } = processed_response_item;
         match (&item, &response) {
             (ResponseItem::Message { role, .. }, None) if role == "assistant" => {
                 // If the model returned a message, we need to record it.

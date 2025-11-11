@@ -1341,11 +1341,11 @@ async fn submission_loop(sess: Arc<Session>, config: Arc<Config>, rx_sub: Receiv
 
 /// Operation handlers
 mod handlers {
-    use crate::codex::Session;
-    use crate::codex::SessionSettingsUpdate;
-    use crate::codex::TurnContext;
+    use crate::llmx::Session;
+    use crate::llmx::SessionSettingsUpdate;
+    use crate::llmx::TurnContext;
 
-    use crate::codex::spawn_review_thread;
+    use crate::llmx::spawn_review_thread;
     use crate::config::Config;
     use crate::mcp::auth::compute_auth_statuses;
     use crate::tasks::CompactTask;
@@ -1481,7 +1481,7 @@ mod handlers {
         log_id: u64,
     ) {
         let config = Arc::clone(config);
-        let sess_clone = Arc::clone(sess);
+        let sess_clone: Arc<Session> = Arc::clone(sess);
 
         tokio::spawn(async move {
             // Run lookup in blocking thread because it does file IO + locking.
@@ -1513,15 +1513,16 @@ mod handlers {
     pub async fn list_mcp_tools(sess: &Session, config: &Arc<Config>, sub_id: String) {
         // This is a cheap lookup from the connection manager's cache.
         let tools = sess.services.mcp_connection_manager.list_all_tools();
+        let auth_statuses_fut = compute_auth_statuses(
+            config.mcp_servers.iter(),
+            config.mcp_oauth_credentials_store_mode,
+        );
+        let resources_fut = sess.services.mcp_connection_manager.list_all_resources();
+        let templates_fut = sess.services.mcp_connection_manager.list_all_resource_templates();
         let (auth_status_entries, resources, resource_templates) = tokio::join!(
-            compute_auth_statuses(
-                config.mcp_servers.iter(),
-                config.mcp_oauth_credentials_store_mode,
-            ),
-            sess.services.mcp_connection_manager.list_all_resources(),
-            sess.services
-                .mcp_connection_manager
-                .list_all_resource_templates()
+            auth_statuses_fut,
+            resources_fut,
+            templates_fut
         );
         let auth_statuses = auth_status_entries
             .iter()
@@ -1710,7 +1711,7 @@ async fn spawn_review_thread(
         text: review_prompt,
     }];
     let tc = Arc::new(review_turn_context);
-    sess.spawn_task(tc.clone(), input, ReviewTask).await;
+    (&sess).spawn_task(tc.clone(), input, ReviewTask).await;
 
     // Announce entering review mode so UIs can switch modes.
     sess.send_event(&tc, EventMsg::EnteredReviewMode(review_request))
