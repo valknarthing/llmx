@@ -151,7 +151,7 @@ fn local_image_error_placeholder(
 ) -> ContentItem {
     ContentItem::InputText {
         text: format!(
-            "Codex could not read the local image at `{}`: {}",
+            "LLMX could not read the local image at `{}`: {}",
             path.display(),
             error
         ),

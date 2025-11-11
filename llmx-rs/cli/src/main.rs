@@ -292,7 +292,7 @@ fn handle_app_exit(exit_info: AppExitInfo) -> anyhow::Result<()> {
 fn run_update_action(action: UpdateAction) -> anyhow::Result<()> {
     println!();
     let cmd_str = action.command_str();
-    println!("Updating Codex via `{cmd_str}`...");
+    println!("Updating LLMX via `{cmd_str}`...");
 
     let status = {
         #[cfg(windows)]
@@ -319,7 +319,7 @@ fn run_update_action(action: UpdateAction) -> anyhow::Result<()> {
         anyhow::bail!("`{cmd_str}` failed with status {status}");
     }
     println!();
-    println!("🎉 Update ran successfully! Please restart Codex.");
+    println!("🎉 Update ran successfully! Please restart LLMX.");
     Ok(())
 }
 

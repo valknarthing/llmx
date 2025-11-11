@@ -60,7 +60,7 @@ pub(crate) async fn spawn_child_async(
         cmd.env(CODEX_SANDBOX_NETWORK_DISABLED_ENV_VAR, "1");
     }
 
-    // If this Codex process dies (including being killed via SIGKILL), we want
+    // If this LLMX process dies (including being killed via SIGKILL), we want
     // any child processes that were spawned as part of a `"shell"` tool call
     // to also be terminated.
 
@@ -83,9 +83,9 @@ pub(crate) async fn spawn_child_async(
                 }
 
                 // Though if there was a race condition and this pre_exec() block is
-                // run _after_ the parent (i.e., the Codex process) has already
+                // run _after_ the parent (i.e., the LLMX process) has already
                 // exited, then parent will be the closest configured "subreaper"
-                // ancestor process, or PID 1 (init). If the Codex process has exited
+                // ancestor process, or PID 1 (init). If the LLMX process has exited
                 // already, so should the child process.
                 if libc::getppid() != parent_pid {
                     libc::raise(libc::SIGTERM);

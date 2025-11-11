@@ -1,4 +1,4 @@
-//! Asynchronous worker that executes a **Codex** tool-call inside a spawned
+//! Asynchronous worker that executes an **LLMX** tool-call inside a spawned
 //! Tokio task. Separated from `message_processor.rs` to keep that file small
 //! and to make future feature-growth easier to manage.
 
@@ -54,7 +54,7 @@ pub async fn run_codex_tool_session(
             let result = CallToolResult {
                 content: vec![ContentBlock::TextContent(TextContent {
                     r#type: "text".to_string(),
-                    text: format!("Failed to start Codex session: {e}"),
+                    text: format!("Failed to start LLMX session: {e}"),
                     annotations: None,
                 })],
                 is_error: Some(true),
@@ -77,7 +77,7 @@ pub async fn run_codex_tool_session(
         )
         .await;
 
-    // Use the original MCP request ID as the `sub_id` for the Codex submission so that
+    // Use the original MCP request ID as the `sub_id` for the LLMX submission so that
     // any events emitted for this tool-call can be correlated with the
     // originating `tools/call` request.
     let sub_id = match &id {
@@ -197,7 +197,7 @@ async fn run_codex_tool_session_inner(
                         continue;
                     }
                     EventMsg::Error(err_event) => {
-                        // Return a response to conclude the tool call when the Codex session reports an error (e.g., interruption).
+                        // Return a response to conclude the tool call when the LLMX session reports an error (e.g., interruption).
                         let result = json!({
                             "error": err_event.message,
                         });
@@ -311,7 +311,7 @@ async fn run_codex_tool_session_inner(
                 let result = CallToolResult {
                     content: vec![ContentBlock::TextContent(TextContent {
                         r#type: "text".to_string(),
-                        text: format!("Codex runtime error: {e}"),
+                        text: format!("LLMX runtime error: {e}"),
                         annotations: None,
                     })],
                     is_error: Some(true),

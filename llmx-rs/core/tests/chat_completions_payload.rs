@@ -193,7 +193,7 @@ fn first_assistant(messages: &[Value]) -> &Value {
 async fn omits_reasoning_when_none_present() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -210,7 +210,7 @@ async fn omits_reasoning_when_none_present() {
 async fn attaches_reasoning_to_previous_assistant() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -232,7 +232,7 @@ async fn attaches_reasoning_to_previous_assistant() {
 async fn attaches_reasoning_to_function_call_anchor() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -259,7 +259,7 @@ async fn attaches_reasoning_to_function_call_anchor() {
 async fn attaches_reasoning_to_local_shell_call() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -284,7 +284,7 @@ async fn attaches_reasoning_to_local_shell_call() {
 async fn drops_reasoning_when_last_role_is_user() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -303,7 +303,7 @@ async fn drops_reasoning_when_last_role_is_user() {
 async fn ignores_reasoning_before_last_user() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -323,7 +323,7 @@ async fn ignores_reasoning_before_last_user() {
 async fn skips_empty_reasoning_segments() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -344,7 +344,7 @@ async fn skips_empty_reasoning_segments() {
 async fn suppresses_duplicate_assistant_messages() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }

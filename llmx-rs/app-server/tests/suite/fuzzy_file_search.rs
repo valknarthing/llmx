@@ -12,7 +12,7 @@ const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn test_fuzzy_file_search_sorts_and_includes_indices() -> Result<()> {
-    // Prepare a temporary Codex home and a separate root with test files.
+    // Prepare a temporary LLMX home and a separate root with test files.
     let codex_home = TempDir::new()?;
     let root = TempDir::new()?;
 

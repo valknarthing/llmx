@@ -28,7 +28,7 @@ COMPONENT_DEST_DIR: dict[str, str] = {
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build or stage the Codex CLI npm package.")
+    parser = argparse.ArgumentParser(description="Build or stage the LLMX CLI npm package.")
     parser.add_argument(
         "--package",
         choices=("llmx", "llmx-responses-api-proxy", "llmx-sdk"),

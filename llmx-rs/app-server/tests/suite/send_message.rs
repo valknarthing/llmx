@@ -26,15 +26,15 @@ const DEFAULT_READ_TIMEOUT: std::time::Duration = std::time::Duration::from_secs
 
 #[tokio::test]
 async fn test_send_message_success() -> Result<()> {
-    // Spin up a mock completions server that immediately ends the Codex turn.
-    // Two Codex turns hit the mock model (session start + send-user-message). Provide two SSE responses.
+    // Spin up a mock completions server that immediately ends the LLMX turn.
+    // Two LLMX turns hit the mock model (session start + send-user-message). Provide two SSE responses.
     let responses = vec![
         create_final_assistant_message_sse_response("Done")?,
         create_final_assistant_message_sse_response("Done")?,
     ];
     let server = create_mock_chat_completions_server(responses).await;
 
-    // Create a temporary Codex home with config pointing at the mock server.
+    // Create a temporary LLMX home with config pointing at the mock server.
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
 
@@ -215,7 +215,7 @@ async fn test_send_message_raw_notifications_opt_in() -> Result<()> {
 
 #[tokio::test]
 async fn test_send_message_session_not_found() -> Result<()> {
-    // Start MCP without creating a Codex session
+    // Start MCP without creating an LLMX session
     let codex_home = TempDir::new()?;
     let mut mcp = McpProcess::new(codex_home.path()).await?;
     timeout(DEFAULT_READ_TIMEOUT, mcp.initialize()).await??;

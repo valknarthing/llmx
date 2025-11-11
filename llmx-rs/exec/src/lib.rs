@@ -96,7 +96,7 @@ pub async fn run_main(cli: Cli, codex_linux_sandbox_exe: Option<PathBuf>) -> any
 
             // Ensure the user knows we are waiting on stdin, as they may
             // have gotten into this state by mistake. If so, and they are not
-            // writing to stdin, Codex will hang indefinitely, so this should
+            // writing to stdin, LLMX will hang indefinitely, so this should
             // help them debug in that case.
             if !force_stdin {
                 eprintln!("Reading prompt from stdin...");
@@ -278,11 +278,11 @@ pub async fn run_main(cli: Cli, codex_linux_sandbox_exe: Option<PathBuf>) -> any
             .new_conversation(config.clone())
             .await?
     };
-    // Print the effective configuration and prompt so users can see what Codex
+    // Print the effective configuration and prompt so users can see what LLMX
     // is using.
     event_processor.print_config_summary(&config, &prompt, &session_configured);
 
-    info!("Codex initialized with event: {session_configured:?}");
+    info!("LLMX initialized with event: {session_configured:?}");
 
     let (tx, mut rx) = tokio::sync::mpsc::unbounded_channel::<Event>();
     {
@@ -292,7 +292,7 @@ pub async fn run_main(cli: Cli, codex_linux_sandbox_exe: Option<PathBuf>) -> any
                 tokio::select! {
                     _ = tokio::signal::ctrl_c() => {
                         tracing::debug!("Keyboard interrupt");
-                        // Immediately notify Codex to abort any in‑flight task.
+                        // Immediately notify LLMX to abort any in‑flight task.
                         conversation.submit(Op::Interrupt).await.ok();
 
                         // Exit the inner loop and return to the main input prompt. The codex

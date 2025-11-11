@@ -64,7 +64,7 @@ pub async fn perform_oauth_login(
     let mut oauth_state = OAuthState::new(server_url, Some(http_client)).await?;
     let scope_refs: Vec<&str> = scopes.iter().map(String::as_str).collect();
     oauth_state
-        .start_authorization(&scope_refs, &redirect_uri, Some("Codex"))
+        .start_authorization(&scope_refs, &redirect_uri, Some("LLMX"))
         .await?;
     let auth_url = oauth_state.get_authorization_url().await?;
 

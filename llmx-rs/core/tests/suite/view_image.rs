@@ -382,7 +382,7 @@ async fn view_image_tool_placeholder_for_non_image_files() -> anyhow::Result<()>
             content.iter().find_map(|span| {
                 if span.get("type").and_then(Value::as_str) == Some("input_text") {
                     let text = span.get("text").and_then(Value::as_str)?;
-                    if text.contains("Codex could not read the local image at")
+                    if text.contains("LLMX could not read the local image at")
                         && text.contains("unsupported MIME type `application/json`")
                     {
                         return Some(text.to_string());

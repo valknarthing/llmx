@@ -26,7 +26,7 @@ async fn test_conversation_create_and_send_message_ok() -> Result<()> {
     let responses = vec![create_final_assistant_message_sse_response("Done")?];
     let server = create_mock_chat_completions_server(responses).await;
 
-    // Temporary Codex home with config pointing at the mock server.
+    // Temporary LLMX home with config pointing at the mock server.
     let codex_home = TempDir::new()?;
     create_config_toml(codex_home.path(), &server.uri())?;
 

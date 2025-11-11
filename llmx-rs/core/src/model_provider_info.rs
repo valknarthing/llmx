@@ -1,7 +1,7 @@
-//! Registry of model providers supported by Codex.
+//! Registry of model providers supported by LLMX.
 //!
 //! Providers can be defined in two places:
-//!   1. Built-in defaults compiled into the binary so Codex works out-of-the-box.
+//!   1. Built-in defaults compiled into the binary so LLMX works out-of-the-box.
 //!   2. User-defined entries inside `~/.llmx/config.toml` under the `model_providers`
 //!      key. These override or extend the defaults at runtime.
 
@@ -299,7 +299,7 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 name: "OpenAI".into(),
                 // Allow users to override the default OpenAI endpoint by
                 // exporting `OPENAI_BASE_URL`. This is useful when pointing
-                // Codex at a proxy, mock server, or Azure-style deployment
+                // LLMX at a proxy, mock server, or Azure-style deployment
                 // without requiring a full TOML override for the built-in
                 // OpenAI provider.
                 base_url: std::env::var("OPENAI_BASE_URL")

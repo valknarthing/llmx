@@ -240,7 +240,7 @@ async fn resume_includes_initial_messages_and_sends_prior_items() {
         responses::mount_sse_once_match(&server, path("/v1/responses"), sse_completed("resp1"))
             .await;
 
-    // Configure Codex to resume from our file
+    // Configure LLMX to resume from our file
     let model_provider = ModelProviderInfo {
         base_url: Some(format!("{}/v1", server.uri())),
         ..built_in_model_providers()["openai"].clone()
@@ -1325,7 +1325,7 @@ fn create_dummy_codex_auth() -> CodexAuth {
 /// We assert that the `input` sent on each turn contains the expected conversation history
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn history_dedupes_streamed_and_final_messages_across_turns() {
-    // Skip under Codex sandbox network restrictions (mirrors other tests).
+    // Skip under LLMX sandbox network restrictions (mirrors other tests).
     skip_if_no_network!();
 
     // Mock server that will receive three sequential requests and return the same SSE stream

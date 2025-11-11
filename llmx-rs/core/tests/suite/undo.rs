@@ -68,12 +68,12 @@ fn init_git_repo(path: &Path) -> Result<()> {
     // CI variance (default-branch hints, line ending differences, etc.).
     git(path, &["init", "--initial-branch=main"])?;
     git(path, &["config", "core.autocrlf", "false"])?;
-    git(path, &["config", "user.name", "Codex Tests"])?;
+    git(path, &["config", "user.name", "LLMX Tests"])?;
     git(path, &["config", "user.email", "codex-tests@example.com"])?;
 
     // Create README.txt
     let readme_path = path.join("README.txt");
-    fs::write(&readme_path, "Test repository initialized by Codex.\n")?;
+    fs::write(&readme_path, "Test repository initialized by LLMX.\n")?;
 
     // Stage and commit
     git(path, &["add", "README.txt"])?;

@@ -44,7 +44,7 @@ async fn fork_conversation_twice_drops_to_first_message() {
         .mount(&server)
         .await;
 
-    // Configure Codex to use the mock server.
+    // Configure LLMX to use the mock server.
     let model_provider = ModelProviderInfo {
         base_url: Some(format!("{}/v1", server.uri())),
         ..built_in_model_providers()["openai"].clone()

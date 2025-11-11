@@ -1706,7 +1706,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -1766,7 +1766,7 @@ mod tests {
             true,
             sender,
             enhanced_keys_supported,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
         setup(&mut composer);
@@ -1845,7 +1845,7 @@ mod tests {
             true,
             sender,
             true,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -1870,7 +1870,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -1896,7 +1896,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -1937,7 +1937,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2111,7 +2111,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2140,7 +2140,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2169,7 +2169,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2196,7 +2196,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2231,7 +2231,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2272,7 +2272,7 @@ mod tests {
                 true,
                 sender.clone(),
                 false,
-                "Ask Codex to do anything".to_string(),
+                "Ask LLMX to do anything".to_string(),
                 false,
             );
 
@@ -2315,7 +2315,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2343,7 +2343,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
         type_chars_humanlike(&mut composer, &['/', 'm', 'o']);
@@ -2386,7 +2386,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2439,7 +2439,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2460,7 +2460,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2496,7 +2496,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2531,7 +2531,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2610,7 +2610,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2682,7 +2682,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2730,7 +2730,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
         let path = PathBuf::from("/tmp/image1.png");
@@ -2754,7 +2754,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
         let path = PathBuf::from("/tmp/image2.png");
@@ -2779,7 +2779,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
         let path = PathBuf::from("/tmp/image3.png");
@@ -2820,7 +2820,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2851,7 +2851,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2908,7 +2908,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2935,7 +2935,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -2971,7 +2971,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3005,7 +3005,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3043,7 +3043,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3079,7 +3079,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3109,7 +3109,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3159,7 +3159,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3212,7 +3212,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3249,7 +3249,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3280,7 +3280,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3316,7 +3316,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3353,7 +3353,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3391,7 +3391,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3435,7 +3435,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 
@@ -3467,7 +3467,7 @@ mod tests {
             true,
             sender,
             false,
-            "Ask Codex to do anything".to_string(),
+            "Ask LLMX to do anything".to_string(),
             false,
         );
 

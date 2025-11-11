@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install Codex native binaries (Rust CLI plus ripgrep helpers)."""
+"""Install LLMX native binaries (Rust CLI plus ripgrep helpers)."""
 
 import argparse
 import json
@@ -64,7 +64,7 @@ DEFAULT_RG_TARGETS = [target for target, _ in RG_TARGET_PLATFORM_PAIRS]
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Install native Codex binaries.")
+    parser = argparse.ArgumentParser(description="Install native LLMX binaries.")
     parser.add_argument(
         "--workflow-url",
         help=(

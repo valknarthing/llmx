@@ -421,7 +421,7 @@ pub fn apply_blocking(
 
     std::fs::create_dir_all(codex_home).with_context(|| {
         format!(
-            "failed to create Codex home directory at {}",
+            "failed to create LLMX home directory at {}",
             codex_home.display()
         )
     })?;

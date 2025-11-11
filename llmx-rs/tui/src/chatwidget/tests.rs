@@ -283,7 +283,7 @@ fn make_chatwidget_manual() -> (
         frame_requester: FrameRequester::test_dummy(),
         has_input_focus: true,
         enhanced_keys_supported: false,
-        placeholder_text: "Ask Codex to do anything".to_string(),
+        placeholder_text: "Ask LLMX to do anything".to_string(),
         disable_paste_burst: false,
     });
     let auth_manager = AuthManager::from_auth_for_testing(CodexAuth::from_api_key("test"));
@@ -941,7 +941,7 @@ fn slash_init_skips_when_project_doc_exists() {
 
     match op_rx.try_recv() {
         Err(TryRecvError::Empty) => {}
-        other => panic!("expected no Codex op to be sent, got {other:?}"),
+        other => panic!("expected no LLMX op to be sent, got {other:?}"),
     }
 
     let cells = drain_insert_history(&mut rx);
@@ -1466,7 +1466,7 @@ fn approvals_popup_includes_wsl_note_for_auto_mode() {
         "expected auto preset description to mention WSL requirement only on Windows, popup: {popup}"
     );
     assert_eq!(
-        popup.contains("Codex forced your settings back to Read Only on this Windows machine."),
+        popup.contains("LLMX forced your settings back to Read Only on this Windows machine."),
         cfg!(target_os = "windows") && chat.config.forced_auto_mode_downgraded_on_windows,
         "expected downgrade notice only when auto mode is forced off on Windows, popup: {popup}"
     );
@@ -1813,7 +1813,7 @@ async fn binary_size_transcript_snapshot() {
 //
 // Snapshot test: command approval modal
 //
-// Synthesizes a Codex ExecApprovalRequest event to trigger the approval modal
+// Synthesizes an LLMX ExecApprovalRequest event to trigger the approval modal
 // and snapshots the visual output using the ratatui TestBackend.
 #[test]
 fn approval_modal_exec_snapshot() {

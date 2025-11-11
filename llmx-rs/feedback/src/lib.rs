@@ -214,7 +214,7 @@ impl CodexLogSnapshot {
 
         let mut envelope = Envelope::new();
         let title = format!(
-            "[{}]: Codex session {}",
+            "[{}]: LLMX session {}",
             display_classification(classification),
             self.thread_id
         );

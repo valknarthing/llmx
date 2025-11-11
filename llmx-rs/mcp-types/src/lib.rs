@@ -527,7 +527,7 @@ pub struct Implementation {
     #[ts(optional)]
     pub title: Option<String>,
     pub version: String,
-    // This is an extra field that the Codex MCP server sends as part of InitializeResult.
+    // This is an extra field that the LLMX MCP server sends as part of InitializeResult.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[ts(optional)]
     pub user_agent: Option<String>,

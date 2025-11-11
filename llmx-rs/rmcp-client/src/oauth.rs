@@ -49,7 +49,7 @@ use tokio::sync::Mutex;
 
 use crate::find_llmx_home::find_llmx_home;
 
-const KEYRING_SERVICE: &str = "Codex MCP Credentials";
+const KEYRING_SERVICE: &str = "LLMX MCP Credentials";
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct StoredOAuthTokens {

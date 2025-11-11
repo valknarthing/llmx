@@ -1,5 +1,5 @@
 {
-  "name": "Codex",
+  "name": "LLMX",
   "build": {
     "dockerfile": "Dockerfile",
     "context": "..",

@@ -159,7 +159,7 @@ fn assert_reasoning(item: &ResponseItem, expected: &str) {
 async fn streams_text_without_reasoning() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -195,7 +195,7 @@ async fn streams_text_without_reasoning() {
 async fn streams_reasoning_from_string_delta() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -246,7 +246,7 @@ async fn streams_reasoning_from_string_delta() {
 async fn streams_reasoning_from_object_delta() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -303,7 +303,7 @@ async fn streams_reasoning_from_object_delta() {
 async fn streams_reasoning_from_final_message() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -335,7 +335,7 @@ async fn streams_reasoning_from_final_message() {
 async fn streams_reasoning_before_tool_call() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -385,7 +385,7 @@ async fn streams_reasoning_before_tool_call() {
 async fn chat_sse_emits_failed_on_parse_error() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -422,7 +422,7 @@ async fn chat_sse_emits_failed_on_parse_error() {
 async fn chat_sse_done_chunk_emits_event() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }
@@ -445,7 +445,7 @@ async fn chat_sse_done_chunk_emits_event() {
 async fn chat_sse_emits_error_on_invalid_utf8() {
     if network_disabled() {
         println!(
-            "Skipping test because it cannot execute when network is disabled in a Codex sandbox."
+            "Skipping test because it cannot execute when network is disabled in an LLMX sandbox."
         );
         return;
     }

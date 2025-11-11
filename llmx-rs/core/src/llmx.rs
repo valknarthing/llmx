@@ -183,7 +183,7 @@ impl Codex {
             session_source,
         };
 
-        // Generate a unique ID for the lifetime of this Codex session.
+        // Generate a unique ID for the lifetime of this LLMX session.
         let session_source_clone = session_configuration.session_source.clone();
         let session = Session::new(
             session_configuration,
@@ -1583,7 +1583,7 @@ mod handlers {
 
     pub async fn shutdown(sess: &Arc<Session>, sub_id: String) -> bool {
         sess.abort_all_tasks(TurnAbortReason::Interrupted).await;
-        info!("Shutting down Codex instance");
+        info!("Shutting down LLMX instance");
 
         // Gracefully flush and shutdown rollout recorder on session end so tests
         // that inspect the rollout file do not race with the background writer.

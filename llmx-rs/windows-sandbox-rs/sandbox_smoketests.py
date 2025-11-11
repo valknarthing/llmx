@@ -1,5 +1,5 @@
 # sandbox_smoketests.py
-# Run a suite of smoke tests against the Windows sandbox via the Codex CLI
+# Run a suite of smoke tests against the Windows sandbox via the LLMX CLI
 # Requires: Python 3.8+ on Windows. No pip requirements.
 
 import os
@@ -10,10 +10,10 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 def _resolve_codex_cmd() -> List[str]:
-    """Resolve the Codex CLI to invoke `codex sandbox windows`.
+    """Resolve the LLMX CLI to invoke `codex sandbox windows`.
 
     Prefer `codex` on PATH; if not found, try common local build locations.
-    Returns the argv prefix to run Codex.
+    Returns the argv prefix to run LLMX.
     """
     # 1) Prefer PATH
     try:
@@ -44,7 +44,7 @@ def _resolve_codex_cmd() -> List[str]:
             return [str(p)]
 
     raise FileNotFoundError(
-        "Codex CLI not found. Build it first, e.g.\n"
+        "LLMX CLI not found. Build it first, e.g.\n"
         "  cargo build -p codex-cli --release\n"
         "or for debug:\n"
         "  cargo build -p codex-cli\n"

@@ -240,17 +240,17 @@ fn sanitize_user_agent(candidate: String, fallback: &str) -> String {
         .collect();
     if !sanitized.is_empty() && HeaderValue::from_str(sanitized.as_str()).is_ok() {
         tracing::warn!(
-            "Sanitized Codex user agent because provided suffix contained invalid header characters"
+            "Sanitized LLMX user agent because provided suffix contained invalid header characters"
         );
         sanitized
     } else if HeaderValue::from_str(fallback).is_ok() {
         tracing::warn!(
-            "Falling back to base Codex user agent because provided suffix could not be sanitized"
+            "Falling back to base LLMX user agent because provided suffix could not be sanitized"
         );
         fallback.to_string()
     } else {
         tracing::warn!(
-            "Falling back to default Codex originator because base user agent string is invalid"
+            "Falling back to default LLMX originator because base user agent string is invalid"
         );
         originator().value.clone()
     }
@@ -331,7 +331,7 @@ mod tests {
             .expect("originator header missing");
         assert_eq!(originator_header.to_str().unwrap(), "codex_cli_rs");
 
-        // User-Agent matches the computed Codex UA for that originator
+        // User-Agent matches the computed LLMX UA for that originator
         let expected_ua = get_codex_user_agent();
         let ua_header = headers
             .get("user-agent")

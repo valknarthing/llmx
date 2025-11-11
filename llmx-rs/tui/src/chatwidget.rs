@@ -1854,7 +1854,7 @@ impl ChatWidget {
 
         self.bottom_pane.show_selection_view(SelectionViewParams {
             title: Some("Select Model and Effort".to_string()),
-            subtitle: Some("Switch the model for this and future Codex CLI sessions".to_string()),
+            subtitle: Some("Switch the model for this and future LLMX CLI sessions".to_string()),
             footer_hint: Some("Press enter to select reasoning effort, or esc to dismiss.".into()),
             items,
             ..Default::default()
@@ -2031,10 +2031,10 @@ impl ChatWidget {
 
             let mut header = ColumnRenderable::new();
             header.push(line![
-                "Codex forced your settings back to Read Only on this Windows machine.".bold()
+                "LLMX forced your settings back to Read Only on this Windows machine.".bold()
             ]);
             header.push(line![
-                "To re-enable Auto mode, run Codex inside Windows Subsystem for Linux (WSL) or enable Full Access manually.".dim()
+                "To re-enable Auto mode, run LLMX inside Windows Subsystem for Linux (WSL) or enable Full Access manually.".dim()
                 ]);
             Box::new(header)
         } else {
@@ -2201,7 +2201,7 @@ impl ChatWidget {
         let mut header_children: Vec<Box<dyn Renderable>> = Vec::new();
         let title_line = Line::from("Enable full access?").bold();
         let info_line = Line::from(vec![
-            "When Codex runs with full access, it can edit any file on your computer and run commands with network, without your approval. "
+            "When LLMX runs with full access, it can edit any file on your computer and run commands with network, without your approval. "
                 .into(),
             "Exercise caution when enabling full access. This significantly increases the risk of data loss, leaks, or unexpected behavior."
                 .fg(Color::Red),
@@ -2379,7 +2379,7 @@ impl ChatWidget {
         header.push(line![
             "Auto mode requires Windows Subsystem for Linux (WSL2).".bold()
         ]);
-        header.push(line!["Run Codex inside WSL to enable sandboxed commands."]);
+        header.push(line!["Run LLMX inside WSL to enable sandboxed commands."]);
         header.push(line![""]);
         header.push(Paragraph::new(WSL_INSTRUCTIONS).wrap(Wrap { trim: false }));
 
@@ -2777,7 +2777,7 @@ impl Notification {
             }
             Notification::EditApprovalRequested { cwd, changes } => {
                 format!(
-                    "Codex wants to edit {}",
+                    "LLMX wants to edit {}",
                     if changes.len() == 1 {
                         #[allow(clippy::unwrap_used)]
                         display_path_for(changes.first().unwrap(), cwd)

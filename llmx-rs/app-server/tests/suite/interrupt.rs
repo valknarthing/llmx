@@ -49,7 +49,7 @@ async fn shell_command_interruption() -> anyhow::Result<()> {
     let shell_command = vec!["sleep".to_string(), "10".to_string()];
 
     let tmp = TempDir::new()?;
-    // Temporary Codex home with config pointing at the mock server.
+    // Temporary LLMX home with config pointing at the mock server.
     let codex_home = tmp.path().join("codex_home");
     std::fs::create_dir(&codex_home)?;
     let working_directory = tmp.path().join("workdir");

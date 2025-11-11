@@ -544,7 +544,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
         pane.push_approval_request(exec_request());
@@ -564,7 +564,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
 
@@ -595,7 +595,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
 
@@ -660,7 +660,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
 
@@ -685,7 +685,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
 
@@ -714,7 +714,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
 
@@ -740,7 +740,7 @@ mod tests {
             frame_requester: FrameRequester::test_dummy(),
             has_input_focus: true,
             enhanced_keys_supported: false,
-            placeholder_text: "Ask Codex to do anything".to_string(),
+            placeholder_text: "Ask LLMX to do anything".to_string(),
             disable_paste_burst: false,
         });
 
