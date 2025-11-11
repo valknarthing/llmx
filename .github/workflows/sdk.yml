@@ -26,8 +26,8 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@1.90
 
-      - name: build codex
-        run: cargo build --bin codex
+      - name: build llmx
+        run: cargo build --bin llmx
         working-directory: llmx-rs
 
       - name: Install dependencies
