@@ -28,7 +28,7 @@ jobs:
 
       - name: build codex
         run: cargo build --bin codex
-        working-directory: codex-rs
+        working-directory: llmx-rs
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

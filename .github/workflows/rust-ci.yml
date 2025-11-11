@@ -33,13 +33,13 @@ jobs:
             mapfile -t files < <(git diff --name-only --no-renames "$BASE_SHA"...HEAD)
           else
             # On push / manual runs, default to running everything
-            files=("codex-rs/force" ".github/force")
+            files=("llmx-rs/force" ".github/force")
           fi
 
           codex=false
           workflows=false
           for f in "${files[@]}"; do
-            [[ $f == codex-rs/* ]] && codex=true
+            [[ $f == llmx-rs/* ]] && codex=true
             [[ $f == .github/* ]] && workflows=true
           done
 
@@ -54,7 +54,7 @@ jobs:
     if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@1.90
@@ -72,7 +72,7 @@ jobs:
     if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@1.90
@@ -93,7 +93,7 @@ jobs:
     if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     env:
       # Speed up repeated builds across CI runs by caching compiled objects.
       RUSTC_WRAPPER: sccache
@@ -164,7 +164,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
           restore-keys: |
             cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-
 
@@ -271,7 +271,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
 
       - name: Save sccache cache (fallback)
         if: always() && !cancelled() && env.SCCACHE_GHA_ENABLED != 'true'
@@ -324,7 +324,7 @@ jobs:
     if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     env:
       RUSTC_WRAPPER: sccache
       CARGO_INCREMENTAL: "0"
@@ -365,7 +365,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
           restore-keys: |
             cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-
 
@@ -421,7 +421,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
 
       - name: Save sccache cache (fallback)
         if: always() && !cancelled() && env.SCCACHE_GHA_ENABLED != 'true'

@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Prepare Codex inputs
+      - name: Prepare LLMX inputs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -42,7 +42,7 @@ jobs:
             > "$CURRENT_ISSUE_FILE"
 
       - id: codex
-        uses: openai/codex-action@main
+        uses: valknar/llmx-action@main
         with:
           openai-api-key: ${{ secrets.CODEX_OPENAI_API_KEY }}
           allow-users: "*"
@@ -98,7 +98,7 @@ jobs:
             try {
               parsed = JSON.parse(raw);
             } catch (error) {
-              core.info(`Codex output was not valid JSON. Raw output: ${raw}`);
+              core.info(`LLMX output was not valid JSON. Raw output: ${raw}`);
               core.info(`Parse error: ${error.message}`);
               return;
             }
@@ -112,7 +112,7 @@ jobs:
             const filteredIssues = issues.filter((value) => String(value) !== currentIssueNumber);
 
             if (filteredIssues.length === 0) {
-              core.info('Codex reported no potential duplicates.');
+              core.info('LLMX reported no potential duplicates.');
               return;
             }
 
@@ -121,7 +121,7 @@ jobs:
               '',
               ...filteredIssues.map((value) => `- #${String(value)}`),
               '',
-              '*Powered by [Codex Action](https://github.com/openai/codex-action)*'];
+              '*Powered by [LLMX Action](https://github.com/valknar/llmx-action)*'];
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,

@@ -1,4 +1,4 @@
-# Release workflow for codex-rs.
+# Release workflow for llmx-rs.
 # To release, follow a workflow like:
 # ```
 # git tag -a rust-v0.1.0 -m "Release 0.1.0"
@@ -35,7 +35,7 @@ jobs:
 
           # 2. Extract versions
           tag_ver="${GITHUB_REF_NAME#rust-v}"
-          cargo_ver="$(grep -m1 '^version' codex-rs/Cargo.toml \
+          cargo_ver="$(grep -m1 '^version' llmx-rs/Cargo.toml \
                         | sed -E 's/version *= *"([^"]+)".*/\1/')"
 
           # 3. Compare
@@ -52,7 +52,7 @@ jobs:
     timeout-minutes: 30
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
 
     strategy:
       fail-fast: false
@@ -88,7 +88,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-            ${{ github.workspace }}/codex-rs/target/
+            ${{ github.workspace }}/llmx-rs/target/
           key: cargo-${{ matrix.runner }}-${{ matrix.target }}-release-${{ hashFiles('**/Cargo.lock') }}
 
       - if: ${{ matrix.target == 'x86_64-unknown-linux-musl' || matrix.target == 'aarch64-unknown-linux-musl'}}
@@ -98,7 +98,7 @@ jobs:
           sudo apt-get install -y musl-tools pkg-config
 
       - name: Cargo build
-        run: cargo build --target ${{ matrix.target }} --release --bin codex --bin codex-responses-api-proxy
+        run: cargo build --target ${{ matrix.target }} --release --bin llmx --bin llmx-responses-api-proxy
 
       - if: ${{ matrix.runner == 'macos-15-xlarge' }}
         name: Configure Apple code signing
@@ -111,19 +111,21 @@ jobs:
           set -euo pipefail
 
           if [[ -z "${APPLE_CERTIFICATE:-}" ]]; then
-            echo "APPLE_CERTIFICATE is required for macOS signing"
-            exit 1
+            echo "⚠️  APPLE_CERTIFICATE not set - skipping macOS code signing"
+            echo "SKIP_MACOS_SIGNING=true" >> "$GITHUB_ENV"
+            exit 0
           fi
 
           if [[ -z "${APPLE_CERTIFICATE_PASSWORD:-}" ]]; then
-            echo "APPLE_CERTIFICATE_PASSWORD is required for macOS signing"
-            exit 1
+            echo "⚠️  APPLE_CERTIFICATE_PASSWORD not set - skipping macOS code signing"
+            echo "SKIP_MACOS_SIGNING=true" >> "$GITHUB_ENV"
+            exit 0
           fi
 
           cert_path="${RUNNER_TEMP}/apple_signing_certificate.p12"
           echo "$APPLE_CERTIFICATE" | base64 -d > "$cert_path"
 
-          keychain_path="${RUNNER_TEMP}/codex-signing.keychain-db"
+          keychain_path="${RUNNER_TEMP}/llmx-signing.keychain-db"
           security create-keychain -p "$KEYCHAIN_PASSWORD" "$keychain_path"
           security set-keychain-settings -lut 21600 "$keychain_path"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$keychain_path"
@@ -185,15 +187,15 @@ jobs:
           echo "APPLE_CODESIGN_KEYCHAIN=$keychain_path" >> "$GITHUB_ENV"
           echo "::add-mask::$APPLE_CODESIGN_IDENTITY"
 
-      - if: ${{ matrix.runner == 'macos-15-xlarge' }}
+      - if: ${{ matrix.runner == 'macos-15-xlarge' && env.SKIP_MACOS_SIGNING != 'true' }}
         name: Sign macOS binaries
         shell: bash
         run: |
           set -euo pipefail
 
           if [[ -z "${APPLE_CODESIGN_IDENTITY:-}" ]]; then
-            echo "APPLE_CODESIGN_IDENTITY is required for macOS signing"
-            exit 1
+            echo "⚠️  APPLE_CODESIGN_IDENTITY not set - skipping macOS signing"
+            exit 0
           fi
 
           keychain_args=()
@@ -201,12 +203,12 @@ jobs:
             keychain_args+=(--keychain "${APPLE_CODESIGN_KEYCHAIN}")
           fi
 
-          for binary in codex codex-responses-api-proxy; do
+          for binary in llmx llmx-responses-api-proxy; do
             path="target/${{ matrix.target }}/release/${binary}"
             codesign --force --options runtime --timestamp --sign "$APPLE_CODESIGN_IDENTITY" "${keychain_args[@]}" "$path"
           done
 
-      - if: ${{ matrix.runner == 'macos-15-xlarge' }}
+      - if: ${{ matrix.runner == 'macos-15-xlarge' && env.SKIP_MACOS_SIGNING != 'true' }}
         name: Notarize macOS binaries
         shell: bash
         env:
@@ -218,8 +220,8 @@ jobs:
 
           for var in APPLE_NOTARIZATION_KEY_P8 APPLE_NOTARIZATION_KEY_ID APPLE_NOTARIZATION_ISSUER_ID; do
             if [[ -z "${!var:-}" ]]; then
-              echo "$var is required for notarization"
-              exit 1
+              echo "⚠️  $var not set - skipping macOS notarization"
+              exit 0
             fi
           done
 
@@ -266,8 +268,8 @@ jobs:
             fi
           }
 
-          notarize_binary "codex"
-          notarize_binary "codex-responses-api-proxy"
+          notarize_binary "llmx"
+          notarize_binary "llmx-responses-api-proxy"
 
       - name: Stage artifacts
         shell: bash
@@ -276,11 +278,11 @@ jobs:
           mkdir -p "$dest"
 
           if [[ "${{ matrix.runner }}" == windows* ]]; then
-            cp target/${{ matrix.target }}/release/codex.exe "$dest/codex-${{ matrix.target }}.exe"
-            cp target/${{ matrix.target }}/release/codex-responses-api-proxy.exe "$dest/codex-responses-api-proxy-${{ matrix.target }}.exe"
+            cp target/${{ matrix.target }}/release/llmx.exe "$dest/llmx-${{ matrix.target }}.exe"
+            cp target/${{ matrix.target }}/release/llmx-responses-api-proxy.exe "$dest/llmx-responses-api-proxy-${{ matrix.target }}.exe"
           else
-            cp target/${{ matrix.target }}/release/codex "$dest/codex-${{ matrix.target }}"
-            cp target/${{ matrix.target }}/release/codex-responses-api-proxy "$dest/codex-responses-api-proxy-${{ matrix.target }}"
+            cp target/${{ matrix.target }}/release/llmx "$dest/llmx-${{ matrix.target }}"
+            cp target/${{ matrix.target }}/release/llmx-responses-api-proxy "$dest/llmx-responses-api-proxy-${{ matrix.target }}"
           fi
 
       - if: ${{ matrix.runner == 'windows-11-arm' }}
@@ -307,9 +309,9 @@ jobs:
           # For compatibility with environments that lack the `zstd` tool we
           # additionally create a `.tar.gz` for all platforms and `.zip` for
           # Windows alongside every single binary that we publish. The end result is:
-          #   codex-<target>.zst          (existing)
-          #   codex-<target>.tar.gz       (new)
-          #   codex-<target>.zip          (only for Windows)
+          #   llmx-<target>.zst          (existing)
+          #   llmx-<target>.tar.gz       (new)
+          #   llmx-<target>.zip          (only for Windows)
 
           # 1. Produce a .tar.gz for every file in the directory *before* we
           #    run `zstd --rm`, because that flag deletes the original files.
@@ -341,7 +343,7 @@ jobs:
           done
 
       - name: Remove signing keychain
-        if: ${{ always() && matrix.runner == 'macos-15-xlarge' }}
+        if: ${{ always() && matrix.runner == 'macos-15-xlarge' && env.SKIP_MACOS_SIGNING != 'true' }}
         shell: bash
         env:
           APPLE_CODESIGN_KEYCHAIN: ${{ env.APPLE_CODESIGN_KEYCHAIN }}
@@ -369,7 +371,7 @@ jobs:
           # Upload the per-binary .zst files as well as the new .tar.gz
           # equivalents we generated in the previous step.
           path: |
-            codex-rs/dist/${{ matrix.target }}/*
+            llmx-rs/dist/${{ matrix.target }}/*
 
   release:
     needs: build
@@ -443,9 +445,7 @@ jobs:
         run: |
           ./scripts/stage_npm_packages.py \
             --release-version "${{ steps.release_name.outputs.name }}" \
-            --package codex \
-            --package codex-responses-api-proxy \
-            --package codex-sdk
+            --package @valknar/llmx
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -483,7 +483,7 @@ jobs:
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
-          scope: "@openai"
+          scope: "@valknar"
 
       # Trusted publishing requires npm CLI version 11.5.1 or later.
       - name: Update npm
@@ -499,15 +499,7 @@ jobs:
           mkdir -p dist/npm
           gh release download "$tag" \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "codex-npm-${version}.tgz" \
-            --dir dist/npm
-          gh release download "$tag" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --pattern "codex-responses-api-proxy-npm-${version}.tgz" \
-            --dir dist/npm
-          gh release download "$tag" \
-            --repo "${GITHUB_REPOSITORY}" \
-            --pattern "codex-sdk-npm-${version}.tgz" \
+            --pattern "valknar-llmx-npm-${version}.tgz" \
             --dir dist/npm
 
       # No NODE_AUTH_TOKEN needed because we use OIDC.
@@ -523,9 +515,7 @@ jobs:
           fi
 
           tarballs=(
-            "codex-npm-${VERSION}.tgz"
-            "codex-responses-api-proxy-npm-${VERSION}.tgz"
-            "codex-sdk-npm-${VERSION}.tgz"
+            "valknar-llmx-npm-${VERSION}.tgz"
           )
 
           for tarball in "${tarballs[@]}"; do

@@ -1,0 +1,21 @@
+{
+  "name": "@valknar/llmx-responses-api-proxy",
+  "version": "0.1.0",
+  "license": "Apache-2.0",
+  "bin": {
+    "llmx-responses-api-proxy": "bin/llmx-responses-api-proxy.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=16"
+  },
+  "files": [
+    "bin",
+    "vendor"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valknar/llmx.git",
+    "directory": "llmx-rs/responses-api-proxy/npm"
+  }
+}
