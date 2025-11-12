@@ -3559,7 +3559,7 @@ dependencies = [
  "anyhow",
  "dirs-next",
  "dunce",
- "rand 0.8.5",
+ "rand 0.9.2",
  "serde",
  "serde_json",
  "windows-sys 0.52.0",
