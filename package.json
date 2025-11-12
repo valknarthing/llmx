@@ -1,7 +1,7 @@
 {
-  "name": "codex-monorepo",
+  "name": "llmx-monorepo",
   "private": true,
-  "description": "Tools for repo-wide maintenance.",
+  "description": "LLMX - Multi-provider coding agent powered by LiteLLM",
   "scripts": {
     "format": "prettier --check *.json *.md docs/*.md .github/workflows/*.yml **/*.js",
     "format:fix": "prettier --write *.json *.md docs/*.md .github/workflows/*.yml **/*.js"

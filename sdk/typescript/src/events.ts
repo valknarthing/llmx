@@ -1,4 +1,4 @@
-// based on event types from codex-rs/exec/src/exec_events.rs
+// based on event types from llmx-rs/exec/src/exec_events.rs
 
 import type { ThreadItem } from "./items";
 
@@ -68,7 +68,7 @@ export type ThreadErrorEvent = {
   message: string;
 };
 
-/** Top-level JSONL events emitted by codex exec. */
+/** Top-level JSONL events emitted by llmx exec. */
 export type ThreadEvent =
   | ThreadStartedEvent
   | TurnStartedEvent

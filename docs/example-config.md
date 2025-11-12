@@ -1,11 +1,11 @@
 # Example config.toml
 
-Use this example configuration as a starting point. For an explanation of each field and additional context, see [Configuration](./config.md). Copy the snippet below to `~/.codex/config.toml` and adjust values as needed.
+Use this example configuration as a starting point. For an explanation of each field and additional context, see [Configuration](./config.md). Copy the snippet below to `~/.llmx/config.toml` and adjust values as needed.
 
 ```toml
-# Codex example configuration (config.toml)
+# LLMX example configuration (config.toml)
 #
-# This file lists all keys Codex reads from config.toml, their default values,
+# This file lists all keys LLMX reads from config.toml, their default values,
 # and concise explanations. Values here mirror the effective defaults compiled
 # into the CLI. Adjust as needed.
 #
@@ -18,17 +18,17 @@ Use this example configuration as a starting point. For an explanation of each f
 # Core Model Selection
 ################################################################################
 
-# Primary model used by Codex. Default differs by OS; non-Windows defaults here.
-# Linux/macOS default: "gpt-5-codex"; Windows default: "gpt-5".
-model = "gpt-5-codex"
+# Primary model used by LLMX. Default differs by OS; non-Windows defaults here.
+# Linux/macOS default: "gpt-5-llmx"; Windows default: "gpt-5".
+model = "gpt-5-llmx"
 
-# Model used by the /review feature (code reviews). Default: "gpt-5-codex".
-review_model = "gpt-5-codex"
+# Model used by the /review feature (code reviews). Default: "gpt-5-llmx".
+review_model = "gpt-5-llmx"
 
 # Provider id selected from [model_providers]. Default: "openai".
 model_provider = "openai"
 
-# Optional manual model metadata. When unset, Codex auto-detects from model.
+# Optional manual model metadata. When unset, LLMX auto-detects from model.
 # Uncomment to force values.
 # model_context_window = 128000       # tokens; default: auto for model
 # model_max_output_tokens = 8192      # tokens; default: auto for model
@@ -153,10 +153,10 @@ disable_paste_burst = false
 windows_wsl_setup_acknowledged = false
 
 # External notifier program (argv array). When unset: disabled.
-# Example: notify = ["notify-send", "Codex"]
+# Example: notify = ["notify-send", "LLMX"]
 # notify = [ ]
 
-# In-product notices (mostly set automatically by Codex).
+# In-product notices (mostly set automatically by LLMX).
 [notice]
 # hide_full_access_warning = true
 # hide_rate_limit_model_nudge = true
@@ -174,7 +174,7 @@ chatgpt_base_url = "https://chatgpt.com/backend-api/"
 # Restrict ChatGPT login to a specific workspace id. Default: unset.
 # forced_chatgpt_workspace_id = ""
 
-# Force login mechanism when Codex would normally auto-select. Default: unset.
+# Force login mechanism when LLMX would normally auto-select. Default: unset.
 # Allowed values: chatgpt | api
 # forced_login_method = "chatgpt"
 
@@ -315,7 +315,7 @@ mcp_oauth_credentials_store = "auto"
 [profiles]
 
 # [profiles.default]
-# model = "gpt-5-codex"
+# model = "gpt-5-llmx"
 # model_provider = "openai"
 # approval_policy = "on-request"
 # sandbox_mode = "read-only"

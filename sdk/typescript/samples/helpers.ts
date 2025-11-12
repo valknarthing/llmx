@@ -1,8 +1,8 @@
 import path from "node:path";
 
-export function codexPathOverride() {
+export function llmxPathOverride() {
   return (
-    process.env.CODEX_EXECUTABLE ??
-    path.join(process.cwd(), "..", "..", "codex-rs", "target", "debug", "codex")
+    process.env.LLMX_EXECUTABLE ??
+    path.join(process.cwd(), "..", "..", "llmx-rs", "target", "debug", "llmx")
   );
 }

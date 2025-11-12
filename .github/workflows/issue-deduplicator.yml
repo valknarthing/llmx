@@ -9,23 +9,23 @@ on:
 jobs:
   gather-duplicates:
     name: Identify potential duplicates
-    if: ${{ github.event.action == 'opened' || (github.event.action == 'labeled' && github.event.label.name == 'codex-deduplicate') }}
+    if: ${{ github.event.action == 'opened' || (github.event.action == 'labeled' && github.event.label.name == 'llmx-deduplicate') }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
     outputs:
-      codex_output: ${{ steps.codex.outputs.final-message }}
+      llmx_output: ${{ steps.llmx.outputs.final-message }}
     steps:
       - uses: actions/checkout@v5
 
-      - name: Prepare Codex inputs
+      - name: Prepare LLMX inputs
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -eo pipefail
 
-          CURRENT_ISSUE_FILE=codex-current-issue.json
-          EXISTING_ISSUES_FILE=codex-existing-issues.json
+          CURRENT_ISSUE_FILE=llmx-current-issue.json
+          EXISTING_ISSUES_FILE=llmx-existing-issues.json
 
           gh issue list --repo "${{ github.repository }}" \
             --json number,title,body,createdAt \
@@ -41,18 +41,18 @@ jobs:
             | jq '.' \
             > "$CURRENT_ISSUE_FILE"
 
-      - id: codex
-        uses: openai/codex-action@main
+      - id: llmx
+        uses: valknar/llmx-action@main
         with:
-          openai-api-key: ${{ secrets.CODEX_OPENAI_API_KEY }}
+          openai-api-key: ${{ secrets.LLMX_OPENAI_API_KEY }}
           allow-users: "*"
           model: gpt-5
           prompt: |
             You are an assistant that triages new GitHub issues by identifying potential duplicates.
 
             You will receive the following JSON files located in the current working directory:
-            - `codex-current-issue.json`: JSON object describing the newly created issue (fields: number, title, body).
-            - `codex-existing-issues.json`: JSON array of recent issues (each element includes number, title, body, createdAt).
+            - `llmx-current-issue.json`: JSON object describing the newly created issue (fields: number, title, body).
+            - `llmx-existing-issues.json`: JSON array of recent issues (each element includes number, title, body, createdAt).
 
             Instructions:
             - Compare the current issue against the existing issues to find up to five that appear to describe the same underlying problem or request.
@@ -89,16 +89,16 @@ jobs:
       - name: Comment on issue
         uses: actions/github-script@v8
         env:
-          CODEX_OUTPUT: ${{ needs.gather-duplicates.outputs.codex_output }}
+          LLMX_OUTPUT: ${{ needs.gather-duplicates.outputs.llmx_output }}
         with:
           github-token: ${{ github.token }}
           script: |
-            const raw = process.env.CODEX_OUTPUT ?? '';
+            const raw = process.env.LLMX_OUTPUT ?? '';
             let parsed;
             try {
               parsed = JSON.parse(raw);
             } catch (error) {
-              core.info(`Codex output was not valid JSON. Raw output: ${raw}`);
+              core.info(`LLMX output was not valid JSON. Raw output: ${raw}`);
               core.info(`Parse error: ${error.message}`);
               return;
             }
@@ -112,7 +112,7 @@ jobs:
             const filteredIssues = issues.filter((value) => String(value) !== currentIssueNumber);
 
             if (filteredIssues.length === 0) {
-              core.info('Codex reported no potential duplicates.');
+              core.info('LLMX reported no potential duplicates.');
               return;
             }
 
@@ -121,7 +121,7 @@ jobs:
               '',
               ...filteredIssues.map((value) => `- #${String(value)}`),
               '',
-              '*Powered by [Codex Action](https://github.com/openai/codex-action)*'];
+              '*Powered by [LLMX Action](https://github.com/valknar/llmx-action)*'];
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
@@ -130,11 +130,11 @@ jobs:
               body: lines.join("\n"),
             });
 
-      - name: Remove codex-deduplicate label
-        if: ${{ always() && github.event.action == 'labeled' && github.event.label.name == 'codex-deduplicate' }}
+      - name: Remove llmx-deduplicate label
+        if: ${{ always() && github.event.action == 'labeled' && github.event.label.name == 'llmx-deduplicate' }}
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh issue edit "${{ github.event.issue.number }}" --remove-label codex-deduplicate || true
-          echo "Attempted to remove label: codex-deduplicate"
+          gh issue edit "${{ github.event.issue.number }}" --remove-label llmx-deduplicate || true
+          echo "Attempted to remove label: llmx-deduplicate"

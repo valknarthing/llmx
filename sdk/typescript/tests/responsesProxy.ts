@@ -40,6 +40,7 @@ export type ResponsesProxy = {
   requests: RecordedRequest[];
 };
 
+// Responses API format
 export type ResponsesApiRequest = {
   model?: string;
   input: Array<{
@@ -51,14 +52,96 @@ export type ResponsesApiRequest = {
   };
 };
 
+// Chat Completions API format
+export type ChatCompletionsRequest = {
+  model?: string;
+  messages: Array<{
+    role: string;
+    content?: string;
+  }>;
+  stream?: boolean;
+  tools?: unknown[];
+};
+
 export type RecordedRequest = {
   body: string;
-  json: ResponsesApiRequest;
+  json: ResponsesApiRequest | ChatCompletionsRequest;
   headers: http.IncomingHttpHeaders;
 };
 
 function formatSseEvent(event: SseEvent): string {
   return `event: ${event.type}\n` + `data: ${JSON.stringify(event)}\n\n`;
+}
+
+// Convert Responses API events to Chat Completions API format
+function convertToChatCompletionsEvent(event: SseEvent): string | null {
+  switch (event.type) {
+    case "response.created":
+      // Chat Completions doesn't have a created event, skip it
+      return null;
+
+    case "response.output_item.done": {
+      const item = (event as Record<string, unknown>).item as Record<string, unknown> | undefined;
+      if (item && item.type === "message" && item.role === "assistant") {
+        const content = item.content as Array<Record<string, unknown>> | undefined;
+        const text = (content?.[0]?.text as string | undefined) || "";
+        // Send as delta chunk
+        return `data: ${JSON.stringify({
+          choices: [{
+            delta: { content: text },
+            index: 0,
+            finish_reason: null
+          }]
+        })}\n\n`;
+      }
+      return null;
+    }
+
+    case "response.completed": {
+      const response = (event as Record<string, unknown>).response as Record<string, unknown> | undefined;
+      const usage = response?.usage as Record<string, unknown> | undefined;
+      // Send usage data before completion marker
+      if (usage) {
+        const inputDetails = usage.input_tokens_details as Record<string, unknown> | undefined | null;
+        const usageChunk = `data: ${JSON.stringify({
+          choices: [{
+            delta: {},
+            index: 0,
+            finish_reason: "stop"
+          }],
+          usage: {
+            prompt_tokens: usage.input_tokens,
+            prompt_tokens_details: inputDetails ? {
+              cached_tokens: inputDetails.cached_tokens
+            } : null,
+            completion_tokens: usage.output_tokens,
+            completion_tokens_details: usage.output_tokens_details,
+            total_tokens: usage.total_tokens
+          }
+        })}\n\n`;
+        // Return both usage and [DONE]
+        return usageChunk + `data: [DONE]\n\n`;
+      }
+      // Send completion marker
+      return `data: [DONE]\n\n`;
+    }
+
+    case "error": {
+      const error = (event as Record<string, unknown>).error as Record<string, unknown> | undefined;
+      // Chat Completions sends error as a chunk with error field
+      const errorMessage = (error?.message as string | undefined) || "Unknown error";
+      return `data: ${JSON.stringify({
+        error: {
+          message: "stream disconnected before completion: " + errorMessage,
+          type: "stream_error",
+          code: (error?.code as string | undefined) || "stream_error"
+        }
+      })}\n\n`;
+    }
+
+    default:
+      return null;
+  }
 }
 
 export async function startResponsesTestProxy(
@@ -88,7 +171,7 @@ export async function startResponsesTestProxy(
 
   const server = http.createServer((req, res) => {
     async function handle(): Promise<void> {
-      if (req.method === "POST" && req.url === "/responses") {
+      if (req.method === "POST" && (req.url === "/responses" || req.url === "/chat/completions")) {
         const body = await readRequestBody(req);
         const json = JSON.parse(body);
         requests.push({ body, json, headers: { ...req.headers } });
@@ -99,8 +182,20 @@ export async function startResponsesTestProxy(
 
         const responseBody = responseBodies[Math.min(responseIndex, responseBodies.length - 1)]!;
         responseIndex += 1;
+
+        const isChatCompletions = req.url === "/chat/completions";
+
         for (const event of responseBody.events) {
-          res.write(formatSseEvent(event));
+          if (isChatCompletions) {
+            // Convert to Chat Completions format
+            const chatEvent = convertToChatCompletionsEvent(event);
+            if (chatEvent) {
+              res.write(chatEvent);
+            }
+          } else {
+            // Use Responses API format
+            res.write(formatSseEvent(event));
+          }
         }
         res.end();
         return;

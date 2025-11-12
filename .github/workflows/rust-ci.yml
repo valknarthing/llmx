@@ -14,7 +14,7 @@ jobs:
     name: Detect changed areas
     runs-on: ubuntu-24.04
     outputs:
-      codex: ${{ steps.detect.outputs.codex }}
+      llmx: ${{ steps.detect.outputs.llmx }}
       workflows: ${{ steps.detect.outputs.workflows }}
     steps:
       - uses: actions/checkout@v5
@@ -33,17 +33,17 @@ jobs:
             mapfile -t files < <(git diff --name-only --no-renames "$BASE_SHA"...HEAD)
           else
             # On push / manual runs, default to running everything
-            files=("codex-rs/force" ".github/force")
+            files=("llmx-rs/force" ".github/force")
           fi
 
-          codex=false
+          llmx=false
           workflows=false
           for f in "${files[@]}"; do
-            [[ $f == codex-rs/* ]] && codex=true
+            [[ $f == llmx-rs/* ]] && llmx=true
             [[ $f == .github/* ]] && workflows=true
           done
 
-          echo "codex=$codex" >> "$GITHUB_OUTPUT"
+          echo "llmx=$llmx" >> "$GITHUB_OUTPUT"
           echo "workflows=$workflows" >> "$GITHUB_OUTPUT"
 
   # --- CI that doesn't need specific targets ---------------------------------
@@ -51,10 +51,10 @@ jobs:
     name: Format / etc
     runs-on: ubuntu-24.04
     needs: changed
-    if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
+    if: ${{ needs.changed.outputs.llmx == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@1.90
@@ -69,10 +69,10 @@ jobs:
     name: cargo shear
     runs-on: ubuntu-24.04
     needs: changed
-    if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
+    if: ${{ needs.changed.outputs.llmx == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     steps:
       - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@1.90
@@ -90,10 +90,10 @@ jobs:
     timeout-minutes: 30
     needs: changed
     # Keep job-level if to avoid spinning up runners when not needed
-    if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
+    if: ${{ needs.changed.outputs.llmx == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     env:
       # Speed up repeated builds across CI runs by caching compiled objects.
       RUSTC_WRAPPER: sccache
@@ -164,7 +164,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
           restore-keys: |
             cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-
 
@@ -271,7 +271,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
 
       - name: Save sccache cache (fallback)
         if: always() && !cancelled() && env.SCCACHE_GHA_ENABLED != 'true'
@@ -321,10 +321,10 @@ jobs:
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     needs: changed
-    if: ${{ needs.changed.outputs.codex == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
+    if: ${{ needs.changed.outputs.llmx == 'true' || needs.changed.outputs.workflows == 'true' || github.event_name == 'push' }}
     defaults:
       run:
-        working-directory: codex-rs
+        working-directory: llmx-rs
     env:
       RUSTC_WRAPPER: sccache
       CARGO_INCREMENTAL: "0"
@@ -365,7 +365,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
           restore-keys: |
             cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-
 
@@ -410,6 +410,7 @@ jobs:
         run: cargo nextest run --all-features --no-fail-fast --target ${{ matrix.target }} --cargo-profile ci-test
         env:
           RUST_BACKTRACE: 1
+          LLMX_API_KEY: test
 
       - name: Save cargo home cache
         if: always() && !cancelled() && steps.cache_cargo_home_restore.outputs.cache-hit != 'true'
@@ -421,7 +422,7 @@ jobs:
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
-          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('codex-rs/rust-toolchain.toml') }}
+          key: cargo-home-${{ matrix.runner }}-${{ matrix.target }}-${{ matrix.profile }}-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('llmx-rs/rust-toolchain.toml') }}
 
       - name: Save sccache cache (fallback)
         if: always() && !cancelled() && env.SCCACHE_GHA_ENABLED != 'true'
@@ -471,7 +472,7 @@ jobs:
 
           # If nothing relevant changed (PR touching only root README, etc.),
           # declare success regardless of other jobs.
-          if [[ '${{ needs.changed.outputs.codex }}' != 'true' && '${{ needs.changed.outputs.workflows }}' != 'true' && '${{ github.event_name }}' != 'push' ]]; then
+          if [[ '${{ needs.changed.outputs.llmx }}' != 'true' && '${{ needs.changed.outputs.workflows }}' != 'true' && '${{ github.event_name }}' != 'push' ]]; then
             echo 'No relevant changes -> CI not required.'
             exit 0
           fi

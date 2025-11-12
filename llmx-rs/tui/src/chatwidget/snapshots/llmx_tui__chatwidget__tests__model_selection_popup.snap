@@ -1,0 +1,11 @@
+---
+source: tui/src/chatwidget/tests.rs
+expression: popup
+---
+  Select Model and Effort
+  Switch the model for this and future LLMX CLI sessions
+
+› 1. gpt-5-llmx (current)  Optimized for llmx.
+  2. gpt-5                 Broad world knowledge with strong general
+
+  Press enter to select reasoning effort, or esc to dismiss.

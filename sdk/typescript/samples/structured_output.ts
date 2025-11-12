@@ -1,12 +1,12 @@
 #!/usr/bin/env -S NODE_NO_WARNINGS=1 pnpm ts-node-esm --files
 
-import { Codex } from "@openai/codex-sdk";
+import { LLMX } from "@llmx/llmx-sdk";
 
-import { codexPathOverride } from "./helpers.ts";
+import { llmxPathOverride } from "./helpers.ts";
 
-const codex = new Codex({ codexPathOverride: codexPathOverride() });
+const llmx = new LLMX({ llmxPathOverride: llmxPathOverride() });
 
-const thread = codex.startThread();
+const thread = llmx.startThread();
 
 const schema = {
   type: "object",

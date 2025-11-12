@@ -7,6 +7,8 @@ module.exports = {
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
   testMatch: ["**/tests/**/*.test.ts"],
+  testTimeout: 30000,
+  forceExit: true,
   transform: {
     "^.+\\.tsx?$": [
       "ts-jest",

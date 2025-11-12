@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import { SandboxMode, ModelReasoningEffort, ApprovalMode } from "./threadOptions";
 
-export type CodexExecArgs = {
+export type LLMXExecArgs = {
   input: string;
 
   baseUrl?: string;
@@ -32,16 +32,16 @@ export type CodexExecArgs = {
   approvalPolicy?: ApprovalMode;
 };
 
-const INTERNAL_ORIGINATOR_ENV = "CODEX_INTERNAL_ORIGINATOR_OVERRIDE";
-const TYPESCRIPT_SDK_ORIGINATOR = "codex_sdk_ts";
+const INTERNAL_ORIGINATOR_ENV = "LLMX_INTERNAL_ORIGINATOR_OVERRIDE";
+const TYPESCRIPT_SDK_ORIGINATOR = "llmx_sdk_ts";
 
-export class CodexExec {
+export class LLMXExec {
   private executablePath: string;
   constructor(executablePath: string | null = null) {
-    this.executablePath = executablePath || findCodexPath();
+    this.executablePath = executablePath || findLLMXPath();
   }
 
-  async *run(args: CodexExecArgs): AsyncGenerator<string> {
+  async *run(args: LLMXExecArgs): AsyncGenerator<string> {
     const commandArgs: string[] = ["exec", "--experimental-json"];
 
     if (args.model) {
@@ -97,10 +97,10 @@ export class CodexExec {
       env[INTERNAL_ORIGINATOR_ENV] = TYPESCRIPT_SDK_ORIGINATOR;
     }
     if (args.baseUrl) {
-      env.OPENAI_BASE_URL = args.baseUrl;
+      env.LLMX_BASE_URL = args.baseUrl;
     }
     if (args.apiKey) {
-      env.CODEX_API_KEY = args.apiKey;
+      env.LLMX_API_KEY = args.apiKey;
     }
 
     const child = spawn(this.executablePath, commandArgs, {
@@ -147,7 +147,7 @@ export class CodexExec {
           } else {
             const stderrBuffer = Buffer.concat(stderrChunks);
             reject(
-              new Error(`Codex Exec exited with code ${code}: ${stderrBuffer.toString("utf8")}`),
+              new Error(`LLMX Exec exited with code ${code}: ${stderrBuffer.toString("utf8")}`),
             );
           }
         });
@@ -170,7 +170,7 @@ export class CodexExec {
 const scriptFileName = fileURLToPath(import.meta.url);
 const scriptDirName = path.dirname(scriptFileName);
 
-function findCodexPath() {
+function findLLMXPath() {
   const { platform, arch } = process;
 
   let targetTriple = null;
@@ -222,8 +222,8 @@ function findCodexPath() {
 
   const vendorRoot = path.join(scriptDirName, "..", "vendor");
   const archRoot = path.join(vendorRoot, targetTriple);
-  const codexBinaryName = process.platform === "win32" ? "codex.exe" : "codex";
-  const binaryPath = path.join(archRoot, "codex", codexBinaryName);
+  const llmxBinaryName = process.platform === "win32" ? "llmx.exe" : "llmx";
+  const binaryPath = path.join(archRoot, "llmx", llmxBinaryName);
 
   return binaryPath;
 }

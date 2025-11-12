@@ -26,9 +26,9 @@ jobs:
 
       - uses: dtolnay/rust-toolchain@1.90
 
-      - name: build codex
-        run: cargo build --bin codex
-        working-directory: codex-rs
+      - name: build llmx
+        run: cargo build --bin llmx
+        working-directory: llmx-rs
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -41,3 +41,5 @@ jobs:
 
       - name: Test SDK packages
         run: pnpm -r --filter ./sdk/typescript run test
+        env:
+          LLMX_API_KEY: test
