@@ -499,7 +499,7 @@ jobs:
           mkdir -p dist/npm
           gh release download "$tag" \
             --repo "${GITHUB_REPOSITORY}" \
-            --pattern "valknar-llmx-npm-${version}.tgz" \
+            --pattern "llmx-npm-${version}.tgz" \
             --dir dist/npm
 
       # No NODE_AUTH_TOKEN needed because we use OIDC.
@@ -515,7 +515,7 @@ jobs:
           fi
 
           tarballs=(
-            "valknar-llmx-npm-${VERSION}.tgz"
+            "llmx-npm-${VERSION}.tgz"
           )
 
           for tarball in "${tarballs[@]}"; do
