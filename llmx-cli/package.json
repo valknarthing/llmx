@@ -1,5 +1,5 @@
 {
-  "name": "@valknar/llmx",
+  "name": "@valknarthing/llmx",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "description": "LLMX CLI - Multi-provider coding agent powered by LiteLLM",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valknar/llmx.git",
+    "url": "git+https://github.com/valknarthing/llmx.git",
     "directory": "llmx-cli"
   }
 }

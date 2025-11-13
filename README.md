@@ -1,4 +1,4 @@
-<p align="center"><code>npm i -g @valknar/llmx</code><br />or <code>brew install --cask llmx</code></p>
+<p align="center"><code>npm i -g @valknarthing/llmx</code><br />or <code>brew install --cask llmx</code></p>
 
 <p align="center"><strong>LLMX CLI</strong> is a coding agent powered by LiteLLM that runs locally on your computer.
 </br>
@@ -18,7 +18,7 @@
 Install globally with your preferred package manager. If you use npm:
 
 ```shell
-npm install -g @valknar/llmx
+npm install -g @valknarthing/llmx
 ```
 
 Alternatively, if you use Homebrew:

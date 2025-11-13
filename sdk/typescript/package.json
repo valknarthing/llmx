@@ -1,10 +1,10 @@
 {
-  "name": "@valknar/llmx-sdk",
+  "name": "@valknarthing/llmx-sdk",
   "version": "0.1.0",
   "description": "TypeScript SDK for LLMX - Multi-provider coding agent",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valknar/llmx.git",
+    "url": "git+https://github.com/valknarthing/llmx.git",
     "directory": "sdk/typescript"
   },
   "keywords": [
