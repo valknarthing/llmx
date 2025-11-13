@@ -447,6 +447,16 @@ jobs:
             --release-version "${{ steps.release_name.outputs.name }}" \
             --package llmx
 
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.release_name.outputs.name }}
+          tag_name: ${{ github.ref_name }}
+          files: dist/**
+          # Mark as prerelease only when the version has a suffix after x.y.z
+          # (e.g. -alpha, -beta). Otherwise publish a normal release.
+          prerelease: ${{ contains(steps.release_name.outputs.name, '-') }}
+
       - uses: facebook/dotslash-publish-release@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
