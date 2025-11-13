@@ -464,9 +464,7 @@ jobs:
           tag: ${{ github.ref_name }}
           config: .github/dotslash-config.json
 
-  # Publish to npm using OIDC authentication.
-  # July 31, 2025: https://github.blog/changelog/2025-07-31-npm-trusted-publishing-with-oidc-is-generally-available/
-  # npm docs: https://docs.npmjs.com/trusted-publishers
+  # Publish to npm using authentication token
   publish-npm:
     # Publish to npm for stable releases and alpha pre-releases with numeric suffixes.
     if: ${{ needs.release.outputs.should_publish_npm == 'true' }}
@@ -474,7 +472,6 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Required for OIDC
       contents: read
 
     steps:
@@ -484,10 +481,8 @@ jobs:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
           scope: "@valknarthing"
-
-      # Trusted publishing requires npm CLI version 11.5.1 or later.
-      - name: Update npm
-        run: npm install -g npm@latest
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Download npm tarballs from release
         env:
@@ -502,9 +497,9 @@ jobs:
             --pattern "llmx-npm-${version}.tgz" \
             --dir dist/npm
 
-      # No NODE_AUTH_TOKEN needed because we use OIDC.
       - name: Publish to npm
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           VERSION: ${{ needs.release.outputs.version }}
           NPM_TAG: ${{ needs.release.outputs.npm_tag }}
         run: |
