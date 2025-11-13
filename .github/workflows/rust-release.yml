@@ -493,6 +493,10 @@ jobs:
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
+          scope: "@valknarthing"
+
+      - name: Update npm
+        run: npm install -g npm@latest
 
       - name: Download npm tarballs from release
         env:
