@@ -148,7 +148,9 @@ def main() -> int:
             print(f"should `git checkout {resolved_head_sha}`")
 
         for package in packages:
-            staging_dir = Path(tempfile.mkdtemp(prefix=f"npm-stage-{package}-", dir=runner_temp))
+            # Sanitize package name for use in filesystem path (replace / with -)
+            safe_package_name = package.replace("/", "-").replace("@", "")
+            staging_dir = Path(tempfile.mkdtemp(prefix=f"npm-stage-{safe_package_name}-", dir=runner_temp))
             pack_output = output_dir / f"{package}-npm-{args.release_version}.tgz"
 
             cmd = [
