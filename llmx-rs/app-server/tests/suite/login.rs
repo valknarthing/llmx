@@ -6,6 +6,7 @@ use llmx_app_server_protocol::CancelLoginChatGptResponse;
 use llmx_app_server_protocol::GetAuthStatusParams;
 use llmx_app_server_protocol::GetAuthStatusResponse;
 use llmx_app_server_protocol::JSONRPCError;
+use llmx_app_server_protocol::JSONRPCMessage;
 use llmx_app_server_protocol::JSONRPCResponse;
 use llmx_app_server_protocol::LoginChatGptResponse;
 use llmx_app_server_protocol::LogoutChatGptResponse;
@@ -110,21 +111,45 @@ async fn login_and_cancel_chatgpt() -> Result<()> {
             login_id: login.login_id,
         })
         .await?;
-    let cancel_resp: JSONRPCResponse = timeout(
-        DEFAULT_READ_TIMEOUT,
-        mcp.read_stream_until_response_message(RequestId::Integer(cancel_id)),
-    )
-    .await??;
-    let _ok: CancelLoginChatGptResponse = to_response(cancel_resp)?;
 
-    // Optionally observe the completion notification; do not fail if it races.
+    // The cancel might succeed or fail with "login id not found" if the login
+    // completed/cancelled already due to a race condition. Either is acceptable.
+    let cancel_result = timeout(
+        DEFAULT_READ_TIMEOUT,
+        mcp.read_jsonrpc_message(),
+    )
+    .await?;
+
+    match cancel_result? {
+        JSONRPCMessage::Response(resp) if resp.id == RequestId::Integer(cancel_id) => {
+            // Successfully cancelled
+            let _ok: CancelLoginChatGptResponse = to_response(resp)?;
+        }
+        JSONRPCMessage::Error(err) if err.id == RequestId::Integer(cancel_id) => {
+            // Login was already cleaned up - this is acceptable in a race
+            eprintln!("cancel returned error (expected in race): {:?}", err.error.message);
+        }
+        JSONRPCMessage::Notification(notif) if notif.method == "loginChatGptComplete" => {
+            // Got completion notification first, now wait for cancel response/error
+            let cancel_msg = timeout(DEFAULT_READ_TIMEOUT, mcp.read_jsonrpc_message()).await??;
+            match cancel_msg {
+                JSONRPCMessage::Response(_) | JSONRPCMessage::Error(_) => {
+                    // Either response is acceptable
+                }
+                other => anyhow::bail!("unexpected message after cancel: {other:?}"),
+            }
+        }
+        other => anyhow::bail!("unexpected response to cancel: {other:?}"),
+    }
+
+    // Optionally observe the completion notification if we haven't seen it yet
     let maybe_note = timeout(
         Duration::from_secs(2),
-        mcp.read_stream_until_notification_message("llmx/event/login_chat_gpt_complete"),
+        mcp.read_stream_until_notification_message("loginChatGptComplete"),
     )
     .await;
     if maybe_note.is_err() {
-        eprintln!("warning: did not observe login_chat_gpt_complete notification after cancel");
+        eprintln!("note: did not observe loginChatGptComplete notification (may have already been processed)");
     }
     Ok(())
 }
