@@ -511,7 +511,6 @@ jobs:
         env:
           VERSION: ${{ needs.release.outputs.version }}
           NPM_TAG: ${{ needs.release.outputs.npm_tag }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
           tag_args=()
@@ -527,21 +526,21 @@ jobs:
             npm publish "${GITHUB_WORKSPACE}/dist/npm/${tarball}" --provenance --access public "${tag_args[@]}"
           done
 
-  update-branch:
-    name: Update latest-alpha-cli branch
-    permissions:
-      contents: write
-    needs: release
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Update latest-alpha-cli branch
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          gh api \
-            repos/${GITHUB_REPOSITORY}/git/refs/heads/latest-alpha-cli \
-            -X PATCH \
-            -f sha="${GITHUB_SHA}" \
-            -F force=true
+  # update-branch:
+  #   name: Update latest-alpha-cli branch
+  #   permissions:
+  #     contents: write
+  #   needs: release
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #     - name: Update latest-alpha-cli branch
+  #       env:
+  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: |
+  #         set -euo pipefail
+  #         gh api \
+  #           repos/${GITHUB_REPOSITORY}/git/refs/heads/latest-alpha-cli \
+  #           -X PATCH \
+  #           -f sha="${GITHUB_SHA}" \
+  #           -F force=true
