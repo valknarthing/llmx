@@ -445,7 +445,7 @@ jobs:
         run: |
           ./scripts/stage_npm_packages.py \
             --release-version "${{ steps.release_name.outputs.name }}" \
-            --package @valknar/llmx
+            --package llmx
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
