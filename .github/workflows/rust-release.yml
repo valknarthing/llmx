@@ -476,7 +476,7 @@ jobs:
           tag: ${{ github.ref_name }}
           config: .github/dotslash-config.json
 
-  # Publish to npm using authentication token
+  # Publish to npm using Trusted Publishers (OIDC)
   publish-npm:
     # Publish to npm for stable releases and alpha pre-releases with numeric suffixes.
     if: ${{ needs.release.outputs.should_publish_npm == 'true' }}
@@ -485,6 +485,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      id-token: write  # Required for OIDC authentication
 
     steps:
       - name: Setup Node.js
@@ -510,11 +511,8 @@ jobs:
         env:
           VERSION: ${{ needs.release.outputs.version }}
           NPM_TAG: ${{ needs.release.outputs.npm_tag }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # Write auth token to the .npmrc file that setup-node created
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ${NPM_CONFIG_USERCONFIG}
-
-
           set -euo pipefail
           tag_args=()
           if [[ -n "${NPM_TAG}" ]]; then
@@ -526,7 +524,7 @@ jobs:
           )
 
           for tarball in "${tarballs[@]}"; do
-            npm publish "${GITHUB_WORKSPACE}/dist/npm/${tarball}" --access public "${tag_args[@]}"
+            npm publish "${GITHUB_WORKSPACE}/dist/npm/${tarball}" --provenance --access public "${tag_args[@]}"
           done
 
   update-branch:
