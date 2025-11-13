@@ -1,13 +1,9 @@
-<p align="center"><code>npm i -g @valknarthing/llmx</code><br />or <code>brew install --cask llmx</code></p>
+<p align="center"><code>npm i -g @valknarthing/llmx</code></p>
 
 <p align="center"><strong>LLMX CLI</strong> is a coding agent powered by LiteLLM that runs locally on your computer.
 </br>
 </br>This project is a community fork with enhanced support for multiple LLM providers via LiteLLM.
-</br>Original project: <a href="https://github.com/openai/llmx">github.com/openai/llmx</a></p>
-
-<p align="center">
-  <img src="./.github/llmx-cli-splash.png" alt="LLMX CLI splash" width="80%" />
-  </p>
+</br>Original project: <a href="https://github.com/openai/codex">github.com/openai/codex</a></p>
 
 ---
 
@@ -15,16 +11,10 @@
 
 ### Installing and running LLMX CLI
 
-Install globally with your preferred package manager. If you use npm:
+Install globally with npm:
 
 ```shell
 npm install -g @valknarthing/llmx
-```
-
-Alternatively, if you use Homebrew:
-
-```shell
-brew install --cask llmx
 ```
 
 Then simply run `llmx` to get started:
@@ -33,10 +23,8 @@ Then simply run `llmx` to get started:
 llmx
 ```
 
-If you're running into upgrade issues with Homebrew, see the [FAQ entry on brew upgrade llmx](./docs/faq.md#brew-upgrade-llmx-isnt-upgrading-me).
-
 <details>
-<summary>You can also go to the <a href="https://github.com/valknar/llmx/releases/latest">latest GitHub Release</a> and download the appropriate binary for your platform.</summary>
+<summary>You can also go to the <a href="https://github.com/valknarthing/llmx/releases/latest">latest GitHub Release</a> and download the appropriate binary for your platform.</summary>
 
 Each GitHub Release contains many executables, but in practice, you likely want one of these:
 
@@ -96,7 +84,7 @@ LLMX CLI supports a rich set of configuration options, with preferences stored i
   - [Auth methods](./docs/authentication.md#forcing-a-specific-auth-method-advanced)
   - [Login on a "Headless" machine](./docs/authentication.md#connecting-on-a-headless-machine)
 - **Automating LLMX**
-  - [GitHub Action](https://github.com/valknar/llmx-action)
+  - [GitHub Action](https://github.com/valknarthing/llmx-action)
   - [TypeScript SDK](./sdk/typescript/README.md)
   - [Non-interactive mode (`llmx exec`)](./docs/exec.md)
 - [**Advanced**](./docs/advanced.md)
