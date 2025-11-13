@@ -873,7 +873,7 @@ notifications = [ "agent-turn-complete", "approval-requested" ]
 
 ### Forcing a login method
 
-To force users on a given machine to use a specific login method or workspace, use a combination of [managed configurations](https://developers.openai.com/llmx/security#managed-configuration) as well as either or both of the following fields:
+To force users on a given machine to use a specific login method or workspace, use either or both of the following fields in your configuration:
 
 ```toml
 # Force the user to log in with ChatGPT or via an api key.

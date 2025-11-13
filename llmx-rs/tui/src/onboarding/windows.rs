@@ -33,11 +33,8 @@ pub(crate) const WSL_INSTRUCTIONS: &str = r#"Install WSL2 by opening PowerShell 
     nvm install 22
 
     # Install and run LLMX in WSL
-    npm install --global @openai/llmx
-    llmx
-
-    # Additional details and instructions for how to install and run LLMX in WSL:
-    https://developers.openai.com/llmx/windows"#;
+    npm install --global @valknarthing/llmx
+    llmx"#;
 
 pub(crate) struct WindowsSetupWidget {
     pub llmx_home: PathBuf,
@@ -102,7 +99,6 @@ impl WidgetRef for &WindowsSetupWidget {
                 "To use all LLMX features, we recommend running LLMX in Windows Subsystem for Linux (WSL2)".bold(),
             ]),
             Line::from(vec!["  ".into(), "WSL allows LLMX to run Agent mode in a sandboxed environment with better data protections in place.".into()]),
-            Line::from(vec!["  ".into(), "Learn more: https://developers.openai.com/llmx/windows".into()]),
             Line::from(""),
         ];
 
