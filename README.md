@@ -47,56 +47,56 @@ LLMX is powered by [LiteLLM](https://docs.litellm.ai/), which provides access to
 
 ```bash
 # Set your LiteLLM server URL (default: http://localhost:4000/v1)
-export LITELLM_BASE_URL="http://localhost:4000/v1"
-export LITELLM_API_KEY="your-api-key"
+export LLMX_BASE_URL="http://localhost:4000/v1"
+export LLMX_API_KEY="your-api-key"
 
 # Run LLMX
 llmx "hello world"
 ```
 
-**Configuration:** See [LITELLM-SETUP.md](./LITELLM-SETUP.md) for detailed setup instructions.
+**Configuration:** See [LITELLM-SETUP.md](https://github.com/valknarthing/llmx/blob/main/LITELLM-SETUP.md) for detailed setup instructions.
 
-You can also use LLMX with ChatGPT or OpenAI API keys. For authentication options, see the [authentication docs](./docs/authentication.md).
+You can also use LLMX with ChatGPT or OpenAI API keys. For authentication options, see the [authentication docs](https://github.com/valknarthing/llmx/blob/main/docs/authentication.md).
 
 ### Model Context Protocol (MCP)
 
-LLMX can access MCP servers. To configure them, refer to the [config docs](./docs/config.md#mcp_servers).
+LLMX can access MCP servers. To configure them, refer to the [config docs](https://github.com/valknarthing/llmx/blob/main/docs/config.md#mcp_servers).
 
 ### Configuration
 
-LLMX CLI supports a rich set of configuration options, with preferences stored in `~/.llmx/config.toml`. For full configuration options, see [Configuration](./docs/config.md).
+LLMX CLI supports a rich set of configuration options, with preferences stored in `~/.llmx/config.toml`. For full configuration options, see [Configuration](https://github.com/valknarthing/llmx/blob/main/docs/config.md).
 
 ---
 
 ### Docs & FAQ
 
-- [**Getting started**](./docs/getting-started.md)
-  - [CLI usage](./docs/getting-started.md#cli-usage)
-  - [Slash Commands](./docs/slash_commands.md)
-  - [Running with a prompt as input](./docs/getting-started.md#running-with-a-prompt-as-input)
-  - [Example prompts](./docs/getting-started.md#example-prompts)
-  - [Custom prompts](./docs/prompts.md)
-  - [Memory with AGENTS.md](./docs/getting-started.md#memory-with-agentsmd)
-- [**Configuration**](./docs/config.md)
-  - [Example config](./docs/example-config.md)
-- [**Sandbox & approvals**](./docs/sandbox.md)
-- [**Authentication**](./docs/authentication.md)
-  - [Auth methods](./docs/authentication.md#forcing-a-specific-auth-method-advanced)
-  - [Login on a "Headless" machine](./docs/authentication.md#connecting-on-a-headless-machine)
+- [**Getting started**](https://github.com/valknarthing/llmx/blob/main/docs/getting-started.md)
+  - [CLI usage](https://github.com/valknarthing/llmx/blob/main/docs/getting-started.md#cli-usage)
+  - [Slash Commands](https://github.com/valknarthing/llmx/blob/main/docs/slash_commands.md)
+  - [Running with a prompt as input](https://github.com/valknarthing/llmx/blob/main/docs/getting-started.md#running-with-a-prompt-as-input)
+  - [Example prompts](https://github.com/valknarthing/llmx/blob/main/docs/getting-started.md#example-prompts)
+  - [Custom prompts](https://github.com/valknarthing/llmx/blob/main/docs/prompts.md)
+  - [Memory with AGENTS.md](https://github.com/valknarthing/llmx/blob/main/docs/getting-started.md#memory-with-agentsmd)
+- [**Configuration**](https://github.com/valknarthing/llmx/blob/main/docs/config.md)
+  - [Example config](https://github.com/valknarthing/llmx/blob/main/docs/example-config.md)
+- [**Sandbox & approvals**](https://github.com/valknarthing/llmx/blob/main/docs/sandbox.md)
+- [**Authentication**](https://github.com/valknarthing/llmx/blob/main/docs/authentication.md)
+  - [Auth methods](https://github.com/valknarthing/llmx/blob/main/docs/authentication.md#forcing-a-specific-auth-method-advanced)
+  - [Login on a "Headless" machine](https://github.com/valknarthing/llmx/blob/main/docs/authentication.md#connecting-on-a-headless-machine)
 - **Automating LLMX**
   - [GitHub Action](https://github.com/valknarthing/llmx-action)
-  - [TypeScript SDK](./sdk/typescript/README.md)
-  - [Non-interactive mode (`llmx exec`)](./docs/exec.md)
-- [**Advanced**](./docs/advanced.md)
-  - [Tracing / verbose logging](./docs/advanced.md#tracing--verbose-logging)
-  - [Model Context Protocol (MCP)](./docs/advanced.md#model-context-protocol-mcp)
-- [**Zero data retention (ZDR)**](./docs/zdr.md)
-- [**Contributing**](./docs/contributing.md)
-- [**Install & build**](./docs/install.md)
-  - [System Requirements](./docs/install.md#system-requirements)
-  - [DotSlash](./docs/install.md#dotslash)
-  - [Build from source](./docs/install.md#build-from-source)
-- [**FAQ**](./docs/faq.md)
+  - [TypeScript SDK](https://github.com/valknarthing/llmx/blob/main/sdk/typescript/README.md)
+  - [Non-interactive mode (`llmx exec`)](https://github.com/valknarthing/llmx/blob/main/docs/exec.md)
+- [**Advanced**](https://github.com/valknarthing/llmx/blob/main/docs/advanced.md)
+  - [Tracing / verbose logging](https://github.com/valknarthing/llmx/blob/main/docs/advanced.md#tracing--verbose-logging)
+  - [Model Context Protocol (MCP)](https://github.com/valknarthing/llmx/blob/main/docs/advanced.md#model-context-protocol-mcp)
+- [**Zero data retention (ZDR)**](https://github.com/valknarthing/llmx/blob/main/docs/zdr.md)
+- [**Contributing**](https://github.com/valknarthing/llmx/blob/main/docs/contributing.md)
+- [**Install & build**](https://github.com/valknarthing/llmx/blob/main/docs/install.md)
+  - [System Requirements](https://github.com/valknarthing/llmx/blob/main/docs/install.md#system-requirements)
+  - [DotSlash](https://github.com/valknarthing/llmx/blob/main/docs/install.md#dotslash)
+  - [Build from source](https://github.com/valknarthing/llmx/blob/main/docs/install.md#build-from-source)
+- [**FAQ**](https://github.com/valknarthing/llmx/blob/main/docs/faq.md)
 
 ---
 
