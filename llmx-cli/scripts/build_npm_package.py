@@ -31,9 +31,9 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build or stage the LLMX CLI npm package.")
     parser.add_argument(
         "--package",
-        choices=("llmx", "llmx-responses-api-proxy", "llmx-sdk"),
+        choices=("llmx", "llmx-responses-api-proxy", "llmx-sdk", "@valknarthing/llmx"),
         default="llmx",
-        help="Which npm package to stage (default: codex).",
+        help="Which npm package to stage (default: llmx).",
     )
     parser.add_argument(
         "--version",
@@ -76,6 +76,9 @@ def main() -> int:
     args = parse_args()
 
     package = args.package
+    # Normalize scoped package name to internal identifier
+    if package == "@valknarthing/llmx":
+        package = "llmx"
     version = args.version
     release_version = args.release_version
     if release_version:
