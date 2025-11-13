@@ -526,7 +526,7 @@ jobs:
           )
 
           for tarball in "${tarballs[@]}"; do
-            npm publish "${GITHUB_WORKSPACE}/dist/npm/${tarball}" "${tag_args[@]}"
+            npm publish "${GITHUB_WORKSPACE}/dist/npm/${tarball}" --access public "${tag_args[@]}"
           done
 
   update-branch:
