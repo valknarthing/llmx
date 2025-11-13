@@ -463,6 +463,7 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           config: .github/dotslash-config.json
+          clobber: true
 
   # Publish to npm using authentication token
   publish-npm:
