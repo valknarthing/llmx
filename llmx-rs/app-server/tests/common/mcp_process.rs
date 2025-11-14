@@ -138,7 +138,7 @@ impl McpProcess {
             client_info: ClientInfo {
                 name: "llmx-app-server-tests".to_string(),
                 title: None,
-                version: "0.1.3".to_string(),
+                version: "0.1.4".to_string(),
             },
         })?);
         let req_id = self.send_request("initialize", params).await?;

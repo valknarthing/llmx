@@ -161,6 +161,9 @@ pub(crate) async fn stream_chat_completions(
     // aggregated assistant message was recorded alongside an earlier partial).
     let mut last_assistant_text: Option<String> = None;
 
+    // Track call_ids of skipped function calls so we can also skip their outputs
+    let mut skipped_call_ids: std::collections::HashSet<String> = std::collections::HashSet::new();
+
     for (idx, item) in input.iter().enumerate() {
         match item {
             ResponseItem::Message { role, content, .. } => {
@@ -227,6 +230,15 @@ pub(crate) async fn stream_chat_completions(
                 call_id,
                 ..
             } => {
+                // Validate that arguments is valid JSON before sending to API
+                // If invalid, skip this function call to avoid API errors
+                if serde_json::from_str::<serde_json::Value>(arguments).is_err() {
+                    debug!("Skipping malformed function call with invalid JSON arguments: {}", arguments);
+                    // Track this call_id so we can also skip its corresponding output
+                    skipped_call_ids.insert(call_id.clone());
+                    continue;
+                }
+
                 let mut msg = json!({
                     "role": "assistant",
                     "content": null,
@@ -271,6 +283,12 @@ pub(crate) async fn stream_chat_completions(
                 messages.push(msg);
             }
             ResponseItem::FunctionCallOutput { call_id, output } => {
+                // Skip outputs for function calls that were skipped due to malformed arguments
+                if skipped_call_ids.contains(call_id) {
+                    debug!("Skipping function call output for skipped call_id: {}", call_id);
+                    continue;
+                }
+
                 // Prefer structured content items when available (e.g., images)
                 // otherwise fall back to the legacy plain-string content.
                 let content_value = if let Some(items) = &output.content_items {
