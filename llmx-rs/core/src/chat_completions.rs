@@ -175,13 +175,21 @@ pub(crate) async fn stream_chat_completions(
                         ContentItem::InputText { text: t }
                         | ContentItem::OutputText { text: t } => {
                             text.push_str(t);
-                            items.push(json!({"type":"text","text": t}));
+                            // Only add text content blocks that are non-empty
+                            if !t.trim().is_empty() {
+                                items.push(json!({"type":"text","text": t}));
+                            }
                         }
                         ContentItem::InputImage { image_url } => {
                             saw_image = true;
                             items.push(json!({"type":"image_url","image_url": {"url": image_url}}));
                         }
                     }
+                }
+
+                // Skip messages with empty or whitespace-only text content (unless they contain images)
+                if text.trim().is_empty() && !saw_image {
+                    continue;
                 }
 
                 // Skip exact-duplicate assistant messages.
