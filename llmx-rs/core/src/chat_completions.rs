@@ -56,7 +56,12 @@ pub(crate) async fn stream_chat_completions(
     let mut messages = Vec::<serde_json::Value>::new();
 
     let full_instructions = prompt.get_full_instructions(model_family);
-    messages.push(json!({"role": "system", "content": full_instructions}));
+    // Add cache_control to system instructions for Anthropic prompt caching
+    messages.push(json!({
+        "role": "system",
+        "content": full_instructions,
+        "cache_control": {"type": "ephemeral"}
+    }));
 
     let input = prompt.get_formatted_input();
 
@@ -413,6 +418,20 @@ pub(crate) async fn stream_chat_completions(
     }
 
     debug!("Built {} messages for API request", messages.len());
+
+    // Add cache_control to conversation history for Anthropic prompt caching
+    // Add it to a message that's at least 3 messages before the end (stable history)
+    // This caches the earlier conversation while keeping recent turns uncached
+    if messages.len() > 4 {
+        let cache_idx = messages.len().saturating_sub(4);
+        if let Some(msg) = messages.get_mut(cache_idx) {
+            if let Some(obj) = msg.as_object_mut() {
+                obj.insert("cache_control".to_string(), json!({"type": "ephemeral"}));
+                debug!("Added cache_control to message at index {} (conversation history)", cache_idx);
+            }
+        }
+    }
+
     debug!("=== End Chat Completions Request Debug ===");
 
     let tools_json = create_tools_json_for_chat_completions_api(&prompt.tools)?;
