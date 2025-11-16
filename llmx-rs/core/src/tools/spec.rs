@@ -693,7 +693,7 @@ pub(crate) fn create_tools_json_for_chat_completions_api(
     // We start with the JSON for the Responses API and than rewrite it to match
     // the chat completions tool call format.
     let responses_api_tools_json = create_tools_json_for_responses_api(tools)?;
-    let tools_json = responses_api_tools_json
+    let mut tools_json = responses_api_tools_json
         .into_iter()
         .filter_map(|mut tool| {
             if tool.get("type") != Some(&serde_json::Value::String("function".to_string())) {
@@ -712,6 +712,14 @@ pub(crate) fn create_tools_json_for_chat_completions_api(
             }
         })
         .collect::<Vec<serde_json::Value>>();
+
+    // Add cache_control to the last tool to enable Anthropic prompt caching
+    if let Some(last_tool) = tools_json.last_mut() {
+        if let Some(obj) = last_tool.as_object_mut() {
+            obj.insert("cache_control".to_string(), json!({"type": "ephemeral"}));
+        }
+    }
+
     Ok(tools_json)
 }
 

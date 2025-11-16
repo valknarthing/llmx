@@ -161,10 +161,65 @@ pub(crate) async fn stream_chat_completions(
     // aggregated assistant message was recorded alongside an earlier partial).
     let mut last_assistant_text: Option<String> = None;
 
-    // Track call_ids of skipped function calls so we can also skip their outputs
-    let mut skipped_call_ids: std::collections::HashSet<String> = std::collections::HashSet::new();
+    // Build a map of which call_ids have outputs
+    // We'll use this to ensure we never send a FunctionCall without its corresponding output
+    let mut call_ids_with_outputs: std::collections::HashSet<String> = std::collections::HashSet::new();
+
+    // First pass: collect all call_ids that have outputs
+    for item in input.iter() {
+        if let ResponseItem::FunctionCallOutput { call_id, .. } = item {
+            call_ids_with_outputs.insert(call_id.clone());
+        }
+    }
+
+    debug!("=== Chat Completions Request Debug ===");
+    debug!("Input items count: {}", input.len());
+    debug!("Call IDs with outputs: {:?}", call_ids_with_outputs);
+
+    // Second pass: find the first FunctionCall that doesn't have an output
+    let mut cutoff_at_idx: Option<usize> = None;
+    for (idx, item) in input.iter().enumerate() {
+        if let ResponseItem::FunctionCall { call_id, name, .. } = item {
+            if !call_ids_with_outputs.contains(call_id) {
+                debug!("Found unanswered function call '{}' (call_id: {}) at index {}", name, call_id, idx);
+                cutoff_at_idx = Some(idx);
+                break;
+            }
+        }
+    }
+
+    if let Some(cutoff) = cutoff_at_idx {
+        debug!("Cutting off at index {} to avoid orphaned tool calls", cutoff);
+    } else {
+        debug!("No unanswered function calls found, processing all items");
+    }
+
+    // Track whether the MOST RECENT FunctionCall with each call_id was skipped
+    // This allows the same call_id to be retried - we only skip outputs for the specific skipped calls
+    let mut call_id_skip_state: std::collections::HashMap<String, bool> = std::collections::HashMap::new();
 
     for (idx, item) in input.iter().enumerate() {
+        // Stop processing if we've reached an unanswered function call
+        if let Some(cutoff) = cutoff_at_idx {
+            if idx >= cutoff {
+                debug!("Stopping at index {} due to unanswered function call", idx);
+                break;
+            }
+        }
+
+        debug!("Processing item {} of type: {}", idx, match item {
+            ResponseItem::Message { role, .. } => format!("Message(role={})", role),
+            ResponseItem::FunctionCall { name, call_id, .. } => format!("FunctionCall(name={}, call_id={})", name, call_id),
+            ResponseItem::FunctionCallOutput { call_id, .. } => format!("FunctionCallOutput(call_id={})", call_id),
+            ResponseItem::LocalShellCall { .. } => "LocalShellCall".to_string(),
+            ResponseItem::CustomToolCall { .. } => "CustomToolCall".to_string(),
+            ResponseItem::CustomToolCallOutput { .. } => "CustomToolCallOutput".to_string(),
+            ResponseItem::Reasoning { .. } => "Reasoning".to_string(),
+            ResponseItem::WebSearchCall { .. } => "WebSearchCall".to_string(),
+            ResponseItem::GhostSnapshot { .. } => "GhostSnapshot".to_string(),
+            ResponseItem::Other => "Other".to_string(),
+        });
+
         match item {
             ResponseItem::Message { role, content, .. } => {
                 // Build content either as a plain string (typical for assistant text)
@@ -234,10 +289,13 @@ pub(crate) async fn stream_chat_completions(
                 // If invalid, skip this function call to avoid API errors
                 if serde_json::from_str::<serde_json::Value>(arguments).is_err() {
                     debug!("Skipping malformed function call with invalid JSON arguments: {}", arguments);
-                    // Track this call_id so we can also skip its corresponding output
-                    skipped_call_ids.insert(call_id.clone());
+                    // Mark this call_id's most recent state as skipped
+                    call_id_skip_state.insert(call_id.clone(), true);
                     continue;
                 }
+
+                // Mark this call_id's most recent state as NOT skipped (valid call)
+                call_id_skip_state.insert(call_id.clone(), false);
 
                 let mut msg = json!({
                     "role": "assistant",
@@ -283,9 +341,9 @@ pub(crate) async fn stream_chat_completions(
                 messages.push(msg);
             }
             ResponseItem::FunctionCallOutput { call_id, output } => {
-                // Skip outputs for function calls that were skipped due to malformed arguments
-                if skipped_call_ids.contains(call_id) {
-                    debug!("Skipping function call output for skipped call_id: {}", call_id);
+                // Skip outputs only if the MOST RECENT FunctionCall with this call_id was skipped
+                if call_id_skip_state.get(call_id) == Some(&true) {
+                    debug!("Skipping function call output for most recent skipped call_id: {}", call_id);
                     continue;
                 }
 
@@ -354,13 +412,22 @@ pub(crate) async fn stream_chat_completions(
         }
     }
 
+    debug!("Built {} messages for API request", messages.len());
+    debug!("=== End Chat Completions Request Debug ===");
+
     let tools_json = create_tools_json_for_chat_completions_api(&prompt.tools)?;
-    let payload = json!({
+    let mut payload = json!({
         "model": model_family.slug,
         "messages": messages,
         "stream": true,
         "tools": tools_json,
     });
+
+    // Add max_tokens - required by Anthropic Messages API
+    // Use a sensible default of 8192 if not configured
+    if let Some(obj) = payload.as_object_mut() {
+        obj.insert("max_tokens".to_string(), json!(8192));
+    }
 
     debug!(
         "POST to {}: {}",
