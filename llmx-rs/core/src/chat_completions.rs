@@ -645,7 +645,14 @@ async fn process_chat_sse<S>(
                 return;
             }
             Ok(None) => {
-                // Stream closed gracefully – emit Completed with dummy id.
+                // Stream closed gracefully – emit any pending items first, then Completed
+                debug!("Stream closed gracefully (Ok(None)), emitting pending items");
+                if let Some(item) = assistant_item.take() {
+                    let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+                }
+                if let Some(item) = reasoning_item.take() {
+                    let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+                }
                 let _ = tx_event
                     .send(Ok(ResponseEvent::Completed {
                         response_id: String::new(),
