@@ -3070,7 +3070,7 @@ dependencies = [
  "base64",
  "bytes",
  "chrono",
- "core-foundation 0.9.4",
+ "core-foundation 0.10.1",
  "core_test_support",
  "ctor 0.5.0",
  "dirs",
