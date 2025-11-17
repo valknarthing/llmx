@@ -443,10 +443,12 @@ pub(crate) async fn stream_chat_completions(
     });
 
     // Add max_tokens - required by Anthropic Messages API
-    // Use a sensible default of 8192 if not configured
+    // Use provider config value or default to 8192
+    let max_tokens = provider.max_tokens.unwrap_or(8192);
     if let Some(obj) = payload.as_object_mut() {
-        obj.insert("max_tokens".to_string(), json!(8192));
+        obj.insert("max_tokens".to_string(), json!(max_tokens));
     }
+    debug!("Using max_tokens: {}", max_tokens);
 
     debug!(
         "POST to {}: {}",

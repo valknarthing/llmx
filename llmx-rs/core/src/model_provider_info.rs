@@ -87,6 +87,10 @@ pub struct ModelProviderInfo {
     /// the connection as lost.
     pub stream_idle_timeout_ms: Option<u64>,
 
+    /// Maximum number of tokens to generate in the response. If not specified, defaults to 8192.
+    /// This is required by some providers (e.g., Anthropic via LiteLLM).
+    pub max_tokens: Option<i64>,
+
     /// Does this provider require an OpenAI API Key or ChatGPT login token? If true,
     /// user is presented with login screen on first run, and login preference and token/key
     /// are stored in auth.json. If false (which is the default), login screen is skipped,
@@ -290,6 +294,7 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 request_max_retries: None,
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
+                max_tokens: None,
                 requires_openai_auth: false,
             },
         ),
@@ -330,6 +335,7 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 request_max_retries: None,
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
+                max_tokens: None,
                 requires_openai_auth: true,
             },
         ),
@@ -375,6 +381,7 @@ pub fn create_oss_provider_with_base_url(base_url: &str) -> ModelProviderInfo {
         request_max_retries: None,
         stream_max_retries: None,
         stream_idle_timeout_ms: None,
+        max_tokens: None,
         requires_openai_auth: false,
     }
 }
