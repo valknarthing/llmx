@@ -867,9 +867,9 @@ async fn process_chat_sse<S>(
 
                         let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
                     }
-                    "stop" => {
-                        // Regular turn without tool-call. Emit the final assistant message
-                        // as a single OutputItemDone so non-delta consumers see the result.
+                    "stop" | "length" => {
+                        // Regular turn without tool-call, or hit max_tokens limit.
+                        // Emit the final assistant message as a single OutputItemDone so non-delta consumers see the result.
                         if let Some(item) = assistant_item.take() {
                             let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
                         }
@@ -878,7 +878,16 @@ async fn process_chat_sse<S>(
                             let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
                         }
                     }
-                    _ => {}
+                    _ => {
+                        // Unknown finish_reason - still emit pending items to avoid hanging
+                        debug!("Unknown finish_reason: {}, emitting pending items", finish_reason);
+                        if let Some(item) = assistant_item.take() {
+                            let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+                        }
+                        if let Some(item) = reasoning_item.take() {
+                            let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+                        }
+                    }
                 }
 
                 // Emit Completed regardless of reason so the agent can advance.
