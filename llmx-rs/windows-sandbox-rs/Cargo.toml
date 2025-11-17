@@ -19,7 +19,7 @@ features = ["std", "small_rng"]
 [dependencies.dirs-next]
 version = "2.0"
 [dependencies.windows-sys]
-version = "0.52"
+version = "0.61"
 features = [
     "Win32_Foundation",
     "Win32_System_Diagnostics_Debug",
