@@ -869,13 +869,21 @@ async fn process_chat_sse<S>(
                     }
                     "stop" | "length" => {
                         // Regular turn without tool-call, or hit max_tokens limit.
+                        debug!("Processing finish_reason={}, assistant_item.is_some()={}, reasoning_item.is_some()={}",
+                            finish_reason, assistant_item.is_some(), reasoning_item.is_some());
                         // Emit the final assistant message as a single OutputItemDone so non-delta consumers see the result.
                         if let Some(item) = assistant_item.take() {
+                            debug!("Emitting assistant_item: {:?}", item);
                             let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+                        } else {
+                            debug!("No assistant_item to emit");
                         }
                         // Also emit a terminal Reasoning item so UIs can finalize raw reasoning.
                         if let Some(item) = reasoning_item.take() {
+                            debug!("Emitting reasoning_item");
                             let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+                        } else {
+                            debug!("No reasoning_item to emit");
                         }
                     }
                     _ => {
@@ -891,12 +899,14 @@ async fn process_chat_sse<S>(
                 }
 
                 // Emit Completed regardless of reason so the agent can advance.
+                debug!("Sending Completed event after finish_reason={}", finish_reason);
                 let _ = tx_event
                     .send(Ok(ResponseEvent::Completed {
                         response_id: String::new(),
                         token_usage: token_usage.clone(),
                     }))
                     .await;
+                debug!("Completed event sent, returning from SSE processor");
 
                 // Prepare for potential next turn (should not happen in same stream).
                 // fn_call_state = FunctionCallState::default();
