@@ -58,6 +58,7 @@ async fn run_request(input: Vec<ResponseItem>) -> Value {
         request_max_retries: Some(0),
         stream_max_retries: Some(0),
         stream_idle_timeout_ms: Some(5_000),
+        max_tokens: None,
         requires_openai_auth: false,
     };
 

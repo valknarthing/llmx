@@ -47,6 +47,7 @@ async fn responses_stream_includes_subagent_header_on_review() {
         request_max_retries: Some(0),
         stream_max_retries: Some(0),
         stream_idle_timeout_ms: Some(5_000),
+        max_tokens: None,
         requires_openai_auth: false,
     };
 
@@ -135,6 +136,7 @@ async fn responses_stream_includes_subagent_header_on_other() {
         request_max_retries: Some(0),
         stream_max_retries: Some(0),
         stream_idle_timeout_ms: Some(5_000),
+        max_tokens: None,
         requires_openai_auth: false,
     };
 
