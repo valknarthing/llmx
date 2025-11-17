@@ -841,6 +841,7 @@ async fn process_chat_sse<S>(
 
             // Emit end-of-turn when finish_reason signals completion.
             if let Some(finish_reason) = choice.get("finish_reason").and_then(|v| v.as_str()) {
+                debug!("Received finish_reason: {}", finish_reason);
                 match finish_reason {
                     "tool_calls" if fn_call_state.active => {
                         // First, flush the terminal raw reasoning so UIs can finalize
@@ -888,6 +889,22 @@ async fn process_chat_sse<S>(
             }
         }
     }
+
+    // Stream ended without finish_reason - this can happen when the stream closes abruptly
+    debug!("Stream ended without finish_reason, emitting final items and Completed event");
+    if let Some(item) = assistant_item.take() {
+        let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+    }
+    if let Some(item) = reasoning_item.take() {
+        let _ = tx_event.send(Ok(ResponseEvent::OutputItemDone(item))).await;
+    }
+    // Send Completed event so llmx knows the turn is done
+    let _ = tx_event
+        .send(Ok(ResponseEvent::Completed {
+            response_id: String::new(),
+            token_usage: token_usage.clone(),
+        }))
+        .await;
 }
 
 /// Optional client-side aggregation helper

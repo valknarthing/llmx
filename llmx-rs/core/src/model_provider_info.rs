@@ -295,7 +295,6 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
             max_tokens: None,
-                max_tokens: None,
                 requires_openai_auth: false,
             },
         ),
@@ -337,7 +336,6 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
             max_tokens: None,
-                max_tokens: None,
                 requires_openai_auth: true,
             },
         ),
@@ -384,7 +382,6 @@ pub fn create_oss_provider_with_base_url(base_url: &str) -> ModelProviderInfo {
         stream_max_retries: None,
         stream_idle_timeout_ms: None,
             max_tokens: None,
-        max_tokens: None,
         requires_openai_auth: false,
     }
 }
