@@ -443,8 +443,8 @@ pub(crate) async fn stream_chat_completions(
     });
 
     // Add max_tokens - required by Anthropic Messages API
-    // Use provider config value or default to 8192
-    let max_tokens = provider.max_tokens.unwrap_or(8192);
+    // Use provider config value or default to 20480 (5 * 4096, Claude Sonnet 4.5 supports up to 64K)
+    let max_tokens = provider.max_tokens.unwrap_or(20480);
     if let Some(obj) = payload.as_object_mut() {
         obj.insert("max_tokens".to_string(), json!(max_tokens));
     }
@@ -610,7 +610,9 @@ async fn process_chat_sse<S>(
 ) where
     S: Stream<Item = Result<Bytes>> + Unpin,
 {
+    debug!("process_chat_sse started, idle_timeout={:?}", idle_timeout);
     let mut stream = stream.eventsource();
+    debug!("SSE stream initialized, waiting for first event");
 
     // State to accumulate a function call across streaming chunks.
     // OpenAI may split the `arguments` string over multiple `delta` events

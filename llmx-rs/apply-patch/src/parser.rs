@@ -31,6 +31,7 @@ use thiserror::Error;
 const BEGIN_PATCH_MARKER: &str = "*** Begin Patch";
 const END_PATCH_MARKER: &str = "*** End Patch";
 const ADD_FILE_MARKER: &str = "*** Add File: ";
+const CREATE_FILE_MARKER: &str = "*** Create File: "; // Alias for Add File
 const DELETE_FILE_MARKER: &str = "*** Delete File: ";
 const UPDATE_FILE_MARKER: &str = "*** Update File: ";
 const MOVE_TO_MARKER: &str = "*** Move to: ";
@@ -245,8 +246,8 @@ fn check_start_and_end_lines_strict(
 fn parse_one_hunk(lines: &[&str], line_number: usize) -> Result<(Hunk, usize), ParseError> {
     // Be tolerant of case mismatches and extra padding around marker strings.
     let first_line = lines[0].trim();
-    if let Some(path) = first_line.strip_prefix(ADD_FILE_MARKER) {
-        // Add File
+    if let Some(path) = first_line.strip_prefix(ADD_FILE_MARKER).or_else(|| first_line.strip_prefix(CREATE_FILE_MARKER)) {
+        // Add File (also accepts Create File as alias)
         let mut contents = String::new();
         let mut parsed_lines = 1;
         for add_line in &lines[1..] {
@@ -331,7 +332,7 @@ fn parse_one_hunk(lines: &[&str], line_number: usize) -> Result<(Hunk, usize), P
 
     Err(InvalidHunkError {
         message: format!(
-            "'{first_line}' is not a valid hunk header. Valid hunk headers: '*** Add File: {{path}}', '*** Delete File: {{path}}', '*** Update File: {{path}}'"
+            "'{first_line}' is not a valid hunk header. Valid hunk headers: '*** Add File: {{path}}', '*** Create File: {{path}}', '*** Delete File: {{path}}', '*** Update File: {{path}}'"
         ),
         line_number,
     })
