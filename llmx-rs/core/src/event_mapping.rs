@@ -54,7 +54,7 @@ fn parse_user_message(message: &[ContentItem]) -> Option<UserMessageItem> {
     Some(UserMessageItem::new(&content))
 }
 
-fn parse_agent_message(id: Option<&String>, message: &[ContentItem]) -> AgentMessageItem {
+fn parse_agent_message(id: Option<&String>, message: &[ContentItem]) -> Option<AgentMessageItem> {
     let mut content: Vec<AgentMessageContent> = Vec::new();
     for content_item in message.iter() {
         match content_item {
@@ -69,18 +69,23 @@ fn parse_agent_message(id: Option<&String>, message: &[ContentItem]) -> AgentMes
             }
         }
     }
+
+    // If the message has no content, return None to signal turn completion
+    // This happens when the API ends a turn with an empty assistant message (e.g., after tool calls)
+    if content.is_empty() {
+        return None;
+    }
+
     let id = id.cloned().unwrap_or_else(|| Uuid::new_v4().to_string());
-    AgentMessageItem { id, content }
+    Some(AgentMessageItem { id, content })
 }
 
 pub fn parse_turn_item(item: &ResponseItem) -> Option<TurnItem> {
     match item {
         ResponseItem::Message { role, content, id } => match role.as_str() {
             "user" => parse_user_message(content).map(TurnItem::UserMessage),
-            "assistant" => Some(TurnItem::AgentMessage(parse_agent_message(
-                id.as_ref(),
-                content,
-            ))),
+            "assistant" => parse_agent_message(id.as_ref(), content)
+                .map(TurnItem::AgentMessage),
             "system" => None,
             _ => None,
         },

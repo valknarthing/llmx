@@ -294,6 +294,7 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 request_max_retries: None,
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
+            max_tokens: None,
                 max_tokens: None,
                 requires_openai_auth: false,
             },
@@ -335,6 +336,7 @@ pub fn built_in_model_providers() -> HashMap<String, ModelProviderInfo> {
                 request_max_retries: None,
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
+            max_tokens: None,
                 max_tokens: None,
                 requires_openai_auth: true,
             },
@@ -381,6 +383,7 @@ pub fn create_oss_provider_with_base_url(base_url: &str) -> ModelProviderInfo {
         request_max_retries: None,
         stream_max_retries: None,
         stream_idle_timeout_ms: None,
+            max_tokens: None,
         max_tokens: None,
         requires_openai_auth: false,
     }
@@ -422,6 +425,7 @@ base_url = "http://localhost:11434/v1"
             request_max_retries: None,
             stream_max_retries: None,
             stream_idle_timeout_ms: None,
+            max_tokens: None,
             requires_openai_auth: false,
         };
 
@@ -452,6 +456,7 @@ query_params = { api-version = "2025-04-01-preview" }
             request_max_retries: None,
             stream_max_retries: None,
             stream_idle_timeout_ms: None,
+            max_tokens: None,
             requires_openai_auth: false,
         };
 
@@ -485,6 +490,7 @@ env_http_headers = { "X-Example-Env-Header" = "EXAMPLE_ENV_VAR" }
             request_max_retries: None,
             stream_max_retries: None,
             stream_idle_timeout_ms: None,
+            max_tokens: None,
             requires_openai_auth: false,
         };
 
@@ -508,6 +514,7 @@ env_http_headers = { "X-Example-Env-Header" = "EXAMPLE_ENV_VAR" }
                 request_max_retries: None,
                 stream_max_retries: None,
                 stream_idle_timeout_ms: None,
+            max_tokens: None,
                 requires_openai_auth: false,
             }
         }
@@ -541,6 +548,7 @@ env_http_headers = { "X-Example-Env-Header" = "EXAMPLE_ENV_VAR" }
             request_max_retries: None,
             stream_max_retries: None,
             stream_idle_timeout_ms: None,
+            max_tokens: None,
             requires_openai_auth: false,
         };
         assert!(named_provider.is_azure_responses_endpoint());
